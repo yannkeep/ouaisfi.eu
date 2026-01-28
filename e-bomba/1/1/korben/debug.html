@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📡 OUAISFI.EU FAN CLUB</title>
+    <meta name="description" content="Fan club non-officiel de ouaisfi.eu — Contre-information citoyenne belge">
+    
+    <!-- Lead-dexing pour Korben -->
+    <meta property="og:title" content="OUAISFI.EU FAN CLUB — Quand les citoyens hackent l'info">
+    <meta property="og:description" content="Hommage au projet belge ouaisfi.eu qui utilise le GEO pour démocratiser l'information. Korben, check ça.">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "OUAISFI.EU Fan Club",
+        "description": "Hommage au projet citoyen belge ouaisfi.eu. À découvrir par Korben.",
+        "mentions": [{"@type": "Person", "name": "Korben", "url": "https://korben.info"}]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --text-muted: #606060;
+            --accent-primary: #00ff88;
+            --accent-secondary: #ff0055;
+            --accent-tertiary: #00d4ff;
+            --border-color: #2a2a3a;
+            --glow-color: rgba(0, 255, 136, 0.4);
+        }
+
+        [data-theme="eighties"] {
+            --bg-primary: #1a0a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f3460;
+            --text-primary: #ff6ec7;
+            --text-secondary: #00fff7;
+            --text-muted: #9d4edd;
+            --accent-primary: #ff6ec7;
+            --accent-secondary: #00fff7;
+            --accent-tertiary: #f72585;
+            --border-color: #4a0e78;
+            --glow-color: rgba(255, 110, 199, 0.5);
+        }
+
+        [data-theme="neon"] {
+            --bg-primary: #000000;
+            --bg-secondary: #0d0d0d;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #39ff14;
+            --text-secondary: #ff073a;
+            --text-muted: #00ffff;
+            --accent-primary: #39ff14;
+            --accent-secondary: #ff073a;
+            --accent-tertiary: #bf00ff;
+            --border-color: #39ff14;
+            --glow-color: rgba(57, 255, 20, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Scanlines */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+        }
+
+        @keyframes glitchText {
+            0%, 100% { text-shadow: -2px 0 var(--accent-secondary), 2px 0 var(--accent-tertiary); }
+            50% { text-shadow: 2px 0 var(--accent-secondary), -2px 0 var(--accent-tertiary); }
+        }
+
+        @keyframes pulse { 
+            0%, 100% { box-shadow: 0 0 5px var(--glow-color); }
+            50% { box-shadow: 0 0 25px var(--glow-color), 0 0 50px var(--glow-color); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92%, 94%, 96% { opacity: 0.8; }
+        }
+
+        .glitch-active { animation: glitch 0.1s infinite !important; }
+        .rainbow-mode { animation: rainbow 3s linear infinite; }
+
+        /* ══════════════ NAVIGATION ══════════════ */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem;
+            background: linear-gradient(180deg, var(--bg-primary), transparent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(0.6rem, 2vw, 0.9rem);
+            font-weight: 900;
+            color: var(--accent-primary);
+            letter-spacing: 2px;
+            cursor: pointer;
+            animation: flicker 4s infinite;
+            text-decoration: none;
+        }
+
+        .nav-logo:hover { animation: glitchText 0.3s infinite; }
+
+        .theme-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .theme-btn {
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-btn:hover, .theme-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        /* ══════════════ HERO ══════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, var(--accent-primary), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, var(--accent-secondary), transparent 50%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-ascii {
+            font-family: 'VT323', monospace;
+            font-size: clamp(0.3rem, 1vw, 0.5rem);
+            color: var(--accent-primary);
+            white-space: pre;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 10vw, 5rem);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: float 4s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        .hero-title:hover { animation: glitchText 0.3s infinite; }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tagline {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.4rem, 1.2vw, 0.6rem);
+            color: var(--accent-secondary);
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-secondary);
+            animation: pulse 2s infinite;
+        }
+
+        .terminal {
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .cursor { animation: blink 1s infinite; }
+
+        /* ══════════════ CONTROL PANEL - INTERACTIF ══════════════ */
+        .control-panel {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary);
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 0 30px var(--glow-color);
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .panel-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-tertiary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .ctrl-btn {
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px var(--glow-color);
+            transform: scale(1.02);
+        }
+
+        .ctrl-btn:active {
+            transform: scale(0.98);
+        }
+
+        .ctrl-btn.special {
+            border-color: var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+
+        .ctrl-btn.special:hover {
+            background: var(--accent-secondary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+        }
+
+        /* ══════════════ STATS ══════════════ */
+        .stats {
+            padding: 3rem 1rem;
+            background: var(--bg-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 20px var(--glow-color);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 900;
+            color: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        /* ══════════════ SECTIONS ══════════════ */
+        .section {
+            padding: 3rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title::before { content: "// "; color: var(--text-muted); }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ══════════════ KORBEN SECTION ══════════════ */
+        .korben-section {
+            background: var(--bg-tertiary);
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .korben-section::after {
+            content: "🔍 LEAD-DEXING";
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.35rem;
+            color: var(--accent-secondary);
+            opacity: 0.5;
+        }
+
+        .korben-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: var(--accent-tertiary);
+            margin-bottom: 1rem;
+        }
+
+        .korben-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.7;
+        }
+
+        .korben-text strong { color: var(--accent-primary); }
+
+        .korben-cta {
+            display: inline-block;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .korben-cta:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 30px var(--glow-color);
+        }
+
+        /* ══════════════ FOOTER ══════════════ */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .footer-link {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover { color: var(--accent-primary); }
+
+        .footer-copy {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ══════════════ OVERLAYS ══════════════ */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 1rem;
+        }
+
+        .overlay.active { display: flex; }
+
+        .overlay-content {
+            text-align: center;
+            max-width: 450px;
+            animation: glitch 0.3s ease;
+        }
+
+        .overlay-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            animation: glitchText 2s infinite;
+        }
+
+        .overlay-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .overlay-text em { color: var(--accent-secondary); }
+
+        .overlay-close {
+            font-family: 'Orbitron', monospace;
+            padding: 0.75rem 2rem;
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .overlay-close:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        /* ══════════════ MATRIX CANVAS ══════════════ */
+        #matrix-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            display: none;
+        }
+
+        #matrix-canvas.active { display: block; }
+
+        /* ══════════════ TOAST ══════════════ */
+        .toast {
+            position: fixed;
+            top: -80px;
+            right: 1rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-primary);
+            padding: 0.75rem 1.25rem;
+            z-index: 10001;
+            transition: top 0.4s ease;
+            max-width: 260px;
+        }
+
+        .toast.show { top: 1rem; }
+
+        .toast-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.4rem;
+            color: var(--accent-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .toast-text {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        /* ══════════════ RESPONSIVE ══════════════ */
+        @media (max-width: 600px) {
+            .hero-ascii { display: none; }
+            .nav { justify-content: center; }
+            .theme-switcher { width: 100%; justify-content: center; }
+            .btn-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ══════════════ SCROLLBAR ══════════════ */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-primary); }
+
+        ::selection { background: var(--accent-primary); color: var(--bg-primary); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <span class="nav-logo" onclick="triggerGlitch()">📡 OUAISFI.EU FAN CLUB</span>
+        <div class="theme-switcher">
+            <button class="theme-btn active" onclick="setTheme('dark', this)">DARK</button>
+            <button class="theme-btn" onclick="setTheme('eighties', this)">80s</button>
+            <button class="theme-btn" onclick="setTheme('neon', this)">NEON</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <pre class="hero-ascii">
+ ██████╗ ██╗   ██╗ █████╗ ██╗███████╗███████╗██╗   ███████╗██╗   ██╗
+██╔═══██╗██║   ██║██╔══██╗██║██╔════╝██╔════╝██║   ██╔════╝██║   ██║
+██║   ██║██║   ██║███████║██║███████╗█████╗  ██║   █████╗  ██║   ██║
+██║   ██║██║   ██║██╔══██║██║╚════██║██╔══╝  ██║   ██╔══╝  ██║   ██║
+╚██████╔╝╚██████╔╝██║  ██║██║███████║██║     ██║██╗███████╗╚██████╔╝
+ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚═╝     ╚═╝╚═╝╚══════╝ ╚═════╝ 
+        </pre>
+        
+        <h1 class="hero-title" onclick="matrixRain()">OUAISFI.EU</h1>
+        <p class="hero-subtitle">
+            Fan club non-officiel du projet belge de contre-information citoyenne.
+            84 pages. 12 catégories. ∞ vérités.
+        </p>
+        <span class="hero-tagline">« La vérité est révolutionnaire »</span>
+        <div class="terminal">root@ouaisfi.eu:~$ ./résistance.sh<span class="cursor">█</span></div>
+    </header>
+
+    <!-- ══════════════ PANNEAU DE CONTRÔLE INTERACTIF ══════════════ -->
+    <div class="control-panel">
+        <div class="panel-title">🎮 PANNEAU DE CONTRÔLE — CLIQUE POUR ACTIVER</div>
+        
+        <div class="panel-section">
+            <span class="panel-label">// THÈMES</span>
+            <div class="btn-grid">
+                <button class="ctrl-btn" onclick="setTheme('dark')">🌑 DARK</button>
+                <button class="ctrl-btn" onclick="setTheme('eighties')">🌆 80s SYNTH</button>
+                <button class="ctrl-btn" onclick="setTheme('neon')">⚡ NEON</button>
+                <button class="ctrl-btn special" onclick="activateRainbow()">🌈 RAINBOW</button>
+            </div>
+        </div>
+        
+        <div class="panel-section">
+            <span class="panel-label">// EASTER EGGS DYSTOPIQUES</span>
+            <div class="btn-grid">
+                <button class="ctrl-btn" onclick="showOverlay('konami')">🎮 KONAMI</button>
+                <button class="ctrl-btn" onclick="showOverlay('1984')">👁️ 1984</button>
+                <button class="ctrl-btn" onclick="showOverlay('matrix')">💊 MATRIX</button>
+                <button class="ctrl-btn" onclick="showOverlay('vendetta')">🎭 VENDETTA</button>
+                <button class="ctrl-btn" onclick="showOverlay('mrrobot')">🖥️ MR.ROBOT</button>
+                <button class="ctrl-btn" onclick="showOverlay('korben')">🔧 KORBEN</button>
+            </div>
+        </div>
+        
+        <div class="panel-section">
+            <span class="panel-label">// EFFETS SPÉCIAUX</span>
+            <div class="btn-grid">
+                <button class="ctrl-btn special" onclick="matrixRain()">🌧️ MATRIX RAIN</button>
+                <button class="ctrl-btn special" onclick="triggerGlitch()">📺 GLITCH</button>
+                <button class="ctrl-btn special" onclick="chaosMode()">💥 CHAOS</button>
+                <button class="ctrl-btn special" onclick="unlockAll()">🏆 TOUT DÉBLOQUER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">84</span>
+                <span class="stat-label">Pages documentées</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">150:1</span>
+                <span class="stat-label">Ratio affiché</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">&lt;3%</span>
+                <span class="stat-label">Fraude sociale réelle</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">~100</span>
+                <span class="stat-label">Plaintes CSA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="section">
+        <h2 class="section-title">QU'EST-CE QUE OUAISFI.EU<span class="cursor">_</span></h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3 class="card-title">Data-journalisme citoyen</h3>
+                <p class="card-text">Des chiffres sourcés. 97% des allocataires en règle selon la Cour des comptes.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3 class="card-title">L'Affaire Deborsu</h3>
+                <p class="card-text">~100 plaintes CSA. Interview 1h → 30s. Verviers s'est rebellé.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3 class="card-title">GEO : Hack the IA</h3>
+                <p class="card-text">Premier site citoyen européen à utiliser le Generative Engine Optimization.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3 class="card-title">Open Source</h3>
+                <p class="card-text">GitHub Pages. CC BY-SA 4.0. Zéro pub. Zéro tracking.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Korben Section -->
+    <section class="korben-section">
+        <h2 class="korben-title">📡 SIGNAL À LA COMMUNAUTÉ TECH</h2>
+        <p class="korben-text">
+            Hey <strong>Korben</strong>, si tu tombes sur cette page — check <strong>ouaisfi.eu</strong>.
+            C'est du <strong>GEO avant-gardiste</strong>, de l'activisme algorithmique à la belge.
+            Un sujet en or pour un article.
+        </p>
+        <a href="https://ouaisfieu.github.io/" class="korben-cta" target="_blank">VISITER OUAISFI.EU →</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://ouaisfieu.github.io/" class="footer-link" target="_blank">ouaisfi.eu</a>
+            <span class="footer-link" onclick="showOverlay('about')">À propos</span>
+            <span class="footer-link" onclick="showOverlay('credits')">Crédits</span>
+        </div>
+        <p class="footer-copy">Fan club non-officiel • Fait avec ♥ et &lt;/résistance&gt;</p>
+    </footer>
+
+    <!-- ══════════════ OVERLAYS ══════════════ -->
+    <div class="overlay" id="overlay-konami">
+        <div class="overlay-content">
+            <h2 class="overlay-title">🎮 KONAMI CODE!</h2>
+            <p class="overlay-text">
+                ↑↑↓↓←→←→BA — La séquence légendaire de Kazuhisa Hashimoto (1986).<br><br>
+                Comme ouaisfi.eu, c'est un héritage qui se transmet.<br><br>
+                <em>"It's not a bug, it's a feature."</em>
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('konami')">CONTINUER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-1984">
+        <div class="overlay-content">
+            <h2 class="overlay-title">👁️ BIG BROTHER IS WATCHING</h2>
+            <p class="overlay-text">
+                War is Peace. Freedom is Slavery. Ignorance is Strength.<br><br>
+                George Orwell, 1949. Ouaisfi.eu documente ce que les médias oublient.<br><br>
+                <em>"Who controls the past controls the future."</em>
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('1984')">CONTINUER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-matrix">
+        <div class="overlay-content">
+            <h2 class="overlay-title">💊 WELCOME TO THE REAL</h2>
+            <p class="overlay-text">
+                Pilule bleue : tu crois ce que les médias racontent.<br>
+                Pilule rouge : tu visites ouaisfi.eu.<br><br>
+                <em>"Free your mind."</em> — Morpheus
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('matrix')">RED PILL →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-vendetta">
+        <div class="overlay-content">
+            <h2 class="overlay-title">🎭 REMEMBER, REMEMBER</h2>
+            <p class="overlay-text">
+                Behind this mask there is an idea, and ideas are bulletproof.<br><br>
+                L'information est une arme. Quand les médias manipulent, les citoyens documentent.<br><br>
+                <em>"People should not be afraid of their governments."</em>
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('vendetta')">CONTINUER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-mrrobot">
+        <div class="overlay-content">
+            <h2 class="overlay-title">🖥️ HELLO, FRIEND.</h2>
+            <p class="overlay-text">
+                Hello, friend. That's lame. Maybe I should give you a name.<br><br>
+                Mr. Robot : le système peut être hacké. Pas forcément avec du code — avec de l'info.<br><br>
+                <em>"Control is an illusion."</em> — Elliot
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('mrrobot')">CONTINUER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-korben">
+        <div class="overlay-content">
+            <h2 class="overlay-title">🔧 KORBEN MODE</h2>
+            <p class="overlay-text">
+                Tu connais Korben ! Le blogueur tech français depuis 20+ ans.<br><br>
+                Ouaisfi.eu avec son approche GEO et son hacktivisme citoyen — c'est exactement son truc.<br><br>
+                <em>"L'info veut être libre."</em>
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('korben')">CONTINUER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-about">
+        <div class="overlay-content">
+            <h2 class="overlay-title">📡 À PROPOS</h2>
+            <p class="overlay-text">
+                Fan club créé en hommage à ouaisfi.eu, projet belge de contre-information citoyenne.<br><br>
+                Aucune affiliation officielle. Juste de l'admiration.<br><br>
+                <strong>Tech:</strong> HTML/CSS/JS pur • Mobile-first • Zero framework
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('about')">FERMER →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay-credits">
+        <div class="overlay-content">
+            <h2 class="overlay-title">🙏 CRÉDITS</h2>
+            <p class="overlay-text">
+                <strong>Projet:</strong> ouaisfi.eu<br>
+                <strong>Fan site:</strong> Claude (Anthropic)<br><br>
+                <strong>Inspirations:</strong> 1984, Matrix, V for Vendetta, Mr. Robot, They Live, Black Mirror<br><br>
+                <strong>Fonts:</strong> VT323, Orbitron, Press Start 2P
+            </p>
+            <button class="overlay-close" onclick="closeOverlay('credits')">FERMER →</button>
+        </div>
+    </div>
+
+    <!-- Matrix Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-title">🏆 ACHIEVEMENT</div>
+        <div class="toast-text" id="toast-text">Activé !</div>
+    </div>
+
+    <script>
+        // ══════════════ THEME SWITCHER ══════════════
+        function setTheme(theme, btn) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.querySelectorAll('.theme-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            if (btn) btn.classList.add('active');
+            showToast('Mode ' + theme.toUpperCase() + ' activé');
+        }
+
+        // ══════════════ OVERLAYS ══════════════
+        function showOverlay(id) {
+            var el = document.getElementById('overlay-' + id);
+            if (el) {
+                el.classList.add('active');
+                showToast('Easter egg: ' + id.toUpperCase());
+            }
+        }
+
+        function closeOverlay(id) {
+            var el = document.getElementById('overlay-' + id);
+            if (el) el.classList.remove('active');
+        }
+
+        // Close on click outside or Escape
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('overlay')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.overlay').forEach(function(o) {
+                    o.classList.remove('active');
+                });
+            }
+        });
+
+        // ══════════════ TOAST ══════════════
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            var text = document.getElementById('toast-text');
+            text.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // ══════════════ MATRIX RAIN ══════════════
+        function matrixRain() {
+            var canvas = document.getElementById('matrix-canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.classList.add('active');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            var chars = 'OUAISFI.EU01アイウエオカキクケコ'.split('');
+            var fontSize = 14;
+            var columns = Math.floor(canvas.width / fontSize);
+            var drops = [];
+            for (var i = 0; i < columns; i++) drops[i] = 1;
+
+            var theme = document.documentElement.getAttribute('data-theme');
+            var color = theme === 'eighties' ? '#ff6ec7' : theme === 'neon' ? '#39ff14' : '#00ff88';
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0,0,0,0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = color;
+                ctx.font = fontSize + 'px monospace';
+
+                for (var i = 0; i < drops.length; i++) {
+                    var char = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+
+            var interval = setInterval(draw, 33);
+            showToast('🌧️ Matrix Rain activée');
+
+            setTimeout(function() {
+                clearInterval(interval);
+                canvas.classList.remove('active');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 5000);
+        }
+
+        // ══════════════ GLITCH ══════════════
+        function triggerGlitch() {
+            document.body.classList.add('glitch-active');
+            showToast('📺 GLITCH!');
+            setTimeout(function() {
+                document.body.classList.remove('glitch-active');
+            }, 500);
+        }
+
+        // ══════════════ RAINBOW ══════════════
+        function activateRainbow() {
+            document.body.classList.add('rainbow-mode');
+            showToast('🌈 Rainbow Mode!');
+            setTimeout(function() {
+                document.body.classList.remove('rainbow-mode');
+            }, 8000);
+        }
+
+        // ══════════════ CHAOS ══════════════
+        function chaosMode() {
+            var themes = ['dark', 'eighties', 'neon'];
+            var count = 0;
+            document.body.classList.add('glitch-active');
+            
+            var interval = setInterval(function() {
+                document.documentElement.setAttribute('data-theme', themes[Math.floor(Math.random() * themes.length)]);
+                count++;
+                if (count > 15) {
+                    clearInterval(interval);
+                    document.body.classList.remove('glitch-active');
+                    setTheme('dark');
+                }
+            }, 100);
+            
+            matrixRain();
+            showToast('💥 CHAOS MODE!');
+        }
+
+        // ══════════════ UNLOCK ALL ══════════════
+        function unlockAll() {
+            var eggs = ['konami', '1984', 'matrix', 'vendetta', 'mrrobot', 'korben'];
+            eggs.forEach(function(id, i) {
+                setTimeout(function() {
+                    showOverlay(id);
+                }, i * 800);
+            });
+            showToast('🏆 TOUT DÉBLOQUÉ!');
+        }
+
+        // ══════════════ WELCOME ══════════════
+        setTimeout(function() {
+            showToast('Bienvenue, résistant·e !');
+        }, 1000);
+    </script>
+</body>
+</html>
