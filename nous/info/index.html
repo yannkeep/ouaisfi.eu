@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html lang="fr"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Infographie : TSAR e-Bomba & OuaisFi</title> <script src="https://cdn.tailwindcss.com"></script> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <style> /* Custom Font for a 'Tech/Cyber' feel */ @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap');
+
+body {
+        font-family: 'Space Grotesk', sans-serif;
+        background-color: #0F172A; /* Slate 900 - Dark Background */
+        color: #E2E8F0; /* Slate 200 - Light Text */
+    }
+
+    /* Chart Container Styling - MANDATORY */
+    .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px; /* Base height */
+        max-height: 400px;
+    }
+    
+    @media (min-width: 768px) {
+        .chart-container {
+            height: 400px;
+        }
+    }
+
+    /* Utility for Diagram Lines */
+    .connector-line {
+        width: 2px;
+        background-color: #475569; /* Slate 600 */
+        margin: 0 auto;
+    }
+
+    /* Gradient Text */
+    .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, #06B6D4, #EC4899);
+    }
+</style>
+
+</head> <body class="antialiased">
+
+<!-- Header Section -->
+<header class="w-full py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800 bg-slate-900 sticky top-0 z-50 bg-opacity-95 backdrop-blur-sm shadow-lg">
+    <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+            <span class="text-gradient">TSAR e-Bomba</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
+            L'arme de construction massive du collectif <strong>OuaisFi</strong>. Une bombe numérique qui explose en connaissances, pas en débris.
+        </p>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+    <!-- SECTION 1: INTRODUCTION & KEY METRICS -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="md:col-span-3 mb-4">
+            <h2 class="text-3xl font-bold text-white border-l-4 border-pink-500 pl-4 mb-2">Le Concept : Une TAZ Numérique</h2>
+            <p class="text-slate-300 leading-relaxed">
+                La <strong>e-Bomba</strong> n'est pas qu'un gadget. C'est une <em>Zone Autonome Temporaire</em> (TAZ). C'est un serveur web local, alimenté par batterie, qui génère son propre réseau Wi-Fi. Pas d'internet, pas de surveillance, juste du partage pur en peer-to-peer local. Est-ce pour la science ? C'est un outil hybride entre sociologie, informatique et activisme.
+            </p>
+        </div>
+
+        <!-- Metric Card 1 -->
+        <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 transform hover:scale-105 transition-transform duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-4xl">📡</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Portée</span>
+            </div>
+            <div class="text-5xl font-bold text-white mb-2">50m</div>
+            <p class="text-sm text-slate-400">Rayon d'action typique d'une e-Bomba en milieu urbain dense.</p>
+        </div>
+
+        <!-- Metric Card 2 -->
+        <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 transform hover:scale-105 transition-transform duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-4xl">🔋</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-pink-500">Autonomie</span>
+            </div>
+            <div class="text-5xl font-bold text-white mb-2">24h+</div>
+            <p class="text-sm text-slate-400">Durée de vie sur une batterie externe standard (10000mAh).</p>
+        </div>
+
+        <!-- Metric Card 3 -->
+        <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 transform hover:scale-105 transition-transform duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-4xl">👥</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-yellow-400">Connexions</span>
+            </div>
+            <div class="text-5xl font-bold text-white mb-2">~30</div>
+            <p class="text-sm text-slate-400">Utilisateurs simultanés supportés par un Raspberry Pi Zero/3.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ARCHITECTURE & TECH STACK -->
+    <section>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            
+            <!-- Chart: Tech Stack -->
+            <div>
+                <h2 class="text-2xl font-bold text-white border-l-4 border-cyan-500 pl-4 mb-4">L'Écosystème Technique</h2>
+                <p class="text-slate-300 mb-6">
+                    La e-Bomba repose sur une stack open-source minimaliste mais robuste. L'objectif est la résilience : faire fonctionner des services web modernes sur du matériel de récupération (Low-Tech). Ce graphique décompose la complexité du projet.
+                </p>
+                <div class="bg-slate-800 rounded-xl p-4 shadow-lg border border-slate-700">
+                    <div class="chart-container">
+                        <canvas id="techStackChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagram: Network Flow (CSS/HTML) -->
+            <div>
+                <h2 class="text-2xl font-bold text-white border-l-4 border-yellow-500 pl-4 mb-4">Architecture Réseau</h2>
+                <p class="text-slate-300 mb-6">
+                    Comment ça marche ? Contrairement au cloud, tout se passe ici et maintenant. Voici le flux de connexion d'un utilisateur au collectif.
+                </p>
+                
+                <div class="bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-700 relative flex flex-col items-center">
+                    
+                    <!-- Step 1: User -->
+                    <div class="w-full max-w-xs bg-slate-700 p-4 rounded-lg border-l-4 border-pink-500 text-center relative z-10">
+                        <div class="text-2xl mb-1">📱</div>
+                        <h3 class="font-bold text-white">1. Utilisateur</h3>
+                        <p class="text-xs text-slate-300">Cherche un Wifi ouvert</p>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 connector-line"></div>
+                    <div class="text-cyan-400 text-xl font-bold leading-none">↓</div>
+                    <div class="h-8 connector-line"></div>
+
+                    <!-- Step 2: SSID -->
+                    <div class="w-full max-w-xs bg-slate-700 p-4 rounded-lg border-l-4 border-cyan-500 text-center relative z-10">
+                        <div class="text-2xl mb-1">📡</div>
+                        <h3 class="font-bold text-white">2. SSID : "e-Bomba"</h3>
+                        <p class="text-xs text-slate-300">Réseau Local (Hostapd)</p>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 connector-line"></div>
+                    <div class="text-cyan-400 text-xl font-bold leading-none">↓</div>
+                    <div class="h-8 connector-line"></div>
+
+                    <!-- Step 3: Captive Portal -->
+                    <div class="w-full max-w-xs bg-slate-700 p-4 rounded-lg border-l-4 border-yellow-500 text-center relative z-10">
+                        <div class="text-2xl mb-1">🛑</div>
+                        <h3 class="font-bold text-white">3. Portail Captif</h3>
+                        <p class="text-xs text-slate-300">Redirection DNS (Dnsmasq)</p>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 connector-line"></div>
+                    <div class="text-cyan-400 text-xl font-bold leading-none">↓</div>
+                    <div class="h-8 connector-line"></div>
+
+                    <!-- Step 4: Content -->
+                    <div class="w-full max-w-xs bg-slate-900 p-4 rounded-lg border border-slate-600 text-center relative z-10 shadow-inner">
+                        <div class="text-2xl mb-1">💾</div>
+                        <h3 class="font-bold text-white">4. Contenu Local</h3>
+                        <p class="text-xs text-slate-300">Serveur Web (Nginx/Python)</p>
+                        <div class="mt-2 flex justify-center space-x-2">
+                            <span class="bg-slate-700 px-2 py-1 rounded text-xs">HTML</span>
+                            <span class="bg-slate-700 px-2 py-1 rounded text-xs">MP3</span>
+                            <span class="bg-slate-700 px-2 py-1 rounded text-xs">PDF</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: IMPACT & ANALYSIS -->
+    <section>
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-white border-l-4 border-purple-500 pl-4 mb-2">Science, Art ou Activisme ?</h2>
+            <p class="text-slate-300 max-w-4xl">
+                Le collectif <strong>OuaisFi</strong> se situe à l'intersection de plusieurs disciplines. Pour répondre à la question "C'est pour la science ?", nous avons analysé le projet selon 5 axes majeurs.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <!-- Analysis Text -->
+            <div class="flex flex-col justify-center space-y-6">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-cyan-900 flex items-center justify-center text-cyan-400 font-bold border border-cyan-500">1</div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-white">Dimension Scientifique (Tech)</h3>
+                        <p class="text-slate-400 text-sm">Laboratoire d'expérimentation réseau, sécurité informatique, et mesh networking. Idéal pour l'apprentissage STEM.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-pink-900 flex items-center justify-center text-pink-400 font-bold border border-pink-500">2</div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-white">Dimension Artistique</h3>
+                        <p class="text-slate-400 text-sm">Supports de "Street Art Numérique". Distribution d'œuvres éphémères accessibles uniquement physiquement sur place.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-yellow-900 flex items-center justify-center text-yellow-400 font-bold border border-yellow-500">3</div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-white">Dimension Sociologique</h3>
+                        <p class="text-slate-400 text-sm">Étude des interactions humaines déconnectées du Cloud global. Création de lien social local.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="flex items-center justify-center">
+                <div class="chart-container">
+                    <canvas id="impactRadarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: CONTENT & USAGE -->
+    <section>
+        <h2 class="text-3xl font-bold text-white border-l-4 border-green-500 pl-4 mb-6">Usage & Contenu</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Content Bar Chart -->
+            <div class="lg:col-span-2 bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+                <h3 class="text-xl font-bold text-white mb-4">Typologie des Données Partagées</h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Contrairement au web commercial dominé par la vidéo 4K, la e-Bomba favorise les formats légers et documentaires.
+                </p>
+                <div class="chart-container">
+                    <canvas id="contentBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Timeline / Process -->
+            <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 overflow-hidden">
+                <h3 class="text-xl font-bold text-white mb-6">Cycle de Vie d'un Déploiement</h3>
+                
+                <div class="relative border-l-2 border-slate-600 ml-3 space-y-8">
+                    
+                    <!-- Timeline Item 1 -->
+                    <div class="relative pl-8">
+                        <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-cyan-500 border-2 border-slate-800"></div>
+                        <h4 class="text-md font-bold text-white">Préparation (Labo)</h4>
+                        <p class="text-xs text-slate-400 mt-1">Flashage de l'image disque, curation du contenu (livres, musique libre).</p>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="relative pl-8">
+                        <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-pink-500 border-2 border-slate-800"></div>
+                        <h4 class="text-md font-bold text-white">Déploiement (Rue)</h4>
+                        <p class="text-xs text-slate-400 mt-1">Dissimulation du boîtier dans l'espace public ou lors d'un événement.</p>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="relative pl-8">
+                        <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-yellow-500 border-2 border-slate-800"></div>
+                        <h4 class="text-md font-bold text-white">Diffusion (Viral)</h4>
+                        <p class="text-xs text-slate-400 mt-1">Les passants découvrent le Wifi, téléchargent, et en parlent.</p>
+                    </div>
+
+                     <!-- Timeline Item 4 -->
+                     <div class="relative pl-8">
+                        <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-purple-500 border-2 border-slate-800"></div>
+                        <h4 class="text-md font-bold text-white">Analyse (Post-Op)</h4>
+                        <p class="text-xs text-slate-400 mt-1">Récupération des logs anonymes pour comprendre l'usage.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 pt-8 pb-12 text-center">
+        <p class="text-slate-500 mb-2">
+            Basé sur les initiatives du collectif <span class="text-cyan-400 font-bold">OuaisFi.eu</span>.
+        </p>
+        <p class="text-slate-600 text-sm">
+            Infographie interactive générée pour l'analyse TSAR e-Bomba. Licence Libre.
+        </p>
+        <div class="mt-4 flex justify-center space-x-4 text-2xl">
+            <span>🛠️</span>
+            <span>✊</span>
+            <span>🎨</span>
+        </div>
+    </footer>
+
+</main>
+
+<script>
+    // --- 1. Utility Functions ---
+
+    // Label Wrapping Function (Mandatory >16 chars logic)
+    function wrapLabels(labels) {
+        return labels.map(label => {
+            if (label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if ((currentLine + " " + words[i]).length <= 16) {
+                        currentLine += " " + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            }
+            return label;
+        });
+    }
+
+    // Shared Tooltip Configuration (Mandatory)
+    const sharedTooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            },
+            label: function(context) {
+                return ` ${context.dataset.label || ''}: ${context.raw}`;
+            }
+        },
+        backgroundColor: 'rgba(15, 23, 42, 0.9)', // Slate 900
+        titleColor: '#F59E0B', // Amber title
+        bodyColor: '#E2E8F0', // Slate 200 body
+        borderColor: '#475569', // Slate 600 border
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8
+    };
+
+    // Shared Chart Defaults for Dark Mode
+    Chart.defaults.color = '#94A3B8'; // Slate 400 for axis labels
+    Chart.defaults.borderColor = '#334155'; // Slate 700 for grid lines
+    Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+
+    // --- 2. Chart Configurations ---
+
+    // Chart 1: Tech Stack Composition (Doughnut)
+    const ctxTech = document.getElementById('techStackChart').getContext('2d');
+    const techLabels = wrapLabels([
+        "Système (Debian/Linux)", 
+        "Réseau (Hostapd/DNS)", 
+        "Serveur Web (Nginx)", 
+        "Bibliothèque Contenu"
+    ]);
+
+    new Chart(ctxTech, {
+        type: 'doughnut',
+        data: {
+            labels: techLabels,
+            datasets: [{
+                label: 'Complexité (%)',
+                data: [30, 25, 20, 25],
+                backgroundColor: [
+                    '#8B5CF6', // Purple (System)
+                    '#06B6D4', // Cyan (Network)
+                    '#EC4899', // Pink (Web)
+                    '#F59E0B'  // Yellow (Content)
+                ],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 20, usePointStyle: true }
+                },
+                tooltip: sharedTooltipConfig
+            },
+            cutout: '65%'
+        }
+    });
+
+    // Chart 2: Impact Radar (Radar)
+    const ctxImpact = document.getElementById('impactRadarChart').getContext('2d');
+    const impactLabels = wrapLabels([
+        "Impact Scientifique (Tech)", 
+        "Impact Artistique", 
+        "Lien Social", 
+        "Activisme Politique", 
+        "Éducation Populaire"
+    ]);
+
+    new Chart(ctxImpact, {
+        type: 'radar',
+        data: {
+            labels: impactLabels,
+            datasets: [{
+                label: 'Score de Potentiel',
+                data: [75, 80, 90, 85, 95], // High scores across the board but Education/Social peak
+                fill: true,
+                backgroundColor: 'rgba(6, 182, 212, 0.2)', // Cyan transparent
+                borderColor: '#06B6D4', // Cyan solid
+                pointBackgroundColor: '#F59E0B', // Yellow points
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#F59E0B'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: '#334155' }, // Slate 700
+                    grid: { color: '#1E293B' }, // Slate 800
+                    pointLabels: {
+                        font: { size: 11, weight: 'bold' },
+                        color: '#CBD5E1' // Slate 300
+                    },
+                    ticks: { display: false, backdropColor: 'transparent' },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: sharedTooltipConfig
+            }
+        }
+    });
+
+    // Chart 3: Content Types (Horizontal Bar)
+    const ctxContent = document.getElementById('contentBarChart').getContext('2d');
+    const contentLabels = wrapLabels([
+        "Documents & Zines (PDF)", 
+        "Musique Libre (MP3)", 
+        "Code & Outils (Git)", 
+        "Cartographie (OSM)",
+        "Vidéos Courtes"
+    ]);
+
+    new Chart(ctxContent, {
+        type: 'bar',
+        data: {
+            labels: contentLabels,
+            datasets: [{
+                label: 'Volume de Partage',
+                data: [85, 60, 45, 30, 20], // Docs are highest (typical for info-shops)
+                backgroundColor: [
+                    '#EC4899', // Pink
+                    '#8B5CF6', // Purple
+                    '#06B6D4', // Cyan
+                    '#F59E0B', // Yellow
+                    '#10B981'  // Green
+                ],
+                borderRadius: 4,
+                barPercentage: 0.6
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { display: false }
+                },
+                y: {
+                    grid: { display: false }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: sharedTooltipConfig
+            }
+        }
+    });
+
+</script>
+
+</body> </html>
