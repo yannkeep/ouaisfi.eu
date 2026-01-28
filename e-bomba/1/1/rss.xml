@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" 
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  
+<channel>
+  <title>ouaisfieu.be — Actualités</title>
+  <link>https://ouaisfieu.be</link>
+  <description>Contre-information citoyenne belge. Actualités sur la fraude sociale, les médias, et les mobilisations citoyennes.</description>
+  <language>fr-be</language>
+  <lastBuildDate>Tue, 28 Jan 2026 08:00:00 +0100</lastBuildDate>
+  <atom:link href="https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/rss.xml" rel="self" type="application/rss+xml"/>
+  
+  <item>
+    <title>Lancement d'une pétition demandant à RTL de requalifier « Tous Fraudeurs » en docu-fiction</title>
+    <link>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/communique-presse-lancement-petition.html</link>
+    <guid isPermaLink="true">https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/communique-presse-lancement-petition.html</guid>
+    <pubDate>Tue, 28 Jan 2026 08:00:00 +0100</pubDate>
+    <dc:creator>ouaisfieu.be</dc:creator>
+    <category>Médias</category>
+    <category>Belgique</category>
+    <description>Après plus de 400 plaintes au CSA — un record historique —, un collectif citoyen lance une pétition officielle demandant à RTL-TVI de requalifier son programme.</description>
+  </item>
+  
+  <item>
+    <title>Analyse : pourquoi « Tous Fraudeurs » n'est pas un documentaire</title>
+    <link>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/rtl-docu-fiction-serie-b.html</link>
+    <guid isPermaLink="true">https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/rtl-docu-fiction-serie-b.html</guid>
+    <pubDate>Mon, 27 Jan 2026 10:00:00 +0100</pubDate>
+    <dc:creator>ouaisfieu.be</dc:creator>
+    <category>Médias</category>
+    <category>Analyse</category>
+    <description>Analyse technique démontrant que le programme ne respecte aucun des 7 critères définissant un documentaire journalistique selon le CDJ belge.</description>
+  </item>
+  
+  <item>
+    <title>400+ plaintes au CSA : un record historique en Belgique</title>
+    <link>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-plaintes-csa-deborsu.html</link>
+    <guid isPermaLink="true">https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-plaintes-csa-deborsu.html</guid>
+    <pubDate>Sun, 26 Jan 2026 14:00:00 +0100</pubDate>
+    <dc:creator>ouaisfieu.be</dc:creator>
+    <category>Médias</category>
+    <category>CSA</category>
+    <description>Le programme « Tous Fraudeurs » détient le record de plaintes pour un seul programme en Belgique francophone.</description>
+  </item>
+  
+  <item>
+    <title>Fraude sociale vs fraude fiscale : le ratio 150:1 que les médias ignorent</title>
+    <link>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-qui-sont-vrais-fraudeurs.html</link>
+    <guid isPermaLink="true">https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-qui-sont-vrais-fraudeurs.html</guid>
+    <pubDate>Fri, 24 Jan 2026 11:00:00 +0100</pubDate>
+    <dc:creator>ouaisfieu.be</dc:creator>
+    <category>Économie</category>
+    <description>Fraude sociale : 200 millions. Fraude fiscale : 30 milliards. Un ratio de 150:1 absent du programme RTL.</description>
+  </item>
+
+</channel>
+</rss>
