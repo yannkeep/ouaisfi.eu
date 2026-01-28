@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide : Comment apparaître dans Google News — ouaisfieu.be</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;max-width:800px;margin:0 auto;padding:2rem;line-height:1.7;color:#1a1a1a}
+h1{font-size:2rem;margin-bottom:1rem}
+h2{font-size:1.25rem;margin:2rem 0 1rem;color:#1a73e8}
+h3{font-size:1rem;margin:1.5rem 0 .5rem}
+p{margin-bottom:1rem}
+ul,ol{margin:1rem 0 1rem 1.5rem}
+li{margin:.5rem 0}
+code{background:#f1f3f4;padding:.125rem .375rem;border-radius:4px;font-size:.9em}
+pre{background:#1a1a1a;color:#e0e0e0;padding:1rem;border-radius:8px;overflow-x:auto;margin:1rem 0}
+pre code{background:none;padding:0}
+.step{background:#e8f5e9;border-left:4px solid #4caf50;padding:1rem;margin:1rem 0}
+.warning{background:#fff3e0;border-left:4px solid #ff9800;padding:1rem;margin:1rem 0}
+.checklist{background:#f5f5f5;padding:1.5rem;border-radius:8px;margin:1.5rem 0}
+.checklist li{list-style:none;padding-left:1.5rem;position:relative}
+.checklist li::before{content:"☐";position:absolute;left:0}
+a{color:#1a73e8}
+</style>
+</head>
+<body>
+
+<h1>📰 Guide : Comment apparaître dans Google News</h1>
+
+<p>Ce guide explique comment configurer ouaisfieu.be pour apparaître dans Google News, Bing News, Apple News et autres agrégateurs d'actualités.</p>
+
+<h2>1. Prérequis techniques (✅ déjà fait)</h2>
+
+<p>Les éléments suivants ont été créés :</p>
+
+<ul>
+<li><strong>Articles avec Schema.org NewsArticle</strong> — <code>communique-presse-petition-rtl.html</code></li>
+<li><strong>Flux RSS</strong> — <code>rss.xml</code></li>
+<li><strong>Sitemap News</strong> — <code>sitemap-news.xml</code></li>
+<li><strong>Métadonnées Open Graph</strong> — pour le partage social</li>
+</ul>
+
+<h2>2. Inscription sur Google News Publisher Center</h2>
+
+<div class="step">
+<h3>Étape 1 : Accéder au Publisher Center</h3>
+<p>Aller sur <a href="https://publishercenter.google.com" target="_blank">publishercenter.google.com</a> et se connecter avec un compte Google.</p>
+</div>
+
+<div class="step">
+<h3>Étape 2 : Ajouter une publication</h3>
+<ol>
+<li>Cliquer sur "Ajouter une publication"</li>
+<li>Nom : <code>ouaisfieu.be</code></li>
+<li>URL : <code>https://ouaisfieu.be</code></li>
+<li>Langue : Français</li>
+<li>Pays : Belgique</li>
+</ol>
+</div>
+
+<div class="step">
+<h3>Étape 3 : Vérifier la propriété du site</h3>
+<p>Google propose plusieurs méthodes :</p>
+<ul>
+<li>Balise HTML dans le <code>&lt;head&gt;</code></li>
+<li>Fichier HTML à la racine</li>
+<li>Google Search Console (si déjà configuré)</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>Étape 4 : Configurer les sections</h3>
+<p>Ajouter les sections/catégories :</p>
+<ul>
+<li>Médias</li>
+<li>Belgique</li>
+<li>Société</li>
+<li>Politique</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>Étape 5 : Soumettre le flux RSS</h3>
+<p>Dans les paramètres, ajouter l'URL du flux :</p>
+<pre><code>https://ouaisfieu.be/rss.xml</code></pre>
+</div>
+
+<h2>3. Google Search Console</h2>
+
+<div class="step">
+<h3>Soumettre le sitemap News</h3>
+<ol>
+<li>Aller sur <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a></li>
+<li>Sélectionner le site ouaisfieu.be</li>
+<li>Menu "Sitemaps"</li>
+<li>Ajouter : <code>sitemap-news.xml</code></li>
+</ol>
+</div>
+
+<h2>4. Bing News (PubHub)</h2>
+
+<div class="step">
+<h3>Inscription Bing PubHub</h3>
+<ol>
+<li>Aller sur <a href="https://pubhub.bing.com" target="_blank">pubhub.bing.com</a></li>
+<li>Créer un compte ou se connecter</li>
+<li>Ajouter le site et le flux RSS</li>
+<li>Soumettre pour examen</li>
+</ol>
+</div>
+
+<h2>5. Apple News (optionnel)</h2>
+
+<div class="step">
+<h3>Apple News Publisher</h3>
+<ol>
+<li>Aller sur <a href="https://www.icloud.com/newspublisher/" target="_blank">iCloud News Publisher</a></li>
+<li>Nécessite un Apple ID</li>
+<li>Créer un "channel" pour ouaisfieu.be</li>
+<li>Soumettre le flux RSS</li>
+</ol>
+</div>
+
+<h2>6. Bonnes pratiques pour les articles</h2>
+
+<div class="checklist">
+<h3>Checklist pour chaque article "news" :</h3>
+<ul>
+<li>Titre clair et factuel (pas de clickbait)</li>
+<li>Date de publication visible et en métadonnées</li>
+<li>Auteur identifié</li>
+<li>Schema.org NewsArticle complet</li>
+<li>Mots-clés pertinents (meta news_keywords)</li>
+<li>Open Graph pour le partage</li>
+<li>Contenu > 300 mots</li>
+<li>Pas de contenu dupliqué</li>
+<li>Ajouter l'article au flux RSS</li>
+<li>Mettre à jour le sitemap-news.xml</li>
+</ul>
+</div>
+
+<h2>7. Délais et attentes</h2>
+
+<div class="warning">
+<p><strong>Important :</strong> L'approbation Google News peut prendre de quelques jours à plusieurs semaines. Google examine :</p>
+<ul>
+<li>La qualité éditoriale</li>
+<li>L'originalité du contenu</li>
+<li>La fréquence de publication</li>
+<li>La conformité technique</li>
+</ul>
+<p>Publier régulièrement des articles de qualité augmente les chances d'approbation.</p>
+</div>
+
+<h2>8. Structure des fichiers</h2>
+
+<pre><code>ouaisfieu.be/
+├── index.html                           # Page d'accueil
+├── rss.xml                              # Flux RSS (agrégateurs)
+├── sitemap-news.xml                     # Sitemap Google News
+├── communique-presse-petition-rtl.html  # Article news format
+├── rtl-docu-fiction-serie-b.html        # Article news format
+└── geo-*.html                           # Autres articles
+</code></pre>
+
+<h2>9. Code à ajouter dans le &lt;head&gt; de chaque article</h2>
+
+<pre><code>&lt;!-- DATES CRITIQUES --&gt;
+&lt;meta name="article:published_time" content="2026-01-28T08:00:00+01:00"&gt;
+&lt;meta name="article:modified_time" content="2026-01-28T08:00:00+01:00"&gt;
+
+&lt;!-- MOTS-CLÉS NEWS --&gt;
+&lt;meta name="news_keywords" content="RTL, pétition, CSA, Belgique"&gt;
+
+&lt;!-- LIEN VERS RSS --&gt;
+&lt;link rel="alternate" type="application/rss+xml" 
+      title="ouaisfieu.be" href="https://ouaisfieu.be/rss.xml"&gt;
+</code></pre>
+
+<h2>10. Ressources</h2>
+
+<ul>
+<li><a href="https://support.google.com/news/publisher-center/" target="_blank">Documentation Google News Publisher Center</a></li>
+<li><a href="https://developers.google.com/search/docs/specialty/google-news" target="_blank">Google News SEO Guidelines</a></li>
+<li><a href="https://www.bing.com/webmasters/pubhub" target="_blank">Bing PubHub</a></li>
+</ul>
+
+<hr style="margin:2rem 0">
+<p><a href="index.html">← Retour à l'accueil</a></p>
+
+</body>
+</html>
