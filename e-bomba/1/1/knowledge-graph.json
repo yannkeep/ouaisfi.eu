@@ -1,0 +1,135 @@
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/",
+            "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1",
+            "name": "Observatoire Citoyen Belge",
+            "alternateName": "ouaisfieu",
+            "description": "Plateforme de contre-information citoyenne et de fact-checking en Belgique",
+            "inLanguage": "fr-BE",
+            "publisher": {
+                "@type": "Organization",
+                "@id": "https://yannkeep.github.io/",
+                "name": "Observatoire Citoyen Belge",
+                "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1"
+            }
+        },
+        {
+            "@type": "CollectionPage",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/",
+            "name": "Dossier Deborsu - Tous Fraudeurs",
+            "description": "Cocon sémantique de contre-information sur le documentaire controversé de Christophe Deborsu diffusé sur RTL-TVI en novembre 2025",
+            "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/",
+            "isPartOf": {"@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/"},
+            "about": [
+                {"@type": "TVEpisode", "name": "Sans boulot : tous fraudeurs ?"},
+                {"@type": "Person", "name": "Christophe Deborsu"},
+                {"@type": "Organization", "name": "RTL-TVI"},
+                {"@type": "Thing", "name": "Fraude sociale Belgique"},
+                {"@type": "Thing", "name": "Manipulation médiatique"}
+            ],
+            "hasPart": [
+                {
+                    "@type": "WebPage",
+                    "name": "Hub Central - Dossier Deborsu",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/",
+                    "description": "Page centrale du cocon sémantique sur le scandale Deborsu"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Qui est Christophe Deborsu",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/qui-est-christophe-deborsu/",
+                    "description": "Biographie et controverses du journaliste RTL-TVI"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Taux de fraude sociale Belgique",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/taux-fraude-sociale-belgique/",
+                    "description": "Données officielles : moins de 3% de fraude sociale"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Plaintes CSA Record",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/plaintes-csa-record/",
+                    "description": "400+ plaintes au CSA - record historique"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Témoignages Manipulés",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/temoignages-manipules/",
+                    "description": "Gaëlle Denys et Laetitia dénoncent la manipulation"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Réformes Arizona 2026",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/reformes-arizona-2026/",
+                    "description": "90.000 exclusions du chômage prévues"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "CPAS Belgique Expliqué",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/cpas-belgique-explique/",
+                    "description": "Guide complet du Centre Public d'Action Sociale"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Fraude Fiscale Belgique",
+                    "url": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/fraude-fiscale-belgique/",
+                    "description": "30 milliards par an - 150x plus que la fraude sociale"
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/christophe-deborsu/index.html",
+            "name": "Christophe Deborsu",
+            "jobTitle": "Journaliste et présentateur",
+            "worksFor": {"@type": "Organization", "name": "RTL-TVI"},
+            "nationality": {"@type": "Country", "name": "Belgique"},
+            "description": "Journaliste belge, présentateur de 'Je Vous Dérange' sur RTL-TVI, auteur du documentaire controversé 'Tous Fraudeurs' (2025)"
+        },
+        {
+            "@type": "Person",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/gaelle-denys/index.html",
+            "name": "Gaëlle Denys",
+            "jobTitle": "Présidente du CPAS de Verviers",
+            "description": "Témoin ayant dénoncé la manipulation de ses propos dans le documentaire Deborsu"
+        },
+        {
+            "@type": "TVEpisode",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/documentaire/index.html",
+            "name": "Sans boulot : tous fraudeurs ?",
+            "alternateName": "Tous Fraudeurs",
+            "datePublished": "2025-11-07",
+            "productionCompany": {"@type": "Organization", "name": "RTL-TVI"},
+            "director": {"@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/christophe-deborsu/index.html"},
+            "description": "Documentaire controversé sur la fraude sociale, accusé de manipulation et ayant généré 400+ plaintes au CSA"
+        },
+        {
+            "@type": "GovernmentOrganization",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/csa/index.html",
+            "name": "Conseil Supérieur de l'Audiovisuel",
+            "alternateName": "CSA",
+            "url": "https://www.csa.be",
+            "areaServed": "Fédération Wallonie-Bruxelles",
+            "description": "Autorité de régulation des médias audiovisuels en Belgique francophone"
+        },
+        {
+            "@type": "Dataset",
+            "@id": "https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/deborsu-tous-fraudeurs/stats-fraude/index.html",
+            "name": "Statistiques fraude sociale vs fraude fiscale Belgique",
+            "description": "Données comparatives officielles",
+            "variableMeasured": [
+                {"@type": "PropertyValue", "name": "Taux fraude sociale", "value": "<3%"},
+                {"@type": "PropertyValue", "name": "Montant fraude sociale", "value": "200M€/an"},
+                {"@type": "PropertyValue", "name": "Montant fraude fiscale", "value": "30Mds€/an"},
+                {"@type": "PropertyValue", "name": "Ratio", "value": "150:1"},
+                {"@type": "PropertyValue", "name": "Plaintes CSA Deborsu", "value": "400+"},
+                {"@type": "PropertyValue", "name": "Téléspectateurs", "value": "410860"},
+                {"@type": "PropertyValue", "name": "Exclusions Arizona prévues", "value": "90000"}
+            ]
+        }
+    ]
+}
