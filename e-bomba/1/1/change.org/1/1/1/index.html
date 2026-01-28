@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MISSION_VÉRITÉ // COUNTDOWN_ACTIVE</title>
+<meta name="description" content="[CLASSIFIED] Opération requalification RTL. Deadline: 31 MARS 2026. Signatures requises.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--black:#0a0a0a;
+--green:#00ff41;
+--red:#ff0040;
+--cyan:#00ffff;
+--yellow:#ffff00;
+--orange:#ff6600;
+--dim:#0a3a0a;
+}
+
+html{scroll-behavior:smooth}
+body{
+font-family:'Share Tech Mono',monospace;
+background:var(--black);
+color:var(--green);
+overflow-x:hidden;
+cursor:crosshair;
+}
+
+/* SCANLINES */
+body::before{
+content:'';position:fixed;inset:0;z-index:99999;pointer-events:none;
+background:repeating-linear-gradient(0deg,rgba(0,0,0,.15) 0px,rgba(0,0,0,.15) 1px,transparent 1px,transparent 2px);
+}
+
+/* CRT FLICKER */
+body::after{
+content:'';position:fixed;inset:0;z-index:99998;pointer-events:none;
+background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.3) 100%);
+animation:flicker .1s infinite;
+}
+@keyframes flicker{
+0%,100%{opacity:.97}
+50%{opacity:1}
+}
+
+/* MATRIX RAIN CANVAS */
+#matrix{position:fixed;inset:0;z-index:-1;opacity:.15}
+
+/* GLITCH TEXT */
+.glitch{
+position:relative;
+animation:glitch-skew 4s infinite linear alternate-reverse;
+}
+.glitch::before,.glitch::after{
+content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;
+}
+.glitch::before{
+left:2px;text-shadow:-2px 0 var(--red);
+animation:glitch-1 2s infinite linear alternate-reverse;
+clip:rect(44px,450px,56px,0);
+}
+.glitch::after{
+left:-2px;text-shadow:2px 0 var(--cyan);
+animation:glitch-2 3s infinite linear alternate-reverse;
+clip:rect(14px,450px,26px,0);
+}
+@keyframes glitch-1{
+0%{clip:rect(31px,9999px,94px,0)}20%{clip:rect(62px,9999px,42px,0)}40%{clip:rect(16px,9999px,78px,0)}60%{clip:rect(87px,9999px,31px,0)}80%{clip:rect(24px,9999px,55px,0)}100%{clip:rect(58px,9999px,71px,0)}
+}
+@keyframes glitch-2{
+0%{clip:rect(65px,9999px,12px,0)}20%{clip:rect(32px,9999px,89px,0)}40%{clip:rect(78px,9999px,43px,0)}60%{clip:rect(11px,9999px,67px,0)}80%{clip:rect(45px,9999px,23px,0)}100%{clip:rect(91px,9999px,56px,0)}
+}
+@keyframes glitch-skew{
+0%{transform:skew(0deg)}2%{transform:skew(0deg)}3%{transform:skew(-1deg)}4%{transform:skew(0deg)}100%{transform:skew(0deg)}
+}
+
+/* TOP BAR - NASA STYLE */
+.topbar{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+background:rgba(0,0,0,.9);
+border-bottom:1px solid var(--green);
+padding:.5rem 1rem;
+display:flex;justify-content:space-between;align-items:center;
+font-size:.7rem;
+}
+.topbar-left{display:flex;gap:2rem;align-items:center}
+.status{display:flex;align-items:center;gap:.5rem}
+.status-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.status-dot.red{background:var(--red)}
+.topbar-right{color:var(--cyan)}
+
+/* HERO COMMAND CENTER */
+.hero{
+min-height:100vh;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+padding:6rem 2rem 4rem;
+position:relative;
+}
+
+/* CORNER BRACKETS */
+.hero::before,.hero::after,
+.hero .corner-bl,.hero .corner-br{
+content:'';position:absolute;width:60px;height:60px;
+border:2px solid var(--green);opacity:.5;
+}
+.hero::before{top:80px;left:20px;border-right:none;border-bottom:none}
+.hero::after{top:80px;right:20px;border-left:none;border-bottom:none}
+.corner-bl{bottom:20px;left:20px;border-right:none;border-top:none}
+.corner-br{bottom:20px;right:20px;border-left:none;border-top:none}
+
+.mission-badge{
+border:1px solid var(--red);
+padding:.5rem 1.5rem;
+font-family:'Orbitron',monospace;
+font-size:.75rem;
+letter-spacing:.3em;
+color:var(--red);
+margin-bottom:2rem;
+position:relative;
+animation:pulse-border 2s infinite;
+}
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(255,0,64,.4)}50%{box-shadow:0 0 20px 5px rgba(255,0,64,.2)}}
+.mission-badge::before{content:'◢';position:absolute;top:-1px;left:-1px;color:var(--red);font-size:.5rem}
+.mission-badge::after{content:'◣';position:absolute;top:-1px;right:-1px;color:var(--red);font-size:.5rem}
+
+.hero-title{
+font-family:'Orbitron',monospace;
+font-size:clamp(2rem,10vw,6rem);
+font-weight:900;
+text-align:center;
+line-height:1;
+text-shadow:0 0 30px var(--green);
+margin-bottom:1rem;
+}
+
+.hero-sub{
+font-size:1rem;
+color:var(--cyan);
+text-align:center;
+max-width:600px;
+margin-bottom:3rem;
+opacity:.8;
+}
+.hero-sub .blink{animation:blink .5s infinite}
+
+/* COUNTDOWN NASA STYLE */
+.countdown-container{
+background:rgba(0,20,0,.5);
+border:1px solid var(--green);
+padding:2rem 3rem;
+position:relative;
+margin-bottom:3rem;
+}
+.countdown-container::before{
+content:'◤ TEMPS RESTANT ◥';
+position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+background:var(--black);padding:0 1rem;
+font-size:.7rem;letter-spacing:.2em;color:var(--yellow);
+}
+.countdown{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cd-unit{text-align:center;min-width:80px}
+.cd-value{
+font-family:'Orbitron',monospace;
+font-size:clamp(2.5rem,8vw,5rem);
+font-weight:900;
+color:var(--green);
+text-shadow:0 0 20px var(--green),0 0 40px var(--green);
+line-height:1;
+}
+.cd-label{
+font-size:.6rem;
+letter-spacing:.3em;
+color:var(--dim);
+margin-top:.5rem;
+border-top:1px solid var(--dim);
+padding-top:.5rem;
+}
+.cd-sep{
+font-size:3rem;
+color:var(--dim);
+align-self:center;
+animation:blink 1s infinite;
+}
+
+/* TERMINAL BUTTON */
+.btn-terminal{
+display:inline-block;
+padding:1rem 2rem;
+border:1px solid var(--green);
+background:transparent;
+color:var(--green);
+font-family:'Share Tech Mono',monospace;
+font-size:1rem;
+text-decoration:none;
+position:relative;
+overflow:hidden;
+transition:all .3s;
+cursor:pointer;
+}
+.btn-terminal::before{
+content:'>';
+margin-right:.5rem;
+animation:cursor-blink 1s infinite;
+}
+@keyframes cursor-blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.btn-terminal:hover{
+background:var(--green);
+color:var(--black);
+box-shadow:0 0 30px var(--green);
+}
+.btn-terminal:hover::before{content:'$'}
+
+/* DATA STREAM SECTION */
+.datastream{
+padding:4rem 2rem;
+background:linear-gradient(180deg,transparent,rgba(0,255,65,.02),transparent);
+border-top:1px solid var(--dim);
+border-bottom:1px solid var(--dim);
+}
+.datastream-inner{max-width:1200px;margin:0 auto}
+.section-header{
+display:flex;align-items:center;gap:1rem;
+margin-bottom:2rem;
+padding-bottom:1rem;
+border-bottom:1px dashed var(--dim);
+}
+.section-header::before{content:'█';color:var(--green);animation:blink .5s infinite}
+.section-title{
+font-family:'Orbitron',monospace;
+font-size:1rem;
+letter-spacing:.2em;
+}
+
+.data-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:1px;
+background:var(--dim);
+}
+.data-cell{
+background:var(--black);
+padding:1.5rem;
+position:relative;
+}
+.data-cell::before{
+content:attr(data-id);
+position:absolute;top:.5rem;right:.5rem;
+font-size:.6rem;color:var(--dim);
+}
+.data-value{
+font-family:'Orbitron',monospace;
+font-size:2.5rem;
+font-weight:700;
+margin-bottom:.5rem;
+}
+.data-cell:nth-child(1) .data-value{color:var(--green)}
+.data-cell:nth-child(2) .data-value{color:var(--red)}
+.data-cell:nth-child(3) .data-value{color:var(--yellow)}
+.data-cell:nth-child(4) .data-value{color:var(--cyan)}
+.data-label{font-size:.8rem;color:rgba(0,255,65,.6);margin-bottom:.5rem}
+.data-source{font-size:.6rem;color:var(--dim)}
+
+/* TERMINAL LOG SECTION */
+.terminal-section{padding:4rem 2rem}
+.terminal-window{
+max-width:900px;margin:0 auto;
+background:#0d0d0d;
+border:1px solid var(--green);
+border-radius:4px 4px 0 0;
+overflow:hidden;
+}
+.terminal-header{
+background:linear-gradient(90deg,#1a1a1a,#0d0d0d);
+padding:.5rem 1rem;
+display:flex;align-items:center;gap:.5rem;
+border-bottom:1px solid var(--dim);
+}
+.terminal-dot{width:12px;height:12px;border-radius:50%;background:#333}
+.terminal-dot.red{background:#ff5f56}
+.terminal-dot.yellow{background:#ffbd2e}
+.terminal-dot.green{background:#27ca40}
+.terminal-title{margin-left:1rem;font-size:.7rem;color:var(--dim)}
+.terminal-body{padding:1.5rem;font-size:.85rem;line-height:1.8;max-height:400px;overflow-y:auto}
+.terminal-body::-webkit-scrollbar{width:6px}
+.terminal-body::-webkit-scrollbar-thumb{background:var(--dim)}
+.line{margin-bottom:.5rem}
+.line .prompt{color:var(--cyan)}
+.line .cmd{color:var(--green)}
+.line .output{color:rgba(0,255,65,.7)}
+.line .error{color:var(--red)}
+.line .warning{color:var(--yellow)}
+.line .comment{color:var(--dim);font-style:italic}
+
+/* ACCUSATIONS GRID */
+.accusations{padding:4rem 2rem;background:rgba(0,0,0,.5)}
+.acc-grid{
+max-width:1000px;margin:0 auto;
+display:grid;gap:1rem;
+}
+.acc-item{
+border:1px solid var(--dim);
+padding:1.5rem;
+position:relative;
+transition:all .3s;
+}
+.acc-item:hover{border-color:var(--red);background:rgba(255,0,64,.05)}
+.acc-item::before{
+content:'[' attr(data-code) ']';
+font-family:'Orbitron',monospace;
+font-size:.7rem;
+color:var(--red);
+}
+.acc-item h3{
+font-size:1rem;
+margin:.75rem 0 .5rem;
+color:var(--green);
+}
+.acc-item p{
+font-size:.85rem;
+color:rgba(0,255,65,.6);
+line-height:1.6;
+}
+
+/* QUOTE TRANSMISSION */
+.transmission{
+padding:4rem 2rem;
+background:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(0,255,65,.03) 2px,rgba(0,255,65,.03) 4px);
+text-align:center;
+}
+.transmission-inner{max-width:800px;margin:0 auto}
+.transmission::before{
+content:'◢◤ INCOMING TRANSMISSION ◥◣';
+display:block;
+font-family:'Orbitron',monospace;
+font-size:.7rem;
+letter-spacing:.3em;
+color:var(--yellow);
+margin-bottom:2rem;
+animation:transmission-blink 2s infinite;
+}
+@keyframes transmission-blink{0%,90%,100%{opacity:1}95%{opacity:0}}
+.quote-text{
+font-size:clamp(1.2rem,3vw,1.8rem);
+line-height:1.6;
+color:var(--green);
+margin-bottom:1.5rem;
+}
+.quote-source{
+font-size:.85rem;
+color:var(--cyan);
+}
+.quote-source::before{content:'— SOURCE: '}
+
+/* TIMELINE MISSION LOG */
+.mission-log{padding:4rem 2rem}
+.mission-log-inner{max-width:700px;margin:0 auto}
+.log-entry{
+display:grid;
+grid-template-columns:120px 20px 1fr;
+gap:1rem;
+padding:1rem 0;
+border-bottom:1px dashed var(--dim);
+}
+.log-date{
+font-family:'Orbitron',monospace;
+font-size:.75rem;
+text-align:right;
+color:var(--dim);
+}
+.log-status{display:flex;justify-content:center}
+.log-dot{
+width:10px;height:10px;
+border:2px solid var(--dim);
+border-radius:50%;
+position:relative;
+}
+.log-entry.done .log-dot{background:var(--green);border-color:var(--green)}
+.log-entry.active .log-dot{
+background:var(--red);border-color:var(--red);
+animation:pulse-dot 1.5s infinite;
+}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 var(--red)}50%{box-shadow:0 0 15px 5px rgba(255,0,64,.3)}}
+.log-content h4{font-size:.9rem;color:var(--green);margin-bottom:.25rem}
+.log-content p{font-size:.8rem;color:var(--dim)}
+
+/* DEMANDS */
+.demands{padding:4rem 2rem;background:rgba(0,40,0,.2)}
+.demands-inner{max-width:800px;margin:0 auto}
+.demand-block{
+border:1px solid var(--green);
+margin-bottom:1rem;
+}
+.demand-header{
+background:rgba(0,255,65,.1);
+padding:1rem;
+display:flex;align-items:center;gap:1rem;
+border-bottom:1px solid var(--dim);
+}
+.demand-num{
+font-family:'Orbitron',monospace;
+font-size:1.5rem;
+font-weight:900;
+color:var(--green);
+}
+.demand-title{font-size:1rem}
+.demand-body{padding:1rem;font-size:.85rem;color:rgba(0,255,65,.7)}
+
+/* FINAL */
+.final{
+min-height:80vh;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+text-align:center;
+padding:4rem 2rem;
+position:relative;
+background:radial-gradient(ellipse at center bottom,rgba(255,0,64,.1) 0%,transparent 60%);
+}
+.final-alert{
+font-family:'Orbitron',monospace;
+font-size:.8rem;
+letter-spacing:.3em;
+color:var(--red);
+margin-bottom:1rem;
+animation:blink 1s infinite;
+}
+.final-count{
+font-family:'Orbitron',monospace;
+font-size:clamp(4rem,15vw,10rem);
+font-weight:900;
+color:var(--green);
+text-shadow:0 0 50px var(--green);
+line-height:1;
+}
+.final-label{
+font-size:1.5rem;
+color:var(--cyan);
+margin-bottom:2rem;
+}
+.final-message{
+max-width:500px;
+font-size:.9rem;
+color:rgba(0,255,65,.6);
+margin-bottom:3rem;
+line-height:1.6;
+}
+
+/* SHARE */
+.share{
+padding:2rem;
+text-align:center;
+border-top:1px solid var(--dim);
+}
+.share-label{font-size:.7rem;letter-spacing:.2em;color:var(--dim);margin-bottom:1rem}
+.share-btns{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.share-btn{
+padding:.5rem 1rem;
+border:1px solid var(--dim);
+color:var(--green);
+text-decoration:none;
+font-size:.75rem;
+transition:all .2s;
+}
+.share-btn:hover{border-color:var(--green);background:rgba(0,255,65,.1)}
+
+/* FOOTER */
+footer{
+padding:2rem;
+text-align:center;
+border-top:1px solid var(--dim);
+font-size:.7rem;
+color:var(--dim);
+}
+footer a{color:var(--green);text-decoration:none}
+
+/* SCROLL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(20px);transition:all .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- MATRIX CANVAS -->
+<canvas id="matrix"></canvas>
+
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="topbar-left">
+<div class="status"><span class="status-dot"></span> SYSTEM ACTIVE</div>
+<div class="status"><span class="status-dot red"></span> DEADLINE APPROACHING</div>
+</div>
+<div class="topbar-right">
+<span id="clock">00:00:00</span> UTC+1 | LAT 50.85° N | LON 4.35° E
+</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="corner-bl"></div>
+<div class="corner-br"></div>
+
+<div class="mission-badge">⚠ OPÉRATION EN COURS</div>
+
+<h1 class="hero-title glitch" data-text="MISSION VÉRITÉ">MISSION VÉRITÉ</h1>
+
+<p class="hero-sub">
+RTL a menti. 400+ plaintes au CSA. Maintenant on passe à l'offensive.<span class="blink">_</span>
+</p>
+
+<div class="countdown-container">
+<div class="countdown">
+<div class="cd-unit">
+<div class="cd-value" id="d">00</div>
+<div class="cd-label">JOURS</div>
+</div>
+<div class="cd-sep">:</div>
+<div class="cd-unit">
+<div class="cd-value" id="h">00</div>
+<div class="cd-label">HEURES</div>
+</div>
+<div class="cd-sep">:</div>
+<div class="cd-unit">
+<div class="cd-value" id="m">00</div>
+<div class="cd-label">MINUTES</div>
+</div>
+<div class="cd-sep">:</div>
+<div class="cd-unit">
+<div class="cd-value" id="s">00</div>
+<div class="cd-label">SECONDES</div>
+</div>
+</div>
+</div>
+
+<a href="#signer" class="btn-terminal">SIGNER_LA_PÉTITION</a>
+</section>
+
+<!-- DATA STREAM -->
+<section class="datastream reveal">
+<div class="datastream-inner">
+<div class="section-header">
+<span class="section-title">DATA_STREAM // CHIFFRES_OCCULTÉS</span>
+</div>
+<div class="data-grid">
+<div class="data-cell" data-id="STAT_001">
+<div class="data-value">&lt;3%</div>
+<div class="data-label">Taux réel de fraude sociale</div>
+<div class="data-source">src: ONEM.be</div>
+</div>
+<div class="data-cell" data-id="STAT_002">
+<div class="data-value">150:1</div>
+<div class="data-label">Ratio fraude fiscale/sociale</div>
+<div class="data-source">src: SPF_FINANCES</div>
+</div>
+<div class="data-cell" data-id="STAT_003">
+<div class="data-value">400+</div>
+<div class="data-label">Plaintes CSA déposées</div>
+<div class="data-source">src: CSA.be // RECORD</div>
+</div>
+<div class="data-cell" data-id="STAT_004">
+<div class="data-value">1h→30s</div>
+<div class="data-label">Témoignage tronqué</div>
+<div class="data-source">src: DÉCLARATION_PUBLIQUE</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TERMINAL -->
+<section class="terminal-section reveal">
+<div class="terminal-window">
+<div class="terminal-header">
+<div class="terminal-dot red"></div>
+<div class="terminal-dot yellow"></div>
+<div class="terminal-dot green"></div>
+<span class="terminal-title">ouaisfieu@resistance:~/dossier-rtl</span>
+</div>
+<div class="terminal-body" id="terminal">
+<div class="line"><span class="prompt">$</span> <span class="cmd">cat contexte.txt</span></div>
+<div class="line"><span class="output">12 novembre 2025: RTL diffuse "Tous Fraudeurs?"</span></div>
+<div class="line"><span class="output">Programme présenté comme documentaire d'investigation</span></div>
+<div class="line"><span class="output">Réalité: manipulation, omissions, stigmatisation</span></div>
+<div class="line"><span class="comment"># 500.000+ personnes accusées. 97% sont innocentes.</span></div>
+<div class="line"></div>
+<div class="line"><span class="prompt">$</span> <span class="cmd">./analyse --deep-scan rtl_tous_fraudeurs.mp4</span></div>
+<div class="line"><span class="warning">[WARNING] Données officielles ONEM: NON CITÉES</span></div>
+<div class="line"><span class="warning">[WARNING] Contradictoire: ABSENT</span></div>
+<div class="line"><span class="warning">[WARNING] Témoignages: MANIPULÉS</span></div>
+<div class="line"><span class="error">[CRITICAL] Critères documentaire respectés: 0/7</span></div>
+<div class="line"></div>
+<div class="line"><span class="prompt">$</span> <span class="cmd">grep -c "plainte" /var/log/csa.log</span></div>
+<div class="line"><span class="output">407</span></div>
+<div class="line"><span class="comment"># Record historique Belgique francophone</span></div>
+<div class="line"></div>
+<div class="line"><span class="prompt">$</span> <span class="cmd">./petition --init --deadline="2026-03-31"</span></div>
+<div class="line"><span class="output">[OK] Pétition initialisée</span></div>
+<div class="line"><span class="output">[OK] Objectif: requalification en docu-fiction</span></div>
+<div class="line"><span class="output">[OK] Remise prévue: 1er avril 2026</span></div>
+<div class="line"><span class="comment"># Le vrai poisson, c'est celui qu'ils ont voulu nous faire avaler</span></div>
+<div class="line"></div>
+<div class="line"><span class="prompt">$</span> <span class="cmd blink-cursor">_</span></div>
+</div>
+</div>
+</section>
+
+<!-- ACCUSATIONS -->
+<section class="accusations reveal">
+<div class="datastream-inner">
+<div class="section-header">
+<span class="section-title">CHARGES // GRIEFS_DOCUMENTÉS</span>
+</div>
+<div class="acc-grid">
+<div class="acc-item" data-code="ERR_001">
+<h3>MANIPULATION_TÉMOIGNAGES</h3>
+<p>Interview de 60 minutes → 30 secondes au montage. Contexte supprimé. Sens inversé. Dénoncé publiquement par les témoins.</p>
+</div>
+<div class="acc-item" data-code="ERR_002">
+<h3>DONNÉES_OCCULTÉES</h3>
+<p>Zéro statistique officielle. Taux de fraude réel (&lt;3%) jamais mentionné. Omission délibérée pour maintenir le narratif.</p>
+</div>
+<div class="acc-item" data-code="ERR_003">
+<h3>TITRE_DIFFAMATOIRE</h3>
+<p>"TOUS Fraudeurs" = accusation généralisée de 500.000+ personnes. 97% en règle = diffamation de masse.</p>
+</div>
+<div class="acc-item" data-code="ERR_004">
+<h3>CODES_FICTION</h3>
+<p>Musique anxiogène, montage à charge, archétypes narratifs. Techniques de docu-fiction, pas de journalisme.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TRANSMISSION -->
+<section class="transmission reveal">
+<div class="transmission-inner">
+<p class="quote-text">"On m'a interviewée pendant une heure. Ils ont gardé 30 secondes, sorties de leur contexte, pour me faire dire le contraire de ce que je pense."</p>
+<p class="quote-source">GAËLLE DENYS // PRÉSIDENTE CPAS VERVIERS</p>
+</div>
+</section>
+
+<!-- MISSION LOG -->
+<section class="mission-log reveal">
+<div class="mission-log-inner">
+<div class="section-header">
+<span class="section-title">MISSION_LOG // TIMELINE</span>
+</div>
+
+<div class="log-entry done">
+<div class="log-date">2025.11.12</div>
+<div class="log-status"><div class="log-dot"></div></div>
+<div class="log-content">
+<h4>DIFFUSION</h4>
+<p>RTL-TVI diffuse le programme en prime time</p>
+</div>
+</div>
+
+<div class="log-entry done">
+<div class="log-date">2025.11-12</div>
+<div class="log-status"><div class="log-dot"></div></div>
+<div class="log-content">
+<h4>RÉACTION CITOYENNE</h4>
+<p>400+ plaintes déposées au CSA — record historique</p>
+</div>
+</div>
+
+<div class="log-entry done">
+<div class="log-date">2026.01</div>
+<div class="log-status"><div class="log-dot"></div></div>
+<div class="log-content">
+<h4>ANALYSE PUBLIÉE</h4>
+<p>Documentation: 0/7 critères documentaire respectés</p>
+</div>
+</div>
+
+<div class="log-entry active">
+<div class="log-date">NOW→03.31</div>
+<div class="log-status"><div class="log-dot"></div></div>
+<div class="log-content">
+<h4>PÉTITION ACTIVE</h4>
+<p>Collecte des signatures en cours</p>
+</div>
+</div>
+
+<div class="log-entry">
+<div class="log-date">2026.04.01</div>
+<div class="log-status"><div class="log-dot"></div></div>
+<div class="log-content">
+<h4>REMISE OFFICIELLE</h4>
+<p>Dépôt auprès de RTL Belgium et du CDJ</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- DEMANDS -->
+<section class="demands reveal">
+<div class="demands-inner">
+<div class="section-header">
+<span class="section-title">OBJECTIFS // NOS_DEMANDES</span>
+</div>
+
+<div class="demand-block">
+<div class="demand-header">
+<span class="demand-num">01</span>
+<span class="demand-title">REQUALIFICATION</span>
+</div>
+<div class="demand-body">De "documentaire" à "docu-fiction" ou "programme de divertissement". Appeler les choses par leur nom.</div>
+</div>
+
+<div class="demand-block">
+<div class="demand-header">
+<span class="demand-num">02</span>
+<span class="demand-title">AVERTISSEMENT</span>
+</div>
+<div class="demand-body">Avant toute rediffusion: informer que ce programme ne constitue pas une enquête journalistique.</div>
+</div>
+
+<div class="demand-block">
+<div class="demand-header">
+<span class="demand-num">03</span>
+<span class="demand-title">EXCUSES</span>
+</div>
+<div class="demand-body">Reconnaissance publique que 97% des allocataires ont été injustement stigmatisés.</div>
+</div>
+
+</div>
+</section>
+
+<!-- FINAL -->
+<section class="final" id="signer">
+<div class="final-alert">◢ DEADLINE IMMINENT ◣</div>
+<div class="final-count" id="d2">00</div>
+<div class="final-label">JOURS RESTANTS</div>
+<p class="final-message">Le 1er avril, ces signatures seront déposées sur le bureau de RTL. Le vrai poisson d'avril, c'est celui qu'ils ont voulu nous faire avaler.</p>
+<a href="https://www.change.org/" class="btn-terminal" target="_blank" rel="noopener">EXÉCUTER_SIGNATURE.sh</a>
+</section>
+
+<!-- SHARE -->
+<section class="share">
+<div class="share-label">// PROPAGER LE SIGNAL</div>
+<div class="share-btns">
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://ouaisfieu.be/petition" target="_blank" class="share-btn">[FACEBOOK]</a>
+<a href="https://twitter.com/intent/tweet?text=MISSION_VÉRITÉ%3A%20RTL%20doit%20rendre%20des%20comptes.%20Deadline%2031%20mars.&url=https://ouaisfieu.be/petition&hashtags=PasUnDocumentaire" target="_blank" class="share-btn">[TWITTER]</a>
+<a href="https://wa.me/?text=https://ouaisfieu.be/petition" target="_blank" class="share-btn">[WHATSAPP]</a>
+<a href="mailto:?subject=MISSION_VÉRITÉ&body=https://ouaisfieu.be/petition" class="share-btn">[EMAIL]</a>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<p>ouaisfieu.be // PROJET CITOYEN INDÉPENDANT // <a href="index.html">INDEX</a> // <a href="recherche.html">SEARCH</a></p>
+<p>NO LOGS. NO ADS. NO MASTERS.</p>
+</footer>
+
+<script>
+// MATRIX RAIN
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = fontSize + 'px monospace';
+    for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 50);
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+// COUNTDOWN
+const deadline = new Date('2026-03-31T23:59:59+01:00').getTime();
+function updateCountdown() {
+    const now = Date.now();
+    const diff = Math.max(0, deadline - now);
+    const d = Math.floor(diff / 864e5);
+    const h = Math.floor((diff % 864e5) / 36e5);
+    const m = Math.floor((diff % 36e5) / 6e4);
+    const s = Math.floor((diff % 6e4) / 1e3);
+    document.getElementById('d').textContent = String(d).padStart(2, '0');
+    document.getElementById('h').textContent = String(h).padStart(2, '0');
+    document.getElementById('m').textContent = String(m).padStart(2, '0');
+    document.getElementById('s').textContent = String(s).padStart(2, '0');
+    document.getElementById('d2').textContent = String(d).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// CLOCK
+function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toTimeString().slice(0, 8);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// REVEAL ON SCROLL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// TERMINAL TYPING EFFECT
+const terminalLines = document.querySelectorAll('#terminal .line');
+terminalLines.forEach((line, i) => {
+    line.style.opacity = '0';
+    setTimeout(() => { line.style.opacity = '1'; }, i * 150);
+});
+</script>
+
+</body>
+</html>
