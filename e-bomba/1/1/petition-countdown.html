@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>⬡ OPÉRATION VÉRITÉ // CENTRE DE COMMANDEMENT</title>
+<meta name="description" content="[CLASSIFIED] War Room citoyenne. Opération requalification RTL. Deadline: 31 MARS 2026.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#000508;
+--panel:#0a0f14;
+--border:#1a3a4a;
+--green:#00ff9d;
+--red:#ff0055;
+--cyan:#00e5ff;
+--yellow:#ffc400;
+--orange:#ff6b00;
+--blue:#0088ff;
+--white:#ffffff;
+--dim:rgba(0,255,157,.15);
+}
+
+html{scroll-behavior:smooth}
+body{
+font-family:'Rajdhani',system-ui,sans-serif;
+background:var(--bg);
+color:var(--green);
+overflow-x:hidden;
+min-height:100vh;
+}
+
+/* GLOBAL GRID BACKGROUND */
+body::before{
+content:'';position:fixed;inset:0;z-index:-2;
+background-image:
+radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.03) 0%,transparent 50%),
+linear-gradient(rgba(0,255,157,.02) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,255,157,.02) 1px,transparent 1px);
+background-size:100% 100%,40px 40px,40px 40px;
+}
+
+/* SCANLINES */
+body::after{
+content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+background:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+}
+
+/* TOP COMMAND BAR */
+.command-bar{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+background:linear-gradient(180deg,rgba(10,15,20,.98) 0%,rgba(10,15,20,.9) 100%);
+border-bottom:1px solid var(--border);
+display:grid;
+grid-template-columns:auto 1fr auto;
+align-items:center;
+padding:0 1rem;
+height:50px;
+backdrop-filter:blur(10px);
+}
+.cmd-left,.cmd-right{display:flex;align-items:center;gap:1.5rem}
+.cmd-center{display:flex;justify-content:center;align-items:center;gap:2rem}
+
+.logo{
+font-family:'Orbitron',monospace;
+font-weight:800;
+font-size:.9rem;
+letter-spacing:.1em;
+display:flex;align-items:center;gap:.5rem;
+}
+.logo-hex{
+width:30px;height:30px;
+background:linear-gradient(135deg,var(--cyan),var(--green));
+clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+display:flex;align-items:center;justify-content:center;
+color:var(--bg);font-size:.7rem;font-weight:900;
+}
+
+.status-group{display:flex;align-items:center;gap:.5rem;font-size:.7rem;font-family:'Share Tech Mono',monospace}
+.status-dot{width:6px;height:6px;border-radius:50%;animation:pulse-dot 2s infinite}
+.status-dot.green{background:var(--green);box-shadow:0 0 10px var(--green)}
+.status-dot.red{background:var(--red);box-shadow:0 0 10px var(--red)}
+.status-dot.yellow{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+
+.cmd-time{
+font-family:'Share Tech Mono',monospace;
+font-size:.75rem;
+color:var(--cyan);
+display:flex;gap:1rem;
+}
+
+.alert-ticker{
+background:var(--red);
+color:var(--white);
+font-family:'Orbitron',monospace;
+font-size:.65rem;
+font-weight:600;
+padding:.25rem .75rem;
+animation:ticker-pulse 1s infinite;
+}
+@keyframes ticker-pulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* MAIN WAR ROOM LAYOUT */
+.warroom{
+display:grid;
+grid-template-columns:280px 1fr 320px;
+grid-template-rows:50px 1fr auto;
+min-height:100vh;
+gap:1px;
+background:var(--border);
+padding-top:50px;
+}
+
+/* PANELS */
+.panel{
+background:var(--panel);
+position:relative;
+overflow:hidden;
+}
+.panel::before{
+content:'';position:absolute;top:0;left:0;right:0;height:1px;
+background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+opacity:.5;
+}
+
+.panel-header{
+background:rgba(0,0,0,.3);
+padding:.75rem 1rem;
+border-bottom:1px solid var(--border);
+display:flex;align-items:center;justify-content:space-between;
+}
+.panel-title{
+font-family:'Orbitron',monospace;
+font-size:.7rem;
+font-weight:600;
+letter-spacing:.15em;
+display:flex;align-items:center;gap:.5rem;
+}
+.panel-title::before{content:'◢';font-size:.5rem;color:var(--cyan)}
+.panel-status{font-size:.6rem;color:var(--dim)}
+
+.panel-body{padding:1rem;height:calc(100% - 45px);overflow-y:auto}
+.panel-body::-webkit-scrollbar{width:3px}
+.panel-body::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* LEFT SIDEBAR - INTELLIGENCE FEED */
+.intel-feed{grid-column:1;grid-row:2}
+.intel-item{
+padding:.75rem;
+border:1px solid var(--border);
+margin-bottom:.5rem;
+font-size:.75rem;
+transition:all .2s;
+}
+.intel-item:hover{border-color:var(--cyan);background:rgba(0,229,255,.03)}
+.intel-item.critical{border-left:3px solid var(--red)}
+.intel-item.warning{border-left:3px solid var(--yellow)}
+.intel-item.info{border-left:3px solid var(--cyan)}
+.intel-time{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--dim);margin-bottom:.25rem}
+.intel-text{color:rgba(255,255,255,.8);line-height:1.4}
+.intel-tag{display:inline-block;padding:.1rem .4rem;background:rgba(0,255,157,.1);font-size:.55rem;margin-top:.5rem;font-family:'Share Tech Mono',monospace}
+
+/* CENTER - MAIN DISPLAY */
+.main-display{grid-column:2;grid-row:2;display:flex;flex-direction:column}
+
+/* HERO COUNTDOWN */
+.countdown-hero{
+flex:1;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+padding:2rem;
+position:relative;
+background:
+radial-gradient(ellipse at 50% 30%,rgba(0,229,255,.05) 0%,transparent 50%),
+radial-gradient(ellipse at 50% 70%,rgba(255,0,85,.03) 0%,transparent 50%);
+}
+
+/* HEXAGON FRAME */
+.hex-frame{
+position:relative;
+padding:4rem;
+}
+.hex-frame::before{
+content:'';position:absolute;inset:0;
+background:conic-gradient(from 0deg,var(--cyan),var(--green),var(--cyan));
+clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);
+opacity:.1;
+animation:hex-rotate 20s linear infinite;
+}
+@keyframes hex-rotate{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+
+.mission-tag{
+font-family:'Orbitron',monospace;
+font-size:.7rem;
+letter-spacing:.4em;
+color:var(--red);
+margin-bottom:1rem;
+display:flex;align-items:center;gap:.5rem;
+}
+.mission-tag::before,.mission-tag::after{content:'◆';font-size:.4rem}
+
+.countdown-title{
+font-family:'Orbitron',monospace;
+font-size:clamp(1.5rem,4vw,2.5rem);
+font-weight:300;
+letter-spacing:.2em;
+color:var(--white);
+margin-bottom:2rem;
+text-shadow:0 0 30px rgba(0,229,255,.3);
+}
+
+.countdown-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:1rem;
+margin-bottom:2rem;
+}
+.cd-block{
+background:rgba(0,0,0,.4);
+border:1px solid var(--border);
+padding:1.5rem 1rem;
+text-align:center;
+position:relative;
+}
+.cd-block::before{
+content:'';position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,var(--green),transparent);
+}
+.cd-value{
+font-family:'Orbitron',monospace;
+font-size:clamp(2rem,6vw,4rem);
+font-weight:800;
+background:linear-gradient(180deg,var(--white) 0%,var(--green) 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+line-height:1;
+text-shadow:0 0 40px var(--green);
+}
+.cd-label{
+font-family:'Share Tech Mono',monospace;
+font-size:.6rem;
+letter-spacing:.3em;
+color:var(--dim);
+margin-top:.75rem;
+}
+.cd-sub{
+font-family:'Share Tech Mono',monospace;
+font-size:.5rem;
+color:var(--cyan);
+margin-top:.25rem;
+}
+
+.deadline-bar{
+width:100%;max-width:500px;
+height:4px;
+background:var(--border);
+position:relative;
+margin-bottom:2rem;
+}
+.deadline-progress{
+position:absolute;left:0;top:0;bottom:0;
+background:linear-gradient(90deg,var(--green),var(--cyan));
+box-shadow:0 0 20px var(--green);
+transition:width 1s;
+}
+.deadline-labels{
+display:flex;justify-content:space-between;
+width:100%;max-width:500px;
+font-size:.6rem;
+color:var(--dim);
+margin-top:.5rem;
+font-family:'Share Tech Mono',monospace;
+}
+
+.cta-main{
+display:inline-flex;align-items:center;gap:.75rem;
+padding:1rem 2.5rem;
+background:transparent;
+border:2px solid var(--green);
+color:var(--green);
+font-family:'Orbitron',monospace;
+font-size:.9rem;
+font-weight:600;
+letter-spacing:.1em;
+text-decoration:none;
+position:relative;
+overflow:hidden;
+transition:all .3s;
+clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+.cta-main::before{
+content:'';position:absolute;inset:0;
+background:var(--green);
+transform:translateX(-101%);
+transition:transform .3s;
+z-index:-1;
+}
+.cta-main:hover{color:var(--bg)}
+.cta-main:hover::before{transform:translateX(0)}
+.cta-main .arrow{transition:transform .3s}
+.cta-main:hover .arrow{transform:translateX(5px)}
+
+/* RIGHT SIDEBAR - TACTICAL DATA */
+.tactical-data{grid-column:3;grid-row:2}
+
+.stat-block{
+border:1px solid var(--border);
+margin-bottom:.75rem;
+background:rgba(0,0,0,.2);
+}
+.stat-header{
+padding:.5rem .75rem;
+background:rgba(0,0,0,.3);
+border-bottom:1px solid var(--border);
+font-family:'Orbitron',monospace;
+font-size:.6rem;
+letter-spacing:.1em;
+display:flex;align-items:center;justify-content:space-between;
+}
+.stat-id{color:var(--dim)}
+.stat-body{padding:1rem}
+.stat-value{
+font-family:'Orbitron',monospace;
+font-size:2rem;
+font-weight:700;
+line-height:1;
+}
+.stat-block:nth-child(1) .stat-value{color:var(--green)}
+.stat-block:nth-child(2) .stat-value{color:var(--red)}
+.stat-block:nth-child(3) .stat-value{color:var(--yellow)}
+.stat-block:nth-child(4) .stat-value{color:var(--cyan)}
+.stat-label{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.5rem;line-height:1.3}
+.stat-source{font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim);margin-top:.5rem}
+.stat-bar{height:3px;background:var(--border);margin-top:.75rem;position:relative}
+.stat-bar-fill{position:absolute;left:0;top:0;bottom:0}
+.stat-block:nth-child(1) .stat-bar-fill{width:97%;background:var(--green)}
+.stat-block:nth-child(2) .stat-bar-fill{width:3%;background:var(--red)}
+.stat-block:nth-child(3) .stat-bar-fill{width:66%;background:var(--yellow)}
+.stat-block:nth-child(4) .stat-bar-fill{width:100%;background:var(--cyan)}
+
+/* BOTTOM PANELS */
+.bottom-section{
+grid-column:1/-1;
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:1px;
+background:var(--border);
+}
+
+/* RADAR PANEL */
+.radar-panel{position:relative}
+.radar-container{
+width:200px;height:200px;
+margin:1rem auto;
+position:relative;
+}
+.radar-circle{
+position:absolute;inset:0;
+border:1px solid var(--border);
+border-radius:50%;
+}
+.radar-circle:nth-child(2){inset:25%}
+.radar-circle:nth-child(3){inset:50%}
+.radar-cross{
+position:absolute;
+top:50%;left:0;right:0;
+height:1px;background:var(--border);
+}
+.radar-cross:nth-child(5){
+top:0;bottom:0;left:50%;
+width:1px;height:100%;
+}
+.radar-sweep{
+position:absolute;
+top:50%;left:50%;
+width:50%;height:2px;
+background:linear-gradient(90deg,var(--green),transparent);
+transform-origin:left center;
+animation:radar-sweep 4s linear infinite;
+}
+@keyframes radar-sweep{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.radar-dot{
+position:absolute;
+width:6px;height:6px;
+background:var(--red);
+border-radius:50%;
+box-shadow:0 0 10px var(--red);
+animation:radar-blink 1s infinite;
+}
+.radar-dot:nth-child(7){top:30%;left:60%}
+.radar-dot:nth-child(8){top:70%;left:40%}
+.radar-dot:nth-child(9){top:45%;left:75%}
+@keyframes radar-blink{0%,100%{opacity:1}50%{opacity:.3}}
+.radar-label{
+text-align:center;
+font-family:'Share Tech Mono',monospace;
+font-size:.6rem;
+color:var(--dim);
+}
+
+/* CHARGES PANEL */
+.charges-list{display:flex;flex-direction:column;gap:.5rem}
+.charge-item{
+padding:.75rem;
+border:1px solid var(--border);
+border-left:3px solid var(--red);
+font-size:.75rem;
+}
+.charge-code{
+font-family:'Share Tech Mono',monospace;
+font-size:.6rem;
+color:var(--red);
+margin-bottom:.25rem;
+}
+.charge-title{color:var(--white);font-weight:600;margin-bottom:.25rem}
+.charge-desc{color:rgba(255,255,255,.5);font-size:.7rem;line-height:1.4}
+
+/* TIMELINE PANEL */
+.timeline-list{position:relative;padding-left:1.5rem}
+.timeline-list::before{
+content:'';position:absolute;left:.5rem;top:0;bottom:0;
+width:1px;background:var(--border);
+}
+.tl-item{position:relative;padding:.75rem 0;border-bottom:1px dashed rgba(255,255,255,.05)}
+.tl-dot{
+position:absolute;left:-1.25rem;top:1rem;
+width:10px;height:10px;
+border:2px solid var(--border);
+border-radius:50%;
+background:var(--panel);
+}
+.tl-item.done .tl-dot{background:var(--green);border-color:var(--green)}
+.tl-item.active .tl-dot{
+background:var(--red);border-color:var(--red);
+box-shadow:0 0 15px var(--red);
+animation:pulse-dot 1s infinite;
+}
+.tl-date{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--cyan)}
+.tl-title{font-size:.8rem;color:var(--white);margin:.25rem 0}
+.tl-desc{font-size:.7rem;color:var(--dim)}
+
+/* DATA SCROLL FOOTER */
+.data-scroll{
+grid-column:1/-1;
+background:rgba(0,0,0,.5);
+border-top:1px solid var(--border);
+overflow:hidden;
+height:30px;
+display:flex;align-items:center;
+}
+.scroll-content{
+display:flex;
+animation:scroll-left 30s linear infinite;
+white-space:nowrap;
+font-family:'Share Tech Mono',monospace;
+font-size:.7rem;
+}
+@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.scroll-item{
+padding:0 2rem;
+display:flex;align-items:center;gap:.5rem;
+}
+.scroll-item .dot{width:4px;height:4px;border-radius:50%}
+.scroll-item .dot.g{background:var(--green)}
+.scroll-item .dot.r{background:var(--red)}
+.scroll-item .dot.y{background:var(--yellow)}
+.scroll-item .dot.c{background:var(--cyan)}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+.warroom{grid-template-columns:1fr;grid-template-rows:auto}
+.intel-feed,.tactical-data{display:none}
+.main-display{grid-column:1}
+.bottom-section{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+.countdown-grid{grid-template-columns:repeat(2,1fr)}
+.command-bar{grid-template-columns:1fr;height:auto;padding:.5rem}
+.cmd-center,.cmd-right{display:none}
+}
+
+/* QUOTE MODAL STYLE */
+.quote-block{
+grid-column:1/-1;
+background:linear-gradient(90deg,transparent,rgba(255,0,85,.05),transparent);
+border-top:1px solid var(--border);
+border-bottom:1px solid var(--border);
+padding:3rem 2rem;
+text-align:center;
+}
+.quote-text{
+font-size:clamp(1rem,2.5vw,1.5rem);
+font-weight:300;
+color:var(--white);
+max-width:800px;
+margin:0 auto 1rem;
+line-height:1.6;
+font-style:italic;
+}
+.quote-source{
+font-family:'Share Tech Mono',monospace;
+font-size:.75rem;
+color:var(--cyan);
+}
+.quote-source::before{content:'◢ '}
+.quote-source::after{content:' ◣'}
+
+/* DEMANDS SECTION */
+.demands-section{
+grid-column:1/-1;
+padding:3rem 2rem;
+background:rgba(0,20,10,.3);
+}
+.demands-grid{
+max-width:1000px;
+margin:0 auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:1rem;
+}
+.demand-card{
+border:1px solid var(--border);
+padding:1.5rem;
+position:relative;
+background:rgba(0,0,0,.3);
+transition:all .3s;
+}
+.demand-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.demand-card::before{
+content:'';position:absolute;top:0;left:0;
+width:100%;height:2px;
+background:linear-gradient(90deg,var(--green),transparent);
+}
+.demand-num{
+font-family:'Orbitron',monospace;
+font-size:2.5rem;
+font-weight:800;
+color:var(--green);
+opacity:.3;
+position:absolute;top:.5rem;right:1rem;
+}
+.demand-title{
+font-family:'Orbitron',monospace;
+font-size:.9rem;
+letter-spacing:.1em;
+margin-bottom:.75rem;
+}
+.demand-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.5}
+
+/* FINAL CTA SECTION */
+.final-section{
+grid-column:1/-1;
+padding:5rem 2rem;
+text-align:center;
+background:
+radial-gradient(ellipse at 50% 100%,rgba(255,0,85,.1) 0%,transparent 50%),
+radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.05) 0%,transparent 50%);
+}
+.final-alert{
+font-family:'Orbitron',monospace;
+font-size:.8rem;
+letter-spacing:.4em;
+color:var(--red);
+margin-bottom:1rem;
+animation:alert-flash 2s infinite;
+}
+@keyframes alert-flash{0%,90%,100%{opacity:1}95%{opacity:0}}
+.final-count{
+font-family:'Orbitron',monospace;
+font-size:clamp(5rem,15vw,12rem);
+font-weight:900;
+line-height:1;
+background:linear-gradient(180deg,var(--white) 0%,var(--green) 50%,var(--cyan) 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 100px var(--green);
+}
+.final-label{
+font-size:1.5rem;
+color:var(--cyan);
+letter-spacing:.2em;
+margin-bottom:2rem;
+}
+.final-message{
+max-width:600px;
+margin:0 auto 3rem;
+font-size:1rem;
+color:rgba(255,255,255,.6);
+line-height:1.6;
+}
+
+/* SHARE */
+.share-section{
+grid-column:1/-1;
+padding:2rem;
+text-align:center;
+border-top:1px solid var(--border);
+}
+.share-label{
+font-family:'Orbitron',monospace;
+font-size:.7rem;
+letter-spacing:.3em;
+color:var(--dim);
+margin-bottom:1rem;
+}
+.share-btns{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.share-btn{
+padding:.5rem 1.5rem;
+border:1px solid var(--border);
+background:transparent;
+color:var(--green);
+font-family:'Share Tech Mono',monospace;
+font-size:.75rem;
+text-decoration:none;
+transition:all .2s;
+}
+.share-btn:hover{border-color:var(--green);background:rgba(0,255,157,.1)}
+
+/* FOOTER */
+footer{
+padding:2rem;
+text-align:center;
+font-family:'Share Tech Mono',monospace;
+font-size:.7rem;
+color:var(--dim);
+border-top:1px solid var(--border);
+}
+footer a{color:var(--green);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- COMMAND BAR -->
+<div class="command-bar">
+<div class="cmd-left">
+<div class="logo">
+<div class="logo-hex">⬡</div>
+OPÉRATION VÉRITÉ
+</div>
+<div class="status-group"><span class="status-dot green"></span>SYSTÈMES EN LIGNE</div>
+<div class="status-group"><span class="status-dot yellow"></span>COLLECTE ACTIVE</div>
+</div>
+<div class="cmd-center">
+<div class="alert-ticker">◢ DEADLINE: 31 MARS 2026 // JOURS RESTANTS: <span id="ticker-days">--</span> ◣</div>
+</div>
+<div class="cmd-right">
+<div class="cmd-time">
+<span id="clock">00:00:00</span>
+<span>UTC+1</span>
+<span>|</span>
+<span>50.85°N 4.35°E</span>
+</div>
+</div>
+</div>
+
+<!-- WAR ROOM GRID -->
+<div class="warroom">
+
+<!-- LEFT: INTEL FEED -->
+<div class="panel intel-feed">
+<div class="panel-header">
+<span class="panel-title">FLUX RENSEIGNEMENT</span>
+<span class="panel-status">LIVE</span>
+</div>
+<div class="panel-body">
+<div class="intel-item critical">
+<div class="intel-time">2025.11.12 // 20:30</div>
+<div class="intel-text">RTL-TVI diffuse "Tous Fraudeurs?" en prime time. Programme présenté comme documentaire.</div>
+<span class="intel-tag">ÉVÉNEMENT DÉCLENCHEUR</span>
+</div>
+<div class="intel-item warning">
+<div class="intel-time">2025.11.13 // 08:00</div>
+<div class="intel-text">Premières plaintes au CSA. Témoins dénoncent manipulation au montage.</div>
+<span class="intel-tag">ALERTE CITOYENNE</span>
+</div>
+<div class="intel-item warning">
+<div class="intel-time">2025.11.20</div>
+<div class="intel-text">Gaëlle Denys (CPAS Verviers) déclare publiquement: "1h d'interview → 30 secondes gardées"</div>
+<span class="intel-tag">TÉMOIGNAGE CLÉ</span>
+</div>
+<div class="intel-item info">
+<div class="intel-time">2025.12.15</div>
+<div class="intel-text">Seuil de 400 plaintes CSA franchi. Record historique Belgique francophone.</div>
+<span class="intel-tag">MOBILISATION</span>
+</div>
+<div class="intel-item info">
+<div class="intel-time">2026.01.15</div>
+<div class="intel-text">Publication analyse technique: 0/7 critères documentaire respectés.</div>
+<span class="intel-tag">DOCUMENTATION</span>
+</div>
+<div class="intel-item critical">
+<div class="intel-time">2026.01.28 // NOW</div>
+<div class="intel-text">Lancement pétition officielle. Objectif: requalification en docu-fiction.</div>
+<span class="intel-tag">OPÉRATION ACTIVE</span>
+</div>
+</div>
+</div>
+
+<!-- CENTER: MAIN DISPLAY -->
+<div class="panel main-display">
+<div class="countdown-hero">
+<div class="hex-frame">
+<div class="mission-tag">OPERATION VERITE</div>
+<h1 class="countdown-title">TEMPS RESTANT</h1>
+
+<div class="countdown-grid">
+<div class="cd-block">
+<div class="cd-value" id="days">00</div>
+<div class="cd-label">JOURS</div>
+<div class="cd-sub">DAYS</div>
+</div>
+<div class="cd-block">
+<div class="cd-value" id="hours">00</div>
+<div class="cd-label">HEURES</div>
+<div class="cd-sub">HOURS</div>
+</div>
+<div class="cd-block">
+<div class="cd-value" id="mins">00</div>
+<div class="cd-label">MINUTES</div>
+<div class="cd-sub">MINS</div>
+</div>
+<div class="cd-block">
+<div class="cd-value" id="secs">00</div>
+<div class="cd-label">SECONDES</div>
+<div class="cd-sub">SECS</div>
+</div>
+</div>
+
+<div class="deadline-bar">
+<div class="deadline-progress" id="progress"></div>
+</div>
+<div class="deadline-labels">
+<span>28 JAN 2026</span>
+<span>31 MARS 2026</span>
+</div>
+
+<a href="#signer" class="cta-main">
+<span>SIGNER LA PÉTITION</span>
+<span class="arrow">→</span>
+</a>
+</div>
+</div>
+</div>
+
+<!-- RIGHT: TACTICAL DATA -->
+<div class="panel tactical-data">
+<div class="panel-header">
+<span class="panel-title">DONNÉES TACTIQUES</span>
+<span class="panel-status">VERIFIED</span>
+</div>
+<div class="panel-body">
+<div class="stat-block">
+<div class="stat-header">
+<span>TAUX FRAUDE RÉEL</span>
+<span class="stat-id">STAT_001</span>
+</div>
+<div class="stat-body">
+<div class="stat-value">&lt;3%</div>
+<div class="stat-label">Allocataires en situation de fraude</div>
+<div class="stat-source">SRC: ONEM.BE</div>
+<div class="stat-bar"><div class="stat-bar-fill"></div></div>
+</div>
+</div>
+<div class="stat-block">
+<div class="stat-header">
+<span>RATIO FISCAL/SOCIAL</span>
+<span class="stat-id">STAT_002</span>
+</div>
+<div class="stat-body">
+<div class="stat-value">150:1</div>
+<div class="stat-label">30 Mds€ vs 200 M€ / an</div>
+<div class="stat-source">SRC: SPF_FINANCES</div>
+<div class="stat-bar"><div class="stat-bar-fill"></div></div>
+</div>
+</div>
+<div class="stat-block">
+<div class="stat-header">
+<span>PLAINTES CSA</span>
+<span class="stat-id">STAT_003</span>
+</div>
+<div class="stat-body">
+<div class="stat-value">400+</div>
+<div class="stat-label">Record historique BE-FR</div>
+<div class="stat-source">SRC: CSA.BE</div>
+<div class="stat-bar"><div class="stat-bar-fill"></div></div>
+</div>
+</div>
+<div class="stat-block">
+<div class="stat-header">
+<span>CRITÈRES DOCUMENTAIRE</span>
+<span class="stat-id">STAT_004</span>
+</div>
+<div class="stat-body">
+<div class="stat-value">0/7</div>
+<div class="stat-label">Critères CDJ respectés</div>
+<div class="stat-source">SRC: ANALYSE_INTERNE</div>
+<div class="stat-bar"><div class="stat-bar-fill"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- BOTTOM PANELS -->
+<div class="bottom-section">
+
+<!-- RADAR -->
+<div class="panel radar-panel">
+<div class="panel-header">
+<span class="panel-title">MENACES DÉTECTÉES</span>
+<span class="panel-status">SCANNING</span>
+</div>
+<div class="panel-body">
+<div class="radar-container">
+<div class="radar-circle"></div>
+<div class="radar-circle"></div>
+<div class="radar-circle"></div>
+<div class="radar-cross"></div>
+<div class="radar-cross"></div>
+<div class="radar-sweep"></div>
+<div class="radar-dot"></div>
+<div class="radar-dot"></div>
+<div class="radar-dot"></div>
+</div>
+<div class="radar-label">3 VIOLATIONS ACTIVES</div>
+</div>
+</div>
+
+<!-- CHARGES -->
+<div class="panel">
+<div class="panel-header">
+<span class="panel-title">CHARGES DOCUMENTÉES</span>
+<span class="panel-status">4 ACTIVES</span>
+</div>
+<div class="panel-body">
+<div class="charges-list">
+<div class="charge-item">
+<div class="charge-code">[ERR_001] CRITICAL</div>
+<div class="charge-title">Manipulation témoignages</div>
+<div class="charge-desc">60 min interview → 30 sec montage. Contexte supprimé.</div>
+</div>
+<div class="charge-item">
+<div class="charge-code">[ERR_002] CRITICAL</div>
+<div class="charge-title">Données occultées</div>
+<div class="charge-desc">Aucune statistique officielle ONEM/SPF citée.</div>
+</div>
+<div class="charge-item">
+<div class="charge-code">[ERR_003] HIGH</div>
+<div class="charge-title">Titre diffamatoire</div>
+<div class="charge-desc">"TOUS Fraudeurs" = 500K personnes accusées.</div>
+</div>
+<div class="charge-item">
+<div class="charge-code">[ERR_004] MEDIUM</div>
+<div class="charge-title">Codes fiction</div>
+<div class="charge-desc">Musique, montage, narration = docu-fiction.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- TIMELINE -->
+<div class="panel">
+<div class="panel-header">
+<span class="panel-title">CHRONOLOGIE OPS</span>
+<span class="panel-status">TRACKING</span>
+</div>
+<div class="panel-body">
+<div class="timeline-list">
+<div class="tl-item done">
+<div class="tl-dot"></div>
+<div class="tl-date">2025.11.12</div>
+<div class="tl-title">Diffusion programme</div>
+<div class="tl-desc">RTL-TVI prime time</div>
+</div>
+<div class="tl-item done">
+<div class="tl-dot"></div>
+<div class="tl-date">2025.11-12</div>
+<div class="tl-title">400+ plaintes CSA</div>
+<div class="tl-desc">Record historique</div>
+</div>
+<div class="tl-item done">
+<div class="tl-dot"></div>
+<div class="tl-date">2026.01</div>
+<div class="tl-title">Analyse publiée</div>
+<div class="tl-desc">Documentation complète</div>
+</div>
+<div class="tl-item active">
+<div class="tl-dot"></div>
+<div class="tl-date">NOW → 03.31</div>
+<div class="tl-title">Collecte signatures</div>
+<div class="tl-desc">Pétition active</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-date">2026.04.01</div>
+<div class="tl-title">Remise officielle</div>
+<div class="tl-desc">RTL + CDJ</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- QUOTE -->
+<div class="quote-block">
+<p class="quote-text">"On m'a interviewée pendant une heure. Ils ont gardé 30 secondes, sorties de leur contexte, pour me faire dire le contraire de ce que je pense."</p>
+<p class="quote-source">GAËLLE DENYS // PRÉSIDENTE CPAS VERVIERS</p>
+</div>
+
+<!-- DEMANDS -->
+<div class="demands-section">
+<div class="demands-grid">
+<div class="demand-card">
+<div class="demand-num">01</div>
+<div class="demand-title">REQUALIFICATION</div>
+<div class="demand-desc">De "documentaire" à "docu-fiction" ou "programme de divertissement". Transparence sur la nature du contenu.</div>
+</div>
+<div class="demand-card">
+<div class="demand-num">02</div>
+<div class="demand-title">AVERTISSEMENT</div>
+<div class="demand-desc">Mention obligatoire avant rediffusion: "Ce programme ne constitue pas une enquête journalistique."</div>
+</div>
+<div class="demand-card">
+<div class="demand-num">03</div>
+<div class="demand-title">EXCUSES PUBLIQUES</div>
+<div class="demand-desc">Reconnaissance que 97% des allocataires ont été injustement stigmatisés par un titre généralisateur.</div>
+</div>
+</div>
+</div>
+
+<!-- FINAL -->
+<div class="final-section" id="signer">
+<div class="final-alert">◢◢◢ DEADLINE CRITIQUE ◣◣◣</div>
+<div class="final-count" id="final-days">00</div>
+<div class="final-label">JOURS RESTANTS</div>
+<p class="final-message">Le 1er avril, ces signatures seront déposées sur le bureau de RTL. Le vrai poisson d'avril, c'est celui qu'ils ont voulu nous faire avaler.</p>
+<a href="https://www.change.org/" class="cta-main" target="_blank" rel="noopener">
+<span>EXÉCUTER SIGNATURE</span>
+<span class="arrow">→</span>
+</a>
+</div>
+
+<!-- SHARE -->
+<div class="share-section">
+<div class="share-label">◢ PROPAGER LE SIGNAL ◣</div>
+<div class="share-btns">
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://ouaisfieu.be/petition" target="_blank" class="share-btn">[FACEBOOK]</a>
+<a href="https://twitter.com/intent/tweet?text=OPÉRATION%20VÉRITÉ%3A%20RTL%20doit%20requalifier%20Tous%20Fraudeurs.%20Deadline%2031%20mars.&url=https://ouaisfieu.be/petition" target="_blank" class="share-btn">[TWITTER]</a>
+<a href="https://wa.me/?text=https://ouaisfieu.be/petition" target="_blank" class="share-btn">[WHATSAPP]</a>
+<a href="mailto:?subject=OPERATION%20VERITE&body=https://ouaisfieu.be/petition" class="share-btn">[EMAIL]</a>
+</div>
+</div>
+
+<!-- DATA SCROLL -->
+<div class="data-scroll">
+<div class="scroll-content">
+<div class="scroll-item"><span class="dot g"></span>FRAUDE_SOCIALE: &lt;3%</div>
+<div class="scroll-item"><span class="dot r"></span>FRAUDE_FISCALE: 30 MDS€</div>
+<div class="scroll-item"><span class="dot y"></span>PLAINTES_CSA: 407</div>
+<div class="scroll-item"><span class="dot c"></span>CRITÈRES_DOC: 0/7</div>
+<div class="scroll-item"><span class="dot g"></span>TÉMOINS_MANIPULÉS: CONFIRMÉ</div>
+<div class="scroll-item"><span class="dot r"></span>DONNÉES_OFFICIELLES: OMISES</div>
+<div class="scroll-item"><span class="dot y"></span>TITRE_GÉNÉRALISATEUR: CONFIRMÉ</div>
+<div class="scroll-item"><span class="dot c"></span>DEADLINE: 31_MARS_2026</div>
+<div class="scroll-item"><span class="dot g"></span>FRAUDE_SOCIALE: &lt;3%</div>
+<div class="scroll-item"><span class="dot r"></span>FRAUDE_FISCALE: 30 MDS€</div>
+<div class="scroll-item"><span class="dot y"></span>PLAINTES_CSA: 407</div>
+<div class="scroll-item"><span class="dot c"></span>CRITÈRES_DOC: 0/7</div>
+<div class="scroll-item"><span class="dot g"></span>TÉMOINS_MANIPULÉS: CONFIRMÉ</div>
+<div class="scroll-item"><span class="dot r"></span>DONNÉES_OFFICIELLES: OMISES</div>
+<div class="scroll-item"><span class="dot y"></span>TITRE_GÉNÉRALISATEUR: CONFIRMÉ</div>
+<div class="scroll-item"><span class="dot c"></span>DEADLINE: 31_MARS_2026</div>
+</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+<p>ouaisfieu.be // CENTRE DE COMMANDEMENT CITOYEN // <a href="index.html">INDEX</a> // <a href="recherche.html">SEARCH</a> // <a href="hub-deborsu-tous-fraudeurs.html">DOSSIER</a></p>
+<p>NO LOGS • NO ADS • NO MASTERS • RÉSISTANCE CITOYENNE</p>
+</footer>
+
+<script>
+// COUNTDOWN
+const deadline = new Date('2026-03-31T23:59:59+01:00').getTime();
+const start = new Date('2026-01-28T00:00:00+01:00').getTime();
+const total = deadline - start;
+
+function updateCountdown() {
+    const now = Date.now();
+    const diff = Math.max(0, deadline - now);
+    const elapsed = now - start;
+    const progress = Math.min(100, (elapsed / total) * 100);
+    
+    const d = Math.floor(diff / 864e5);
+    const h = Math.floor((diff % 864e5) / 36e5);
+    const m = Math.floor((diff % 36e5) / 6e4);
+    const s = Math.floor((diff % 6e4) / 1e3);
+    
+    document.getElementById('days').textContent = String(d).padStart(2, '0');
+    document.getElementById('hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('mins').textContent = String(m).padStart(2, '0');
+    document.getElementById('secs').textContent = String(s).padStart(2, '0');
+    document.getElementById('final-days').textContent = String(d).padStart(2, '0');
+    document.getElementById('ticker-days').textContent = d;
+    document.getElementById('progress').style.width = progress + '%';
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// CLOCK
+function updateClock() {
+    document.getElementById('clock').textContent = new Date().toTimeString().slice(0, 8);
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
