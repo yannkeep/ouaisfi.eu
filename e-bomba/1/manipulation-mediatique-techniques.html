@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>Techniques de Manipulation Médiatique : Décryptage Complet | Guide Citoyen</title>
+    <meta name="description" content="Montage orienté, cadrage, omission, faux équilibre, émotion vs faits : toutes les techniques de manipulation médiatique décryptées. Cas pratique : documentaire Deborsu.">
+    <meta name="keywords" content="manipulation médiatique, techniques propagande, biais médiatique, montage orienté, cadrage information, fake news, désinformation">
+    <link rel="canonical" href="https://ouaisfieu.be/deborsu-tous-fraudeurs/manipulation-mediatique-techniques/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ouaisfieu.be/deborsu-tous-fraudeurs/manipulation-mediatique-techniques/">
+    <meta property="og:title" content="Les 12 Techniques de Manipulation Médiatique">
+    <meta property="og:description" content="Apprenez à décoder les manipulations. Ne soyez plus jamais dupe.">
+    <meta property="og:locale" content="fr_BE">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "headline": "Techniques de Manipulation Médiatique : Guide de Décryptage",
+                "description": "Analyse complète des techniques de manipulation utilisées par les médias, avec exemples concrets tirés du documentaire Deborsu",
+                "datePublished": "2026-01-15",
+                "dateModified": "2026-01-27",
+                "author": {"@type": "Organization", "name": "Observatoire Citoyen Belge"},
+                "about": [
+                    {"@type": "Thing", "name": "Manipulation médiatique"},
+                    {"@type": "Thing", "name": "Éducation aux médias"},
+                    {"@type": "Thing", "name": "Pensée critique"}
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Qu'est-ce que le cadrage médiatique ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Le cadrage (framing) est le choix de l'angle sous lequel présenter une information. Un même fait peut être présenté de façons radicalement différentes selon le cadre choisi. Par exemple, présenter les allocataires sous l'angle de la 'fraude' plutôt que de la 'précarité' oriente totalement la perception du public."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Comment fonctionne le montage orienté ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Le montage orienté consiste à sélectionner, couper et assembler des extraits d'interview ou d'images de manière à faire dire aux témoins autre chose que leur propos initial. Une heure d'interview peut être réduite à 30 secondes qui inversent le sens du témoignage."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Qu'est-ce que l'omission stratégique ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "L'omission stratégique consiste à ne pas mentionner certains faits ou contextes essentiels pour comprendre une situation. Dans le cas Deborsu, omettre les chiffres réels de la fraude (<3%) ou les pièges du système qui empêchent la reprise d'emploi relève de cette technique."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://ouaisfieu.be/"},
+                    {"@type": "ListItem", "position": 2, "name": "Dossier Deborsu", "item": "https://ouaisfieu.be/deborsu-tous-fraudeurs/"},
+                    {"@type": "ListItem", "position": 3, "name": "Manipulation Médiatique", "item": "https://ouaisfieu.be/deborsu-tous-fraudeurs/manipulation-mediatique-techniques/"}
+                ]
+            }
+        ]
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --ink: #0a0a0a;
+            --paper: #f5f2eb;
+            --accent: #c41e3a;
+            --highlight: #ffd700;
+            --muted: #6b6b6b;
+            --success: #2d5a27;
+            --warning: #ff6b00;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--ink);
+            color: var(--paper);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, var(--ink) 100%);
+            color: var(--paper);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.03) 2px,
+                rgba(255,255,255,0.03) 4px
+            );
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero .tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--warning);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            max-width: 900px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .hero .lead {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--ink);
+        }
+        
+        p { margin-bottom: 1.5rem; }
+        
+        .technique-card {
+            background: white;
+            border: 2px solid var(--ink);
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .technique-header {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .technique-number {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .technique-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+        }
+        
+        .technique-body {
+            padding: 1.5rem;
+        }
+        
+        .technique-body h4 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .technique-body h4:first-child {
+            margin-top: 0;
+        }
+        
+        .example-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .example-box strong {
+            color: var(--warning);
+        }
+        
+        .defense-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .defense-box strong {
+            color: var(--success);
+        }
+        
+        .checklist {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .checklist h3 {
+            font-family: 'Space Mono', monospace;
+            color: var(--highlight);
+            margin-bottom: 1.5rem;
+        }
+        
+        .checklist-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .checklist-item:last-child { border-bottom: none; }
+        
+        .checklist-icon {
+            color: var(--highlight);
+            font-size: 1.2rem;
+        }
+        
+        .related-pages {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .related-link {
+            background: white;
+            border: 2px solid var(--ink);
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+        
+        .related-link:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .related-link .category {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-link:hover .category { color: var(--highlight); }
+        
+        .related-link-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        .footer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="hub-deborsu-tous-fraudeurs.html" class="back-link">← Retour au Dossier Central</a>
+    
+    <header class="hero">
+        <div class="hero-content">
+            <div class="tag">Éducation aux Médias • Décryptage</div>
+            <h1>Les 12 Techniques de Manipulation Médiatique</h1>
+            <p class="lead">Apprenez à décoder les manipulations. Reconnaissez-les. Ne soyez plus jamais dupe.</p>
+        </div>
+    </header>
+    
+    <main class="content">
+        <article>
+            <p>Les médias ne mentent pas toujours frontalement. La manipulation passe souvent par des techniques subtiles : cadrage, omission, montage, appel à l'émotion. Ce guide vous apprend à les identifier, avec des exemples concrets tirés du documentaire Deborsu.</p>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">01</span>
+                    <span class="technique-title">Le Cadrage (Framing)</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Choisir l'angle sous lequel présenter une information pour orienter sa perception. Le même fait peut être "cadré" de façons radicalement différentes.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Le documentaire cadre les allocataires sous l'angle de la "fraude" plutôt que de la "précarité" ou de la "survie". Ce choix initial oriente toute la perception.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Demandez-vous toujours : "Quel angle alternatif aurait pu être choisi ? Qu'est-ce que ça changerait à ma perception ?"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">02</span>
+                    <span class="technique-title">Le Montage Orienté</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Sélectionner, couper et assembler des extraits pour faire dire aux témoins autre chose que leur propos initial.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Gaëlle Denys (CPAS Verviers) a été interviewée 1 heure. 30 secondes ont été gardées — celles qui semblaient confirmer la thèse du documentaire, pas celles qui la nuançaient.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Méfiez-vous des citations courtes et décontextualisées. Cherchez le témoignage complet ou d'autres sources.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">03</span>
+                    <span class="technique-title">L'Omission Stratégique</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Ne pas mentionner certains faits essentiels pour comprendre une situation. Ce qui n'est pas dit peut être aussi manipulateur que ce qui est dit.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Le documentaire ne mentionne jamais que le taux de fraude sociale est inférieur à 3%, ni que les "pièges à l'emploi" rendent parfois la reprise de travail financièrement perdante.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Posez-vous la question : "Quelles informations manquent pour avoir une vision complète ?"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">04</span>
+                    <span class="technique-title">La Généralisation Abusive</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Présenter quelques cas particuliers comme représentatifs d'un ensemble, pour créer une impression fausse de généralité.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Montrer 3-4 cas de fraude supposée et titrer "Tous Fraudeurs ?" suggère que ces cas sont représentatifs des 170.000 bénéficiaires du RIS.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Toujours demander : "Ces exemples sont-ils statistiquement représentatifs ? Quelle est la proportion réelle ?"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">05</span>
+                    <span class="technique-title">L'Appel à l'Émotion</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Utiliser des images, musiques ou témoignages qui suscitent des émotions fortes (indignation, peur, colère) pour court-circuiter l'analyse rationnelle.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Musique dramatique, gros plans sur des visages, montage rapide créant une impression d'urgence et de scandale.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Identifiez vos réactions émotionnelles. Si vous ressentez de la colère ou de l'indignation, faites une pause et analysez les faits froidement.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">06</span>
+                    <span class="technique-title">Le Faux Équilibre</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Présenter deux positions comme également valables alors qu'elles ne le sont pas (ex: consensus scientifique vs opinion marginale).</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Donner autant de poids aux "témoignages de fraude" qu'aux données officielles de l'ONEM crée un faux équilibre entre anecdotes et statistiques.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Vérifiez la qualité des sources. Une étude scientifique n'a pas la même valeur qu'un témoignage individuel.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">07</span>
+                    <span class="technique-title">L'Homme de Paille</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Déformer la position de l'adversaire pour la rendre plus facile à attaquer.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Présenter les défenseurs des allocataires comme des naïfs qui "nient l'existence de toute fraude" plutôt que comme des personnes qui contestent sa généralisation.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Cherchez les positions originales des personnes critiquées, pas leur caricature.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">08</span>
+                    <span class="technique-title">L'Appel à l'Autorité</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Invoquer une figure d'autorité pour valider une position, même si cette autorité n'est pas compétente sur le sujet.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Citer un ministre ou un "expert" sans préciser ses liens avec certaines politiques ou lobbies.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Vérifiez les qualifications et les conflits d'intérêts potentiels des "experts" cités.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">09</span>
+                    <span class="technique-title">La Question Orientée</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Poser des questions qui contiennent déjà leur réponse ou qui forcent l'interlocuteur dans une position inconfortable.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> "Vous ne trouvez pas que c'est scandaleux ?" présuppose que ça l'est. "Pourquoi ne travaillez-vous pas ?" présuppose que la personne pourrait facilement travailler.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Reformulez les questions de manière neutre et voyez si la réponse change.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">10</span>
+                    <span class="technique-title">Le Timing Stratégique</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Diffuser une information à un moment précis pour maximiser son impact ou servir un agenda.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Diffuser un documentaire sur les "fraudeurs sociaux" quelques semaines avant l'entrée en vigueur des réformes Arizona qui vont exclure 90.000 personnes du chômage.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Demandez-vous : "Pourquoi maintenant ? Quel agenda politique cette diffusion pourrait-elle servir ?"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">11</span>
+                    <span class="technique-title">La Victimisation Inversée</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Présenter les victimes comme des coupables et les coupables comme des victimes.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Présenter les allocataires (victimes de précarité) comme des "fraudeurs" qui volent les "honnêtes travailleurs" (alors que ceux-ci bénéficient aussi du système social).
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Identifiez qui a le pouvoir réel dans la situation. Les plus vulnérables sont rarement les vrais "profiteurs".
+                    </div>
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <div class="technique-header">
+                    <span class="technique-number">12</span>
+                    <span class="technique-title">Le Bouc Émissaire</span>
+                </div>
+                <div class="technique-body">
+                    <h4>Définition</h4>
+                    <p>Désigner un groupe comme responsable de problèmes complexes pour détourner l'attention des vraies causes.</p>
+                    
+                    <div class="example-box">
+                        <strong>Exemple Deborsu :</strong> Pointer les "fraudeurs sociaux" (200M€) plutôt que la fraude fiscale (30Mds€) ou les choix politiques qui créent le chômage.
+                    </div>
+                    
+                    <div class="defense-box">
+                        <strong>Comment s'en protéger :</strong> Quand on vous désigne un coupable simple pour un problème complexe, méfiez-vous. Cherchez les causes systémiques.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="checklist">
+                <h3>✓ Checklist du Téléspectateur Critique</h3>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Qui finance ce média ? Quels sont ses intérêts ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Quelles sources sont citées ? Sont-elles vérifiables ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Quelles informations manquent pour avoir une vision complète ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Les exemples montrés sont-ils statistiquement représentatifs ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Quelles émotions ce contenu cherche-t-il à susciter ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Pourquoi ce sujet maintenant ? Quel agenda pourrait être servi ?</span>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-icon">□</span>
+                    <span>Qu'en disent les sources contradictoires ?</span>
+                </div>
+            </div>
+            
+            <section class="related-pages">
+                <h2>Approfondir</h2>
+                <div class="related-grid">
+                    <a href="hub-deborsu-tous-fraudeurs.html" class="related-link">
+                        <div class="category">Hub Central</div>
+                        <div class="related-link-title">← Le Scandale Deborsu</div>
+                    </a>
+                    <a href="temoignages-tronques-verviers.html" class="related-link">
+                        <div class="category">Cas Pratique</div>
+                        <div class="related-link-title">Témoignages Manipulés</div>
+                    </a>
+                    <a href="rtl-tvi-ethique-journalistique.html" class="related-link">
+                        <div class="category">Médias</div>
+                        <div class="related-link-title">RTL et l'Éthique</div>
+                    </a>
+                    <a href="csa-belgique-role-pouvoirs.html" class="related-link">
+                        <div class="category">Régulation</div>
+                        <div class="related-link-title">Le CSA : Rôle et Pouvoirs</div>
+                    </a>
+                    <a href="fraude-fiscale-vs-sociale-comparaison.html" class="related-link">
+                        <div class="category">Perspective</div>
+                        <div class="related-link-title">Ce Qu'on Ne Montre Pas</div>
+                    </a>
+                    <a href="porter-plainte-csa-guide.html" class="related-link">
+                        <div class="category">Action</div>
+                        <div class="related-link-title">Agir Face aux Dérives</div>
+                    </a>
+                </div>
+            </section>
+        </article>
+    </main>
+    
+    <footer class="footer">
+        <p>© 2026 Observatoire Citoyen Belge — ouaisfieu.be</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Informer • Documenter • Résister</p>
+    </footer>
+</body>
+</html>
