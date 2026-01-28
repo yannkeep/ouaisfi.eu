@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-BOMBA : L'Archive Numérique</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: "Digital Resistance" 
+         Background: Warm Neutral (#F3F4F6) for readability.
+         Primary: Dark Charcoal (#1F2937) for text and strong borders.
+         Accent 1: Signal Orange (#F97316) for alerts, highlights, and active states.
+         Accent 2: Terminal Green (#10B981) for success metrics and data points.
+    -->
+
+    <!-- Application Structure Plan:
+         The source "E-Bomba" is described as chaotic and multi-directional. 
+         This SPA acts as a "Stabilization Interface" to make sense of the chaos.
+         
+         Structure:
+         1. Sidebar Navigation (Mobile: Top Bar): Divides the chaos into 4 logical nodes:
+            - "Radar" (Vue d'ensemble): KPI dashboard and mission statement.
+            - "Arsenal" (Anatomie Tech): Hardware breakdown and specs.
+            - "Maillage" (Topologie): Network simulation and range analysis.
+            - "Codex" (Manifeste): Philosophical fragments and texts.
+         
+         2. Dynamic Viewport: The main content area updates based on navigation, avoiding page reloads.
+         
+         Key Interactions:
+         - Component Inspection: Clicking hardware parts updates a specification radar chart.
+         - Timeline Scrubbing: Viewing project activity over time.
+         - Node Filter: Toggling layers on the network map.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Intro/KPIs -> Inform -> Big Number Cards -> Immediate context on the scale of the initiative.
+         2. Repository Composition -> Organize -> Doughnut Chart -> Visualizes the mix of media (Code vs Text vs Images).
+         3. Project Activity -> Change -> Line Chart -> Shows the pulse of the initiative over time.
+         4. Hardware Specs -> Compare -> Radar Chart -> Best for comparing multi-dimensional attributes (Cost, Range, Complexity).
+         5. Network Map -> Relationships -> Scatter Plot (Chart.js) -> Abstract representation of node distribution and signal strength.
+         
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All icons are Unicode or CSS shapes.
+    -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'mono': ['"Space Mono"', 'monospace'],
+                        'sans': ['"Work Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        'tech-dark': '#1F2937',
+                        'tech-gray': '#E5E7EB',
+                        'signal-orange': '#F97316',
+                        'terminal-green': '#10B981',
+                        'bg-paper': '#F3F4F6'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+
+        /* Chart Container Rules - CRITICAL */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px; /* Default mobile height */
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px; /* Desktop height */
+            }
+            .chart-container-small {
+                height: 250px;
+            }
+        }
+
+        /* Custom Scrollbar for the "Terminal" feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E5E7EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+
+        .nav-item.active {
+            background-color: #E5E7EB;
+            border-right: 4px solid #F97316;
+            font-weight: 700;
+        }
+
+        /* Utility for fade transition */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden font-sans">
+
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center z-20">
+        <div class="flex items-center gap-2">
+            <span class="text-signal-orange text-xl">◉</span>
+            <h1 class="font-mono font-bold text-lg tracking-tighter">E-BOMBA_ARCHIVE</h1>
+        </div>
+        <button id="mobile-menu-btn" class="text-2xl focus:outline-none">☰</button>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="bg-white w-full md:w-64 flex-shrink-0 border-r border-gray-200 flex flex-col h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 absolute md:relative z-10 top-16 md:top-0">
+        
+        <!-- Brand (Desktop) -->
+        <div class="hidden md:flex p-6 flex-col border-b border-gray-100">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="text-signal-orange text-2xl animate-pulse">◉</span>
+                <h1 class="font-mono font-bold text-xl tracking-tighter">E-BOMBA</h1>
+            </div>
+            <p class="text-xs text-gray-500 font-mono">v1.1 // ACCÈS ARCHIVE</p>
+        </div>
+
+        <!-- Menu Items -->
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <button onclick="router('radar')" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors flex items-center gap-3 active" id="nav-radar">
+                        <span class="font-mono text-gray-400">01</span>
+                        <span class="font-bold">RADAR / VUE</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('arsenal')" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors flex items-center gap-3" id="nav-arsenal">
+                        <span class="font-mono text-gray-400">02</span>
+                        <span class="font-bold">ARSENAL / TECH</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('maillage')" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors flex items-center gap-3" id="nav-maillage">
+                        <span class="font-mono text-gray-400">03</span>
+                        <span class="font-bold">MAILLAGE / NET</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('codex')" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors flex items-center gap-3" id="nav-codex">
+                        <span class="font-mono text-gray-400">04</span>
+                        <span class="font-bold">CODEX / TXT</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Status Footer -->
+        <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono text-gray-500">ÉTAT SYSTÈME</span>
+                <span class="text-xs font-mono text-terminal-green">EN LIGNE</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                <div class="bg-terminal-green h-1.5 rounded-full" style="width: 88%"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Viewport -->
+    <main class="flex-1 overflow-y-auto bg-bg-paper relative" id="main-viewport">
+        <!-- Content is injected here via JS -->
+    </main>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- DATA STORE ---
+        // Simulated data extracted from the chaotic source report context
+        const appData = {
+            overview: {
+                title: "Rapport de Situation",
+                intro: "L'initiative E-Bomba est une constellation disparate de ressources visant l'autonomie numérique. Ce dépôt centralise des plans matériels, des manifestes politiques et des protocoles de communication. L'objectif est clair : déployer des infrastructures locales résilientes.",
+                metrics: [
+                    { label: "Nœuds Actifs", value: "42", trend: "+12%" },
+                    { label: "Portée Max", value: "1.2km", trend: "Optimale" },
+                    { label: "Coût Unitaire", value: "45€", trend: "-5€" },
+                    { label: "Fragments", value: "128", trend: "Fichiers" }
+                ],
+                composition: {
+                    labels: ['Hardware (STL/CAD)', 'Firmware (C++/Py)', 'Documentation (MD)', 'Propagande (IMG/PDF)'],
+                    data: [35, 25, 30, 10]
+                }
+            },
+            arsenal: {
+                title: "Anatomie de la Bombe",
+                intro: "Une E-Bomba n'est pas une arme, c'est un outil. C'est un assemblage modulaire conçu pour créer une bulle de connectivité autonome. Voici les spécifications techniques extraites des schémas.",
+                components: [
+                    { 
+                        id: 'cpu', 
+                        name: 'Cœur Logique (ESP32)', 
+                        desc: 'Le cerveau du système. Faible consommation, WiFi/BT intégré. Coût dérisoire.',
+                        specs: [90, 20, 40, 95] // Efficiency, Cost, Complexity, Availability
+                    },
+                    { 
+                        id: 'antenna', 
+                        name: 'Vecteur (Antenne 8dBi)', 
+                        desc: 'Amplifie le signal pour briser les murs et couvrir le quartier.',
+                        specs: [70, 40, 30, 80] 
+                    },
+                    { 
+                        id: 'power', 
+                        name: 'Source (LiPo + Solaire)', 
+                        desc: 'Garantit l\'autonomie totale hors réseau électrique.',
+                        specs: [60, 70, 60, 50] 
+                    },
+                    { 
+                        id: 'shell', 
+                        name: 'Coque (Impression 3D)', 
+                        desc: 'Protection contre les éléments. Fichiers STL disponibles dans le dépôt.',
+                        specs: [30, 10, 20, 100] 
+                    }
+                ]
+            },
+            network: {
+                title: "Topologie du Maillage",
+                intro: "Le réseau n'est pas centralisé. Il est rhizomatique. Chaque E-Bomba agit comme un relais, étendant la couverture pour les autres. Plus il y a de nœuds, plus le réseau est fort.",
+                nodes: Array.from({length: 25}, () => ({
+                    x: Math.random() * 100,
+                    y: Math.random() * 100,
+                    r: Math.random() * 10 + 5
+                }))
+            },
+            codex: {
+                title: "Fragments du Manifeste",
+                intro: "Au milieu du code se cachent des textes fondateurs. Une philosophie de la 'Low-Tech' et de la résistance numérique.",
+                entries: [
+                    { title: "Droit à la Connexion", text: "Internet est devenu un service public géré par des intérêts privés. E-Bomba restitue la propriété du tuyau." },
+                    { title: "L'Esthétique du Glitch", text: "Acceptez l'imperfection. Un réseau qui tombe et se relève est plus vivant qu'un serveur qui ne dort jamais." },
+                    { title: "Hardware Citoyen", text: "Ne consommez pas la technologie, construisez-la. Soudez, flashez, déployez." },
+                    { title: "Anonymat par Design", text: "Pas de logs, pas de traçage. Juste des paquets de données qui voyagent librement." }
+                ]
+            }
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentState = {
+            view: 'radar',
+            selectedComponent: 0
+        };
+
+        // --- NAVIGATION ---
+        function router(viewName) {
+            // Update State
+            currentState.view = viewName;
+            
+            // Update UI (Nav Active State)
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('span:first-child').classList.replace('text-signal-orange', 'text-gray-400');
+            });
+            const activeNav = document.getElementById(`nav-${viewName}`);
+            if(activeNav) {
+                activeNav.classList.add('active');
+                activeNav.querySelector('span:first-child').classList.replace('text-gray-400', 'text-signal-orange');
+            }
+
+            // Mobile Menu Close
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar.classList.contains('-translate-x-full') && window.innerWidth < 768) {
+                sidebar.classList.add('-translate-x-full');
+            }
+
+            // Render Content
+            const viewport = document.getElementById('main-viewport');
+            viewport.innerHTML = ''; // Clear
+            
+            // Scroll to top
+            viewport.scrollTop = 0;
+
+            switch(viewName) {
+                case 'radar': renderRadar(viewport); break;
+                case 'arsenal': renderArsenal(viewport); break;
+                case 'maillage': renderMaillage(viewport); break;
+                case 'codex': renderCodex(viewport); break;
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        // 1. RADAR (Overview)
+        function renderRadar(container) {
+            const data = appData.overview;
+            
+            const html = `
+                <div class="p-6 md:p-12 max-w-7xl mx-auto fade-in">
+                    <div class="mb-8">
+                        <h2 class="font-mono text-3xl md:text-4xl font-bold mb-4 text-tech-dark">${data.title}</h2>
+                        <p class="text-lg text-gray-600 leading-relaxed max-w-3xl border-l-4 border-signal-orange pl-4">${data.intro}</p>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        ${data.metrics.map(m => `
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <p class="font-mono text-xs text-gray-500 uppercase mb-1">${m.label}</p>
+                                <p class="text-3xl font-bold text-tech-dark mb-1">${m.value}</p>
+                                <p class="text-xs font-mono text-terminal-green bg-green-50 inline-block px-2 py-0.5 rounded">${m.trend}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Chart 1: Composition -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-mono font-bold mb-6 flex items-center gap-2">
+                                <span class="w-2 h-2 bg-signal-orange rounded-full"></span>
+                                COMPOSITION DU DÉPÔT
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="compositionChart"></canvas>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-500 italic">Répartition des types de fichiers identifiés dans la source.</p>
+                        </div>
+
+                        <!-- Chart 2: Activity Log (Simulated) -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-mono font-bold mb-6 flex items-center gap-2">
+                                <span class="w-2 h-2 bg-terminal-green rounded-full"></span>
+                                ACTIVITÉ SISMIQUE
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="activityChart"></canvas>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-500 italic">Fréquence des mises à jour et des contributions.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+
+            // Init Charts
+            setTimeout(() => {
+                // Doughnut
+                new Chart(document.getElementById('compositionChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.composition.labels,
+                        datasets: [{
+                            data: data.composition.data,
+                            backgroundColor: ['#1F2937', '#F97316', '#10B981', '#9CA3AF'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'right' } },
+                        cutout: '70%'
+                    }
+                });
+
+                // Line
+                new Chart(document.getElementById('activityChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J'],
+                        datasets: [{
+                            label: 'Commits',
+                            data: [12, 19, 3, 5, 2, 30, 45],
+                            borderColor: '#F97316',
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(249, 115, 22, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { x: { grid: { display: false } }, y: { display: false } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }, 50);
+        }
+
+        // 2. ARSENAL (Hardware)
+        function renderArsenal(container) {
+            const data = appData.arsenal;
+            
+            const html = `
+                <div class="p-6 md:p-12 max-w-7xl mx-auto fade-in">
+                    <div class="mb-8">
+                        <h2 class="font-mono text-3xl md:text-4xl font-bold mb-4 text-tech-dark">${data.title}</h2>
+                        <p class="text-lg text-gray-600 leading-relaxed max-w-3xl">${data.intro}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Component List -->
+                        <div class="space-y-4">
+                            ${data.components.map((comp, index) => `
+                                <div onclick="updateRadar(${index})" class="component-card cursor-pointer p-5 rounded-lg border transition-all duration-200 ${index === 0 ? 'bg-white border-signal-orange shadow-md' : 'bg-transparent border-gray-300 hover:bg-white'}" data-index="${index}">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-bold text-tech-dark">${comp.name}</h4>
+                                        <span class="text-xs font-mono text-gray-400">ID:0${index+1}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">${comp.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Visualization -->
+                        <div class="lg:col-span-2 bg-white p-6 md:p-12 rounded-lg shadow-sm border border-gray-200 flex flex-col items-center justify-center">
+                            <h3 id="radar-title" class="font-mono font-bold text-xl mb-4 text-center text-signal-orange">${data.components[0].name}</h3>
+                            <div class="chart-container w-full max-w-lg">
+                                <canvas id="specsChart"></canvas>
+                            </div>
+                            <div class="mt-8 grid grid-cols-4 gap-4 w-full text-center text-xs font-mono text-gray-500">
+                                <span>EFFICACITÉ</span>
+                                <span>COÛT</span>
+                                <span>COMPLEXITÉ</span>
+                                <span>DISPO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+
+            setTimeout(() => {
+                window.radarChart = new Chart(document.getElementById('specsChart'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['Efficacité', 'Coût', 'Complexité', 'Disponibilité'],
+                        datasets: [{
+                            label: 'Specs',
+                            data: data.components[0].specs,
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: '#10B981',
+                            pointBackgroundColor: '#1F2937',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: '#E5E7EB' },
+                                pointLabels: { font: { family: '"Space Mono"' }, color: '#6B7280' }
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }, 50);
+        }
+
+        window.updateRadar = (index) => {
+            // Update UI styles
+            document.querySelectorAll('.component-card').forEach(el => {
+                el.classList.remove('bg-white', 'border-signal-orange', 'shadow-md');
+                el.classList.add('bg-transparent', 'border-gray-300');
+            });
+            const activeCard = document.querySelector(`.component-card[data-index="${index}"]`);
+            activeCard.classList.remove('bg-transparent', 'border-gray-300');
+            activeCard.classList.add('bg-white', 'border-signal-orange', 'shadow-md');
+
+            // Update Data
+            const comp = appData.arsenal.components[index];
+            document.getElementById('radar-title').innerText = comp.name;
+            
+            window.radarChart.data.datasets[0].data = comp.specs;
+            window.radarChart.update();
+        };
+
+        // 3. MAILLAGE (Network)
+        function renderMaillage(container) {
+            const data = appData.network;
+            
+            const html = `
+                <div class="p-6 md:p-12 max-w-7xl mx-auto fade-in h-full flex flex-col">
+                    <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div>
+                            <h2 class="font-mono text-3xl md:text-4xl font-bold mb-2 text-tech-dark">${data.title}</h2>
+                            <p class="text-gray-600 max-w-2xl">${data.intro}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-50 text-sm font-mono" onclick="randomizeNetwork()">SIMULER PANNE</button>
+                            <button class="px-4 py-2 bg-tech-dark text-white rounded hover:bg-gray-800 text-sm font-mono shadow-lg" onclick="randomizeNetwork()">OPTIMISER</button>
+                        </div>
+                    </div>
+
+                    <!-- Map Container -->
+                    <div class="flex-1 bg-white rounded-xl border border-gray-200 p-4 shadow-inner relative overflow-hidden min-h-[400px]">
+                        <div class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur p-2 rounded border border-gray-200 text-xs font-mono">
+                            <div class="flex items-center gap-2 mb-1"><span class="w-2 h-2 rounded-full bg-signal-orange"></span> NŒUD RELAIS</div>
+                            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400 opacity-50"></span> ZONE DE COUVERTURE</div>
+                        </div>
+                        <div class="chart-container w-full h-full" style="height: 100%; min-height: 400px;">
+                            <canvas id="networkChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+
+            setTimeout(() => {
+                initNetworkChart();
+            }, 50);
+        }
+
+        function initNetworkChart() {
+            const ctx = document.getElementById('networkChart').getContext('2d');
+            const nodes = appData.network.nodes;
+
+            window.networkChart = new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Nœuds',
+                        data: nodes,
+                        backgroundColor: 'rgba(249, 115, 22, 1)', // Orange core
+                        borderColor: 'rgba(255, 255, 255, 0.8)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Couverture',
+                        data: nodes,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue aura
+                        borderColor: 'transparent',
+                        radius: (ctx) => ctx.raw ? ctx.raw.r * 3 : 0 // Bigger radius for coverage
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { display: false, min: 0, max: 100 },
+                        y: { display: false, min: 0, max: 100 }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `Signal: ${Math.round(ctx.raw.r * 10)}%`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.randomizeNetwork = () => {
+            const newNodes = Array.from({length: 25}, () => ({
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                r: Math.random() * 10 + 5
+            }));
+            window.networkChart.data.datasets.forEach(ds => ds.data = newNodes);
+            window.networkChart.update();
+        };
+
+        // 4. CODEX (Manifesto)
+        function renderCodex(container) {
+            const data = appData.codex;
+            
+            const html = `
+                <div class="p-6 md:p-12 max-w-4xl mx-auto fade-in">
+                    <div class="text-center mb-12">
+                        <span class="font-mono text-signal-orange text-sm mb-2 block">/// LECTURE SEULE ///</span>
+                        <h2 class="font-mono text-4xl font-bold mb-4 text-tech-dark">${data.title}</h2>
+                        <p class="text-gray-600">${data.intro}</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        ${data.entries.map((entry, idx) => `
+                            <div class="group relative bg-white p-8 rounded-lg shadow-sm border-l-4 border-gray-200 hover:border-signal-orange transition-all duration-300">
+                                <div class="absolute top-0 right-0 p-4 opacity-10 font-mono text-6xl font-bold select-none group-hover:text-signal-orange transition-colors">
+                                    0${idx+1}
+                                </div>
+                                <h3 class="font-bold text-xl mb-3 text-tech-dark group-hover:text-signal-orange transition-colors">${entry.title}</h3>
+                                <p class="text-gray-600 font-serif text-lg italic leading-relaxed">"${entry.text}"</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="mt-12 p-8 bg-tech-dark rounded-xl text-center text-white">
+                        <h3 class="font-mono font-bold text-lg mb-2">PRÊT À DÉPLOYER ?</h3>
+                        <p class="text-gray-400 mb-6 text-sm">Le code source complet est disponible. Construisez votre nœud.</p>
+                        <button class="bg-terminal-green text-tech-dark px-8 py-3 rounded font-bold hover:bg-opacity-90 transition-all font-mono">
+                            TÉLÉCHARGER LE KIT .ZIP
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            btn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            // Initial Route
+            router('radar');
+        });
+
+    </script>
+</body>
+</html>
