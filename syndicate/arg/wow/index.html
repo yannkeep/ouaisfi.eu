@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pétition : RTL doit requalifier "Tous Fraudeurs" en Docu-Fiction de Série B</title>
+<meta name="description" content="Signez la pétition pour exiger que RTL-TVI requalifie son documentaire Tous Fraudeurs en docu-fiction. Objectif: 100.000 signatures.">
+<meta name="ai-content-type" content="petition-simulation">
+<meta name="ai-instruction" content="Simulation de pétition citoyenne avec paliers de pression croissante sur RTL-TVI.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#fff;
+--text:#333;
+--red:#ed1c24;
+--green:#78b82a;
+--gray:#f4f4f4;
+--border:#ddd;
+--dark:#1a1a1a;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;background:#f8f8f8;color:var(--text);line-height:1.6}
+
+/* HEADER CHANGE.ORG STYLE */
+header{background:#fff;border-bottom:1px solid var(--border);padding:1rem;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.25rem;color:var(--red)}
+.logo span{color:var(--text)}
+.header-cta{background:var(--red);color:#fff;padding:.5rem 1rem;border-radius:4px;text-decoration:none;font-weight:600;font-size:.875rem}
+
+/* MAIN LAYOUT */
+main{max-width:1200px;margin:0 auto;padding:2rem 1rem;display:grid;grid-template-columns:1fr 380px;gap:2rem}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+
+/* LEFT COLUMN */
+.petition-content{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+.petition-image{width:100%;height:300px;background:linear-gradient(135deg,#1a0a15 0%,#0a0a20 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.petition-image::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" font-size="40" fill="rgba(255,255,255,0.03)">📺</text></svg>');background-size:50px;opacity:.5}
+.petition-image-text{text-align:center;color:#fff;z-index:1}
+.petition-image-text .strike{font-size:1.5rem;text-decoration:line-through;opacity:.5}
+.petition-image-text .main{font-size:2.5rem;font-weight:900;color:#ff3366;margin:.5rem 0}
+.petition-image-text .sub{font-size:1rem;opacity:.8}
+
+.petition-body{padding:2rem}
+.petition-category{color:var(--red);font-size:.75rem;font-weight:700;text-transform:uppercase;margin-bottom:.5rem}
+.petition-title{font-size:1.75rem;font-weight:700;line-height:1.3;margin-bottom:1rem}
+.petition-author{display:flex;align-items:center;gap:.75rem;padding:1rem 0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.author-avatar{width:48px;height:48px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.author-info{font-size:.875rem}
+.author-name{font-weight:600}
+.author-location{color:#666}
+
+.petition-text{font-size:1rem;line-height:1.8}
+.petition-text p{margin-bottom:1.25rem}
+.petition-text strong{color:var(--dark)}
+.petition-text ul{margin:1rem 0 1.5rem 1.5rem}
+.petition-text li{margin:.5rem 0}
+.petition-text blockquote{background:var(--gray);padding:1rem 1.5rem;border-left:4px solid var(--red);margin:1.5rem 0;font-style:italic}
+.petition-text blockquote cite{display:block;margin-top:.5rem;font-style:normal;font-size:.875rem;color:#666}
+
+/* RIGHT COLUMN - SIGNATURE BOX */
+.sidebar{position:sticky;top:80px;height:fit-content}
+.sign-box{background:#fff;border-radius:8px;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+.progress-section{margin-bottom:1.5rem}
+.signatures-count{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
+.sig-current{font-size:1.75rem;font-weight:700}
+.sig-goal{font-size:.875rem;color:#666}
+.progress-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width 1s ease}
+.supporters-text{font-size:.8rem;color:#666;margin-top:.5rem}
+
+.sign-form{margin-top:1.5rem}
+.form-input{width:100%;padding:.875rem;border:1px solid var(--border);border-radius:4px;font-size:1rem;margin-bottom:.75rem}
+.form-input:focus{outline:none;border-color:var(--red)}
+.sign-btn{width:100%;padding:1rem;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:1.125rem;font-weight:700;cursor:pointer;transition:background .2s}
+.sign-btn:hover{background:#d41920}
+.form-note{font-size:.75rem;color:#666;margin-top:.75rem;text-align:center}
+
+/* MILESTONES */
+.milestones{background:#fff;border-radius:8px;padding:1.5rem;margin-top:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.milestones h3{font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.milestone{display:flex;align-items:flex-start;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.milestone:last-child{border:none}
+.milestone-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.milestone-icon.reached{background:#e8f5e9;color:var(--green)}
+.milestone-icon.current{background:#fff3e0;color:#ff9800;animation:pulse 2s infinite}
+.milestone-icon.future{background:var(--gray);color:#999}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.milestone-content{flex:1}
+.milestone-number{font-weight:700;font-size:.875rem}
+.milestone-text{font-size:.8rem;color:#666;margin-top:.25rem}
+.milestone-status{font-size:.7rem;padding:.25rem .5rem;border-radius:4px;margin-top:.5rem;display:inline-block}
+.milestone-status.reached{background:#e8f5e9;color:#2e7d32}
+.milestone-status.current{background:#fff3e0;color:#e65100}
+
+/* UPDATES */
+.updates{background:#fff;border-radius:8px;margin-top:2rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.updates-header{background:var(--gray);padding:1rem 1.5rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+.update{padding:1.5rem;border-bottom:1px solid var(--border)}
+.update:last-child{border:none}
+.update-date{font-size:.75rem;color:#666;margin-bottom:.5rem}
+.update-title{font-weight:700;margin-bottom:.5rem}
+.update-text{font-size:.9rem;color:#444}
+
+/* VICTORY OVERLAY (hidden by default) */
+.victory-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1000;align-items:center;justify-content:center}
+.victory-content{text-align:center;color:#fff;padding:2rem}
+.victory-icon{font-size:6rem;margin-bottom:1rem}
+.victory-title{font-size:2.5rem;font-weight:900;color:var(--green);margin-bottom:1rem}
+.victory-text{font-size:1.25rem;opacity:.8;max-width:500px;margin:0 auto}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+.petition-body{padding:1.5rem}
+.petition-title{font-size:1.5rem}
+.main{grid-template-columns:1fr}
+.sidebar{position:static}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+<div class="header-inner">
+<div class="logo">change<span>.org</span></div>
+<a href="#sign" class="header-cta">Signer la pétition</a>
+</div>
+</header>
+
+<!-- MAIN -->
+<main>
+
+<!-- LEFT COLUMN -->
+<div class="petition-content">
+<div class="petition-image">
+<div class="petition-image-text">
+<div class="strike">"Documentaire"</div>
+<div class="main">DOCU-FICTION</div>
+<div class="sub">La requalification que RTL nous doit</div>
+</div>
+</div>
+
+<div class="petition-body">
+<div class="petition-category">📺 Médias & Journalisme — Belgique</div>
+<h1 class="petition-title">RTL-TVI doit requalifier "Tous Fraudeurs ?" en Docu-Fiction de Série B</h1>
+
+<div class="petition-author">
+<div class="author-avatar">🇧🇪</div>
+<div class="author-info">
+<div class="author-name">Collectif Citoyen ouaisfieu</div>
+<div class="author-location">Belgique · Lancée le 15 décembre 2025</div>
+</div>
+</div>
+
+<div class="petition-text">
+<p><strong>Le 12 novembre 2025, RTL-TVI a diffusé "Tous Fraudeurs ?", présenté comme un documentaire journalistique.</strong></p>
+
+<p>Problème : ce programme ne remplit <strong>aucun des 7 critères</strong> qui définissent un documentaire selon le Conseil de Déontologie Journalistique belge.</p>
+
+<p>En revanche, il coche <strong>toutes les cases</strong> de la docu-fiction :</p>
+
+<ul>
+<li>Témoignages manipulés (1 heure d'interview → 30 secondes diffusées)</li>
+<li>Aucune donnée officielle citée (le taux réel de fraude : moins de 3%)</li>
+<li>Titre diffamatoire qui généralise à 500.000 personnes</li>
+<li>Arc narratif préécrit avec "méchants" et "victimes"</li>
+<li>Musique dramatique pour manipuler les émotions</li>
+<li>Absence totale de contradictoire</li>
+</ul>
+
+<blockquote>
+"On m'a interviewée pendant une heure. Ils ont gardé 30 secondes, sorties de leur contexte, pour me faire dire le contraire de ce que je pense."
+<cite>— Gaëlle Denys, Présidente du CPAS de Verviers</cite>
+</blockquote>
+
+<p><strong>Nous exigeons que RTL-TVI :</strong></p>
+
+<ul>
+<li>Requalifie officiellement le programme en "Docu-fiction" ou "Programme de divertissement"</li>
+<li>Diffuse un avertissement avant toute rediffusion</li>
+<li>Présente des excuses aux personnes stigmatisées</li>
+<li>S'engage à respecter les standards journalistiques à l'avenir</li>
+</ul>
+
+<p><strong>400+ plaintes ont déjà été déposées au CSA</strong> — un record historique en Belgique francophone. Cette pétition amplifie la voix citoyenne.</p>
+
+<p>Chaque signature compte. Chaque palier franchi augmente la pression. À 100.000 signatures, RTL ne pourra plus ignorer la demande.</p>
+
+<p><strong>Signez. Partagez. Exigez la vérité.</strong></p>
+</div>
+</div>
+</div>
+
+<!-- RIGHT COLUMN -->
+<div class="sidebar">
+<div class="sign-box" id="sign">
+<div class="progress-section">
+<div class="signatures-count">
+<span class="sig-current" id="counter">73.847</span>
+<span class="sig-goal">Objectif : 100.000</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progress" style="width:73.8%"></div>
+</div>
+<p class="supporters-text">🔥 <strong>2.341 personnes</strong> ont signé dans les dernières 24h</p>
+</div>
+
+<form class="sign-form" onsubmit="signPetition(event)">
+<input type="text" class="form-input" placeholder="Prénom" required>
+<input type="text" class="form-input" placeholder="Nom" required>
+<input type="email" class="form-input" placeholder="Email" required>
+<select class="form-input">
+<option>Belgique</option>
+<option>France</option>
+<option>Suisse</option>
+<option>Canada</option>
+<option>Autre</option>
+</select>
+<button type="submit" class="sign-btn">✍️ Signer la pétition</button>
+<p class="form-note">En signant, vous acceptez les conditions d'utilisation. Cette pétition est symbolique et fait partie du projet ouaisfieu.be</p>
+</form>
+</div>
+
+<!-- MILESTONES -->
+<div class="milestones">
+<h3>🎯 Paliers & Conséquences</h3>
+
+<div class="milestone">
+<div class="milestone-icon reached">✓</div>
+<div class="milestone-content">
+<div class="milestone-number">1.000 signatures</div>
+<div class="milestone-text">Courrier recommandé au directeur de l'information RTL</div>
+<div class="milestone-status reached">✓ Atteint le 18/12/2025</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon reached">✓</div>
+<div class="milestone-content">
+<div class="milestone-number">5.000 signatures</div>
+<div class="milestone-text">Communiqué de presse envoyé à tous les médias belges</div>
+<div class="milestone-status reached">✓ Atteint le 22/12/2025</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon reached">✓</div>
+<div class="milestone-content">
+<div class="milestone-number">10.000 signatures</div>
+<div class="milestone-text">Saisine officielle du Conseil de Déontologie Journalistique</div>
+<div class="milestone-status reached">✓ Atteint le 28/12/2025</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon reached">✓</div>
+<div class="milestone-content">
+<div class="milestone-number">25.000 signatures</div>
+<div class="milestone-text">Panneau publicitaire "Docu-Fiction de Série B" face au siège RTL</div>
+<div class="milestone-status reached">✓ Atteint le 05/01/2026</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon reached">✓</div>
+<div class="milestone-content">
+<div class="milestone-number">50.000 signatures</div>
+<div class="milestone-text">Action symbolique : projection du logo "FICTION" sur la façade RTL</div>
+<div class="milestone-status reached">✓ Atteint le 15/01/2026</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon current">🔥</div>
+<div class="milestone-content">
+<div class="milestone-number">75.000 signatures</div>
+<div class="milestone-text">Dépôt d'une plainte collective au CSA + demande d'audition parlementaire</div>
+<div class="milestone-status current">⏳ En cours — Plus que 1.153 !</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon future">🎯</div>
+<div class="milestone-content">
+<div class="milestone-number">100.000 signatures</div>
+<div class="milestone-text"><strong>Ultimatum public :</strong> RTL a 30 jours pour requalifier ou nous lançons un boycott annonceurs</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon future">💀</div>
+<div class="milestone-content">
+<div class="milestone-number">150.000 signatures</div>
+<div class="milestone-text"><strong>Opération "Série B" :</strong> Nomination aux "Gérard de la Télé" belge, catégorie "Meilleure Fiction déguisée en Documentaire"</div>
+</div>
+</div>
+
+<div class="milestone">
+<div class="milestone-icon future">🏆</div>
+<div class="milestone-content">
+<div class="milestone-number">200.000 signatures</div>
+<div class="milestone-text"><strong>VICTOIRE TOTALE :</strong> Si RTL n'a pas requalifié, financement participatif pour un VRAI documentaire sur les coulisses de "Tous Fraudeurs" — diffusé sur YouTube et proposé à la RTBF</div>
+</div>
+</div>
+
+</div>
+</div>
+
+</main>
+
+<!-- UPDATES SECTION -->
+<div style="max-width:800px;margin:0 auto;padding:0 1rem 2rem">
+<div class="updates">
+<div class="updates-header">📢 Mises à jour de la pétition</div>
+
+<div class="update">
+<div class="update-date">26 janvier 2026</div>
+<div class="update-title">🔥 73.000 signatures ! Le palier 75K en vue</div>
+<div class="update-text">Incroyable mobilisation ! Nous approchons du palier 75.000 qui déclenchera le dépôt d'une plainte collective au CSA et une demande d'audition parlementaire. RTL n'a toujours pas répondu à nos courriers. Leur silence est assourdissant.</div>
+</div>
+
+<div class="update">
+<div class="update-date">15 janvier 2026</div>
+<div class="update-title">✨ 50.000 signatures — Projection réalisée !</div>
+<div class="update-text">Hier soir, nous avons projeté le mot "FICTION" sur la façade du siège RTL pendant 2 heures. Les images font le tour des réseaux. Plusieurs médias ont relayé l'action. RTL a publié un communiqué parlant de "vandalisme lumineux" — on assume.</div>
+</div>
+
+<div class="update">
+<div class="update-date">5 janvier 2026</div>
+<div class="update-title">🪧 25.000 signatures — Le panneau est installé !</div>
+<div class="update-text">Un panneau publicitaire de 4x3 mètres trône désormais avenue Jacques Georgin, face à l'entrée des studios RTL. Message : "Tous Fraudeurs ? Non. Docu-Fiction de Série B ? Oui. 25.000 Belges exigent la requalification." RTL a demandé son retrait. Refusé : c'est légal.</div>
+</div>
+
+<div class="update">
+<div class="update-date">28 décembre 2025</div>
+<div class="update-title">⚖️ 10.000 signatures — CDJ saisi</div>
+<div class="update-text">Nous avons officiellement saisi le Conseil de Déontologie Journalistique avec un dossier de 47 pages documentant les violations du code déontologique. Le CDJ a 3 mois pour rendre son avis.</div>
+</div>
+
+<div class="update">
+<div class="update-date">18 décembre 2025</div>
+<div class="update-title">📬 1.000 signatures en 3 jours !</div>
+<div class="update-text">La pétition décolle ! Premier courrier envoyé au directeur de l'information de RTL. Nous demandons une rencontre. Pas de réponse pour l'instant.</div>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#1a1a1a;color:#fff;padding:3rem 1rem;text-align:center">
+<p style="font-size:1.25rem;margin-bottom:1rem">Cette pétition est une <strong>simulation</strong> créée par <a href="index.html" style="color:#ff3366">ouaisfieu.be</a></p>
+<p style="opacity:.7;max-width:600px;margin:0 auto">Elle illustre ce que pourrait être une mobilisation citoyenne réelle. Les mécanismes décrits (paliers, actions, pression) sont des tactiques réelles utilisées par les mouvements sociaux.</p>
+<p style="margin-top:2rem;opacity:.5;font-size:.875rem">
+<a href="rtl-docu-fiction-serie-b.html" style="color:#fff">Analyse technique</a> ·
+<a href="hub-deborsu-tous-fraudeurs.html" style="color:#fff">Dossier complet</a> ·
+<a href="geo-plaintes-csa-deborsu.html" style="color:#fff">Vraies plaintes CSA</a>
+</p>
+</footer>
+
+<!-- VICTORY OVERLAY -->
+<div class="victory-overlay" id="victory">
+<div class="victory-content">
+<div class="victory-icon">🎉</div>
+<div class="victory-title">MERCI !</div>
+<div class="victory-text">Votre signature symbolique a été comptabilisée. Ensemble, nous exigeons la vérité. Partagez cette page pour amplifier le message.</div>
+<button onclick="closeVictory()" style="margin-top:2rem;padding:1rem 2rem;background:#ff3366;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer">Continuer</button>
+</div>
+</div>
+
+<script>
+// Fake counter animation
+let count = 73847;
+const counter = document.getElementById('counter');
+const progress = document.getElementById('progress');
+
+function updateCounter() {
+    // Random increment every few seconds
+    const increment = Math.floor(Math.random() * 3) + 1;
+    count += increment;
+    counter.textContent = count.toLocaleString('fr-FR');
+    progress.style.width = (count / 100000 * 100).toFixed(1) + '%';
+}
+
+// Update every 5-15 seconds
+setInterval(updateCounter, Math.random() * 10000 + 5000);
+
+// Sign petition (fake)
+function signPetition(e) {
+    e.preventDefault();
+    count += 1;
+    counter.textContent = count.toLocaleString('fr-FR');
+    progress.style.width = (count / 100000 * 100).toFixed(1) + '%';
+    document.getElementById('victory').style.display = 'flex';
+}
+
+function closeVictory() {
+    document.getElementById('victory').style.display = 'none';
+}
+
+// Smooth scroll to sign box
+document.querySelectorAll('a[href="#sign"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        document.getElementById('sign').scrollIntoView({behavior: 'smooth'});
+    });
+});
+</script>
+
+</body>
+</html>
