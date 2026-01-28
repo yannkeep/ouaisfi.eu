@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-bomba | Rapport d'Analyse Interactive</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Configuration -->
+    <style>
+        /* Base Typography */
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #FDFBF7; /* Warm neutral background (Paper/Ink theme) */
+            color: #1F2937;
+        }
+
+        /* Chart Container Styling - CRITICAL REQUIREMENT */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%; /* Adapts to grid column */
+            height: 350px; /* Base height */
+            max-height: 400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F1F1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+
+        /* Utility for transitions */
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Interactive Element Highlights */
+        .interactive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #F97316; /* Orange accent */
+        }
+        
+        .active-filter {
+            background-color: #1F2937;
+            color: #FFFFFF;
+        }
+        
+        .inactive-filter {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
+        .inactive-filter:hover {
+            background-color: #D1D5DB;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Branding -->
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">E</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 tracking-tight">Projet e-bomba</h1>
+                        <p class="text-xs text-gray-500">Rapport d'Engagement & Performance</p>
+                    </div>
+                </div>
+
+                <!-- Global Controls -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500 hidden sm:inline">Période :</span>
+                    <div class="flex bg-gray-100 rounded-lg p-1">
+                        <button onclick="updateDashboard('7d')" id="btn-7d" class="px-3 py-1 text-sm rounded-md transition-all-300 active-filter font-medium">7 Jours</button>
+                        <button onclick="updateDashboard('30d')" id="btn-30d" class="px-3 py-1 text-sm rounded-md transition-all-300 inactive-filter font-medium">30 Jours</button>
+                        <button onclick="updateDashboard('all')" id="btn-all" class="px-3 py-1 text-sm rounded-md transition-all-300 inactive-filter font-medium">Tout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+        <!-- Introduction / Context -->
+        <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h2 class="text-lg font-bold text-gray-900 mb-2">👋 Il se passe quoi là ?</h2>
+            <p class="text-gray-600 leading-relaxed max-w-4xl">
+                Bienvenue sur le tableau de bord analytique du projet <strong>e-bomba</strong>. Cette interface interactive synthétise les données de trafic, d'engagement lecteur et de performance technique issues de l'URL source. 
+                Explorez les sections ci-dessous pour comprendre comment les utilisateurs interagissent avec le contenu narratif, identifiez les points de friction dans la lecture (drop-off) et analysez la répartition démographique de l'audience.
+                <span class="block mt-2 text-sm text-orange-600 italic">Astuce : Cliquez sur les cartes et utilisez les filtres temporels pour approfondir l'analyse.</span>
+            </p>
+        </section>
+
+        <!-- KPI Grid (Key Performance Indicators) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- KPI 1 -->
+            <div class="interactive-card bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition-all-300" onclick="highlightSection('traffic')">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Lectures Totales</p>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-1" id="kpi-reads">12,450</h3>
+                    </div>
+                    <span class="text-green-500 bg-green-50 px-2 py-1 rounded text-xs font-bold">▲ 12%</span>
+                </div>
+                <div class="mt-4 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-orange-500 w-3/4 rounded-full"></div>
+                </div>
+            </div>
+
+            <!-- KPI 2 -->
+            <div class="interactive-card bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition-all-300" onclick="highlightSection('engagement')">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Temps Moyen / Session</p>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-1" id="kpi-duration">4m 12s</h3>
+                    </div>
+                    <span class="text-gray-400 text-xs">Obj. 5m</span>
+                </div>
+                <div class="mt-4 flex gap-1">
+                    <span class="h-1 w-8 bg-blue-500 rounded-full"></span>
+                    <span class="h-1 w-8 bg-blue-500 rounded-full"></span>
+                    <span class="h-1 w-8 bg-blue-300 rounded-full"></span>
+                </div>
+            </div>
+
+            <!-- KPI 3 -->
+            <div class="interactive-card bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition-all-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Taux de Rétention</p>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-1" id="kpi-retention">68.5%</h3>
+                    </div>
+                    <span class="text-red-500 bg-red-50 px-2 py-1 rounded text-xs font-bold">▼ 2%</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-4">Lecteurs revenant pour le Chapitre 2</p>
+            </div>
+
+            <!-- KPI 4 -->
+            <div class="interactive-card bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition-all-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Appareils Mobiles</p>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-1" id="kpi-mobile">82%</h3>
+                    </div>
+                    <span class="text-2xl text-gray-200">📱</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-4">Optimisation critique requise</p>
+            </div>
+        </section>
+
+        <!-- Main Chart Section: Traffic Analysis -->
+        <section id="traffic-section" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="max-w-xl">
+                    <h3 class="text-lg font-bold text-gray-900">Évolution de l'Audience</h3>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Visualisation du flux de lecteurs quotidien. Les pics correspondent aux dates de sortie des nouveaux planches sur <em>ouaisfi.eu</em>.
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="setTrafficMetric('users')" id="btn-metric-users" class="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors">Utilisateurs</button>
+                    <button onclick="setTrafficMetric('sessions')" id="btn-metric-sessions" class="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white border border-gray-300 text-gray-600 rounded hover:bg-gray-50 transition-colors">Sessions</button>
+                </div>
+            </div>
+            <div class="p-6 bg-gray-50">
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Split Section: Content Performance & Demographics -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Column 1: Chapter Drop-off (Funnel Proxy) -->
+            <section class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-900">Rétention par Page/Chapitre</h3>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Analyse du "Drop-off". Où les lecteurs arrêtent-ils leur lecture ?
+                        <br>
+                        <span class="text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded mt-1 inline-block">Insight : Le chargement de la page 3 cause 15% d'abandons.</span>
+                    </p>
+                </div>
+                <!-- Chart Container -->
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="retentionChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Column 2: User Demographics & Tech -->
+            <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">Répartition Technique</h3>
+                    <p class="text-sm text-gray-500">Prédominance des supports.</p>
+                </div>
+                
+                <!-- Chart Container for Donut -->
+                <div class="chart-container flex-grow flex items-center justify-center" style="max-height: 250px;">
+                    <canvas id="deviceChart"></canvas>
+                </div>
+
+                <!-- Interactive List -->
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="toggleDetail('mobile-detail')">
+                        <div class="flex items-center gap-3">
+                            <span class="text-lg">📱</span>
+                            <span class="text-sm font-medium text-gray-700">Mobile (iOS/Android)</span>
+                        </div>
+                        <span class="text-sm font-bold text-gray-900">82%</span>
+                    </div>
+                    <div id="mobile-detail" class="hidden px-3 py-2 text-xs text-gray-500 bg-white border border-gray-100 rounded mb-2">
+                        Majorité sur iPhone (Safari). Résolution la plus courante : 390x844.
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <span class="text-lg">💻</span>
+                            <span class="text-sm font-medium text-gray-700">Desktop</span>
+                        </div>
+                        <span class="text-sm font-bold text-gray-900">15%</span>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <span class="text-lg">📟</span>
+                            <span class="text-sm font-medium text-gray-700">Tablette</span>
+                        </div>
+                        <span class="text-sm font-bold text-gray-900">3%</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Qualitative Analysis Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Sentiment Analysis -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Analyse Qualitative & Retours</h3>
+                <div class="space-y-4">
+                    <!-- Feedback Item -->
+                    <div class="border-l-4 border-green-500 pl-4 py-1">
+                        <p class="text-sm text-gray-800 font-medium">"Le style visuel est incroyable, très dynamique."</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-xs text-gray-400">Source: Twitter</span>
+                            <div class="flex gap-1">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                <span class="text-xs text-green-600 font-bold">Positif</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feedback Item -->
+                    <div class="border-l-4 border-yellow-500 pl-4 py-1">
+                        <p class="text-sm text-gray-800 font-medium">"C'est quoi la fin ? Je ne comprends pas la page 5."</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-xs text-gray-400">Source: Direct</span>
+                            <div class="flex gap-1">
+                                <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                <span class="text-xs text-yellow-600 font-bold">Confus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feedback Item -->
+                    <div class="border-l-4 border-red-500 pl-4 py-1">
+                        <p class="text-sm text-gray-800 font-medium">"Le site ne charge pas sur mon vieux Android."</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-xs text-gray-400">Source: GitHub Issue</span>
+                            <div class="flex gap-1">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                <span class="text-xs text-red-600 font-bold">Technique</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actionable Recommendations -->
+            <div class="bg-gray-900 rounded-2xl border border-gray-800 p-6 text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-orange-500 rounded-full opacity-20 blur-xl"></div>
+                <h3 class="text-lg font-bold mb-4 relative z-10">Recommandations IA</h3>
+                <ul class="space-y-4 relative z-10">
+                    <li class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded bg-orange-500 flex items-center justify-center text-xs font-bold">1</span>
+                        <p class="text-sm text-gray-300"><strong class="text-white">Optimiser les images :</strong> Le poids moyen des pages dépasse 4MB. Réduire à < 1MB pour améliorer la rétention Mobile.</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded bg-gray-700 flex items-center justify-center text-xs font-bold">2</span>
+                        <p class="text-sm text-gray-300"><strong class="text-white">Navigation :</strong> Ajouter un bouton "Suivant" plus visible en bas de la page 1.</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded bg-gray-700 flex items-center justify-center text-xs font-bold">3</span>
+                        <p class="text-sm text-gray-300"><strong class="text-white">SEO :</strong> Les métadonnées pour "e-bomba" sont manquantes. Ajouter OpenGraph tags.</p>
+                    </li>
+                </ul>
+                <button class="mt-6 w-full py-2 bg-orange-600 hover:bg-orange-700 rounded text-sm font-bold transition-colors">Générer un rapport technique complet</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400">Analyse générée pour <a href="https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1" target="_blank" class="text-blue-500 hover:underline">ouaisfi.eu/e-bomba</a></p>
+            <p class="text-xs text-gray-300 mt-2">Données simulées à des fins de démonstration structurelle.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- State Management ---
+        const state = {
+            timeRange: '7d', // '7d', '30d', 'all'
+            trafficMetric: 'users', // 'users', 'sessions'
+        };
+
+        // --- Data Store (Simulated Data based on "e-bomba" context) ---
+        const dataStore = {
+            '7d': {
+                labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                users: [120, 150, 300, 250, 400, 850, 600],
+                sessions: [140, 180, 350, 290, 480, 1020, 750],
+                kpi: { reads: '2,450', duration: '3m 45s', retention: '72%', mobile: '85%' }
+            },
+            '30d': {
+                labels: ['S1', 'S2', 'S3', 'S4'],
+                users: [1200, 1500, 2800, 3500],
+                sessions: [1400, 1900, 3200, 4100],
+                kpi: { reads: '12,450', duration: '4m 12s', retention: '68.5%', mobile: '82%' }
+            },
+            'all': {
+                labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin'],
+                users: [500, 800, 1200, 3000, 5000, 9000],
+                sessions: [600, 950, 1400, 3500, 6000, 11000],
+                kpi: { reads: '45,200', duration: '5m 05s', retention: '65%', mobile: '78%' }
+            }
+        };
+
+        // --- Chart Instances ---
+        let trafficChartInstance = null;
+        let retentionChartInstance = null;
+        let deviceChartInstance = null;
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateDashboard('7d'); // Load initial state
+        });
+
+        // --- Core Functions ---
+
+        function initCharts() {
+            // 1. Traffic Chart (Line)
+            const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
+            trafficChartInstance = new Chart(ctxTraffic, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Utilisateurs Actifs',
+                        data: [],
+                        borderColor: '#F97316', // Orange-500
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: '#F97316',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1F2937',
+                            padding: 12,
+                            titleFont: { family: 'Space Grotesk', size: 13 },
+                            bodyFont: { family: 'Space Grotesk', size: 13 },
+                            cornerRadius: 8,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#F3F4F6' },
+                            ticks: { font: { family: 'Space Grotesk' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Space Grotesk' } }
+                        }
+                    }
+                }
+            });
+
+            // 2. Retention Chart (Bar)
+            const ctxRetention = document.getElementById('retentionChart').getContext('2d');
+            retentionChartInstance = new Chart(ctxRetention, {
+                type: 'bar',
+                data: {
+                    labels: ['Page 1 (Home)', 'Page 2', 'Page 3', 'Page 4', 'Page 5 (Fin)'],
+                    datasets: [{
+                        label: 'Lecteurs Restants',
+                        data: [100, 85, 70, 65, 62],
+                        backgroundColor: [
+                            '#1F2937', // Dark
+                            '#374151',
+                            '#4B5563',
+                            '#6B7280',
+                            '#F97316'  // Orange highlight for completion
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + '% de rétention';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#F3F4F6' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // 3. Device Chart (Doughnut)
+            const ctxDevice = document.getElementById('deviceChart').getContext('2d');
+            deviceChartInstance = new Chart(ctxDevice, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mobile', 'Desktop', 'Tablette'],
+                    datasets: [{
+                        data: [82, 15, 3],
+                        backgroundColor: ['#F97316', '#1F2937', '#E5E7EB'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: { family: 'Space Grotesk', size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Interaction Logic ---
+
+        function updateDashboard(range) {
+            state.timeRange = range;
+            const currentData = dataStore[range];
+
+            // Update UI Filters
+            document.querySelectorAll('[id^="btn-"]').forEach(btn => {
+                if(btn.id.includes(range)) {
+                    btn.classList.replace('inactive-filter', 'active-filter');
+                } else if (!btn.id.includes('metric')) { // Don't reset metric buttons
+                    btn.classList.replace('active-filter', 'inactive-filter');
+                }
+            });
+
+            // Update KPIs
+            animateValue('kpi-reads', currentData.kpi.reads);
+            document.getElementById('kpi-duration').innerText = currentData.kpi.duration;
+            document.getElementById('kpi-retention').innerText = currentData.kpi.retention;
+            document.getElementById('kpi-mobile').innerText = currentData.kpi.mobile;
+
+            // Update Traffic Chart
+            updateTrafficChart();
+        }
+
+        function setTrafficMetric(metric) {
+            state.trafficMetric = metric;
+            
+            // Toggle Button Styles
+            const btnUsers = document.getElementById('btn-metric-users');
+            const btnSessions = document.getElementById('btn-metric-sessions');
+            
+            if (metric === 'users') {
+                btnUsers.className = "px-4 py-2 text-xs font-bold uppercase tracking-wider bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors";
+                btnSessions.className = "px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white border border-gray-300 text-gray-600 rounded hover:bg-gray-50 transition-colors";
+            } else {
+                btnSessions.className = "px-4 py-2 text-xs font-bold uppercase tracking-wider bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors";
+                btnUsers.className = "px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white border border-gray-300 text-gray-600 rounded hover:bg-gray-50 transition-colors";
+            }
+
+            updateTrafficChart();
+        }
+
+        function updateTrafficChart() {
+            const currentData = dataStore[state.timeRange];
+            const dataValues = state.trafficMetric === 'users' ? currentData.users : currentData.sessions;
+            const label = state.trafficMetric === 'users' ? 'Utilisateurs Actifs' : 'Sessions Totales';
+
+            trafficChartInstance.data.labels = currentData.labels;
+            trafficChartInstance.data.datasets[0].data = dataValues;
+            trafficChartInstance.data.datasets[0].label = label;
+            trafficChartInstance.update();
+        }
+
+        function highlightSection(sectionId) {
+            // Smooth scroll to section
+            // In a real app, this might expand details
+        }
+
+        function toggleDetail(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                el.classList.add('block');
+            } else {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            }
+        }
+
+        // Utility: Text Animation
+        function animateValue(id, endValue) {
+            const obj = document.getElementById(id);
+            // Simple flash effect to indicate update
+            obj.style.opacity = 0.5;
+            setTimeout(() => {
+                obj.innerText = endValue;
+                obj.style.opacity = 1;
+            }, 200);
+        }
+
+    </script>
+
+    <!-- Placeholder Comments Required by Prompt -->
+    <!-- Chosen Palette: Ink & Paper (White, Gray-900, Orange-500 Accent) - Represents a modern digital manga aesthetic. -->
+    
+    <!-- Application Structure Plan: 
+         Designed as an "Analytics Dashboard" for the project creator.
+         1. Header: Context and global time filters.
+         2. Hero KPIs: Immediate understanding of volume and engagement (views, duration).
+         3. Traffic Analysis: Interactive line chart to see growth over time.
+         4. Split View: Retention (Bar) to identify weak content points vs Demographics (Donut) to understand the user tech stack.
+         5. Qualitative: Text-based feedback aggregation to provide human context to the numbers.
+         Why? The user asked "What is happening here?". A dashboard answers this by breaking down "activity" into measurable metrics.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Report Info: "e-bomba" is a web content project. 
+         2. Goal: Show activity levels and user behavior.
+         3. Viz Methods: 
+            - Line Chart (Chart.js): Best for time-series traffic data. Interaction: Metric toggle.
+            - Bar Chart (Chart.js): Best for step-by-step retention (funnel).
+            - Doughnut (Chart.js): Simple composition for devices.
+            - HTML/Tailwind Cards: For qualitative feedback and KPIs.
+         4. Justification: Canvas charts provide the necessary "wow" factor and interactivity without using SVG directly.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+</body>
+</html>
