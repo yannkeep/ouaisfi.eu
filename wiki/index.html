@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ouaisfieu — Wikipédia de la Contre-Institution Numérique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Linux+Libertine:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wiki-blue: #0645ad;
+            --wiki-blue-visited: #0b0080;
+            --wiki-red: #ba0000;
+            --wiki-border: #a2a9b1;
+            --wiki-bg: #f8f9fa;
+            --wiki-infobox-bg: #f8f9fa;
+            --wiki-header-bg: #eaecf0;
+            --wiki-toc-bg: #f8f9fa;
+            --wiki-cite: #006400;
+            --text-color: #202122;
+            --heading-border: #a2a9b1;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Wikipedia-style */
+        .wiki-header {
+            background: linear-gradient(to bottom, #fff 0%, var(--wiki-bg) 100%);
+            border-bottom: 1px solid var(--wiki-border);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .wiki-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--wiki-header-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-color);
+            border: 2px solid var(--wiki-border);
+        }
+
+        .wiki-header-text h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: normal;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .wiki-header-text p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #54595d;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        /* Main container */
+        .wiki-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .wiki-container {
+                grid-template-columns: 1fr;
+            }
+            .wiki-sidebar {
+                order: -1;
+            }
+        }
+
+        /* Main content */
+        .wiki-content {
+            min-width: 0;
+        }
+
+        .wiki-title {
+            font-size: 2rem;
+            font-weight: normal;
+            border-bottom: 1px solid var(--heading-border);
+            padding-bottom: 5px;
+            margin: 0 0 15px 0;
+        }
+
+        .wiki-subtitle {
+            font-style: italic;
+            color: #54595d;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Infobox */
+        .infobox {
+            float: right;
+            clear: right;
+            margin: 0 0 20px 20px;
+            width: 300px;
+            background: var(--wiki-infobox-bg);
+            border: 1px solid var(--wiki-border);
+            border-spacing: 0;
+            font-size: 0.9rem;
+        }
+
+        .infobox-header {
+            background: #c8102e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .infobox-subheader {
+            background: var(--wiki-header-bg);
+            text-align: center;
+            padding: 8px;
+            font-weight: 600;
+        }
+
+        .infobox-image {
+            text-align: center;
+            padding: 10px;
+            background: white;
+        }
+
+        .infobox-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .infobox-caption {
+            font-size: 0.85rem;
+            color: #54595d;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .infobox-row {
+            display: flex;
+            border-top: 1px solid var(--wiki-border);
+        }
+
+        .infobox-label {
+            width: 40%;
+            padding: 8px;
+            background: var(--wiki-header-bg);
+            font-weight: 600;
+            vertical-align: top;
+        }
+
+        .infobox-data {
+            width: 60%;
+            padding: 8px;
+            background: white;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--wiki-toc-bg);
+            border: 1px solid var(--wiki-border);
+            padding: 15px 20px;
+            margin: 20px 0;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .toc-list li {
+            margin: 5px 0;
+        }
+
+        .toc-list a {
+            color: var(--wiki-blue);
+            text-decoration: none;
+        }
+
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+
+        .toc-h2 {
+            padding-left: 0;
+        }
+
+        .toc-h3 {
+            padding-left: 20px;
+        }
+
+        .toc-h4 {
+            padding-left: 40px;
+        }
+
+        /* Headings */
+        h2 {
+            font-size: 1.5rem;
+            font-weight: normal;
+            border-bottom: 1px solid var(--heading-border);
+            padding-bottom: 5px;
+            margin: 30px 0 15px 0;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 25px 0 10px 0;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+        }
+
+        h5 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+        }
+
+        /* Links */
+        a {
+            color: var(--wiki-blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: var(--wiki-blue-visited);
+        }
+
+        a.redlink {
+            color: var(--wiki-red);
+        }
+
+        /* Paragraphs */
+        p {
+            margin: 0.5em 0 1em 0;
+            text-align: justify;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            margin: 1em 40px;
+            padding-left: 15px;
+            border-left: 3px solid var(--wiki-border);
+            font-style: italic;
+            color: #54595d;
+        }
+
+        /* Citations */
+        .citation {
+            font-size: 0.85rem;
+            color: var(--wiki-cite);
+            vertical-align: super;
+            cursor: pointer;
+        }
+
+        .citation:hover {
+            text-decoration: underline;
+        }
+
+        /* References section */
+        .references {
+            font-size: 0.9rem;
+            column-count: 2;
+            column-gap: 30px;
+        }
+
+        @media (max-width: 700px) {
+            .references {
+                column-count: 1;
+            }
+        }
+
+        .references li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+
+        /* Tables */
+        table.wikitable {
+            border-collapse: collapse;
+            margin: 1em 0;
+            background: white;
+        }
+
+        table.wikitable th,
+        table.wikitable td {
+            border: 1px solid var(--wiki-border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        table.wikitable th {
+            background: var(--wiki-header-bg);
+            font-weight: 600;
+        }
+
+        table.wikitable tr:nth-child(even) {
+            background: var(--wiki-bg);
+        }
+
+        /* Sidebar */
+        .wiki-sidebar {
+            font-size: 0.9rem;
+        }
+
+        .sidebar-box {
+            background: var(--wiki-bg);
+            border: 1px solid var(--wiki-border);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            background: #1a1a2e;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .sidebar-content {
+            padding: 15px;
+        }
+
+        .sidebar-content ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .sidebar-content li {
+            margin: 5px 0;
+        }
+
+        /* Hatnote */
+        .hatnote {
+            font-style: italic;
+            padding-left: 30px;
+            margin: 10px 0 20px 0;
+            color: #54595d;
+            font-size: 0.95rem;
+        }
+
+        /* Ambox (notice boxes) */
+        .ambox {
+            border: 1px solid var(--wiki-border);
+            background: #fbfbfb;
+            margin: 15px 0;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .ambox-icon {
+            font-size: 1.5rem;
+        }
+
+        .ambox-thesis {
+            border-left: 4px solid #c8102e;
+            background: #fff5f5;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .gallery-item {
+            background: var(--wiki-bg);
+            border: 1px solid var(--wiki-border);
+            padding: 5px;
+            text-align: center;
+            width: 180px;
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .gallery-caption {
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Navbox */
+        .navbox {
+            background: var(--wiki-bg);
+            border: 1px solid var(--wiki-border);
+            margin: 30px 0;
+            font-size: 0.9rem;
+        }
+
+        .navbox-title {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-weight: bold;
+        }
+
+        .navbox-group {
+            background: var(--wiki-header-bg);
+            padding: 8px;
+            font-weight: 600;
+            text-align: right;
+            width: 15%;
+            vertical-align: top;
+        }
+
+        .navbox-list {
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Categories */
+        .catlinks {
+            background: var(--wiki-bg);
+            border: 1px solid var(--wiki-border);
+            padding: 10px 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        .catlinks-title {
+            font-weight: bold;
+        }
+
+        /* Print styles */
+        @media print {
+            .wiki-header, .wiki-sidebar, .toc {
+                display: none;
+            }
+            .wiki-container {
+                display: block;
+            }
+        }
+
+        /* Special formatting */
+        .smallcaps {
+            font-variant: small-caps;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        code {
+            font-family: monospace;
+            background: var(--wiki-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        /* Diagram placeholder */
+        .diagram-placeholder {
+            background: linear-gradient(135deg, var(--wiki-bg) 0%, #e8e8e8 100%);
+            border: 1px solid var(--wiki-border);
+            padding: 40px;
+            text-align: center;
+            color: #54595d;
+            margin: 15px 0;
+        }
+
+        /* Footer */
+        .wiki-footer {
+            background: var(--wiki-bg);
+            border-top: 1px solid var(--wiki-border);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #54595d;
+            margin-top: 40px;
+        }
+
+        /* Scroll indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #c8102e;
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+
+        /* Jump to top */
+        .jump-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--wiki-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .jump-top.visible {
+            opacity: 1;
+        }
+
+        .jump-top:hover {
+            background: var(--wiki-blue-visited);
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="progress"></div>
+    
+    <header class="wiki-header">
+        <div class="wiki-logo">Ω</div>
+        <div class="wiki-header-text">
+            <h1>Ouaisfieupédia</h1>
+            <p>L'encyclopédie de la contre-institution numérique citoyenne</p>
+        </div>
+    </header>
+
+    <div class="wiki-container">
+        <main class="wiki-content">
+            <h1 class="wiki-title">Ouaisfieu : Contre-Institution Numérique et Résilience Citoyenne en Belgique</h1>
+            <p class="wiki-subtitle">Thèse de doctorat en sciences politiques et sociales — Analyse d'un écosystème de veille citoyenne à l'ère du capitalisme de surveillance</p>
+
+            <div class="ambox ambox-thesis">
+                <div class="ambox-icon">📜</div>
+                <div class="ambox-text">
+                    <strong>Thèse de doctorat</strong> — Ce document constitue une synthèse encyclopédique exhaustive du corpus documentaire de l'initiative « Ouaisfieu », structurée selon les standards académiques et présentée dans un format wiki pour faciliter la navigation et les références croisées. <em>Dernière mise à jour : janvier 2026.</em>
+                </div>
+            </div>
+
+            <!-- INFOBOX -->
+            <div class="infobox">
+                <div class="infobox-header">Écosystème Ouaisfieu</div>
+                <div class="infobox-image">
+                    <div class="diagram-placeholder" style="padding: 20px; font-size: 3rem;">🌐</div>
+                </div>
+                <div class="infobox-caption">Logo conceptuel de la contre-institution numérique</div>
+                <div class="infobox-subheader">Informations générales</div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Type</div>
+                    <div class="infobox-data">Contre-institution numérique citoyenne</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Localisation</div>
+                    <div class="infobox-data">Bruxelles, Belgique (ancrage 1160 Auderghem)</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Domaine principal</div>
+                    <div class="infobox-data"><a href="#ouaisfi.eu">ouaisfi.eu</a></div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Satellites</div>
+                    <div class="infobox-data">DOCTech, BXL2030, 11·60 bis, EARL, Biologia</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Technologie</div>
+                    <div class="infobox-data">Jamstack (Jekyll, Hugo), GitHub Pages</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Licence</div>
+                    <div class="infobox-data">CC BY-NC 4.0</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Collectif</div>
+                    <div class="infobox-data"><a href="#ccplc">CCPLC</a></div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Objectif 2026</div>
+                    <div class="infobox-data">Reconnaissance Éducation Permanente FWB</div>
+                </div>
+                <div class="infobox-subheader">Principes fondateurs</div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Traçage</div>
+                    <div class="infobox-data">Zéro (aucun cookie, aucun analytics)</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Publicité</div>
+                    <div class="infobox-data">Aucune</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Coût d'exploitation</div>
+                    <div class="infobox-data">Zéro (hébergement gratuit)</div>
+                </div>
+                <div class="infobox-row">
+                    <div class="infobox-label">Réseau social</div>
+                    <div class="infobox-data">Bluesky (@ouaisfi.eu)</div>
+                </div>
+            </div>
+
+            <p><strong>Ouaisfieu</strong> (prononcé /wɛ.fjø/, du bruxellois « Ouais fieu » signifiant « Ouais mec ») est un <a href="#contre-institution">écosystème numérique citoyen</a> belge fondé sur les principes de la <a href="#transparence-numerique">transparence numérique radicale</a>, de l'<a href="#intelligence-citoyenne">intelligence citoyenne</a> et de l'<a href="#education-permanente">éducation permanente</a>. Il constitue une tentative structurée de construire une <strong>contre-institution numérique</strong><sup class="citation">[1]</sup>, c'est-à-dire une infrastructure de connaissance autonome, résiliente et critique, opérant en marge des circuits académiques et médiatiques traditionnels.</p>
+
+            <p>L'écosystème se déploie sur une dizaine de plateformes interconnectées — dont <em>DOCTech</em>, <em>BXL2030</em>, <em>11·60 bis</em> et <em>EARL</em> — qui poursuivent une mission commune : <strong>outiller le citoyen face à la complexité institutionnelle belge</strong> et transformer l'indignation passive en capacité d'action éclairée<sup class="citation">[2]</sup>. Le projet s'inscrit dans la tradition de l'<a href="#education-populaire">éducation populaire</a> tout en mobilisant les outils les plus avancés du numérique (générateurs de sites statiques, intelligence artificielle générative, techniques d'OSINT) pour en déconstruire les mécanismes de domination.</p>
+
+            <p class="hatnote">Pour le contexte politique belge analysé par Ouaisfieu, voir <a href="#particratie">Particratie</a> et <a href="#pilarisation">Pilarisation</a>.</p>
+
+            <!-- TABLE OF CONTENTS -->
+            <div class="toc">
+                <div class="toc-title">Sommaire</div>
+                <ol class="toc-list">
+                    <li class="toc-h2"><a href="#introduction">1 Introduction : Genèse d'une contre-institution</a></li>
+                    <li class="toc-h3"><a href="#contexte-politique">1.1 Contexte politique et urgence systémique</a></li>
+                    <li class="toc-h3"><a href="#epistemologie">1.2 Épistémologie de la recherche</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie1">2 Première Partie : Le cadre théorique</a></li>
+                    <li class="toc-h3"><a href="#contre-institution">2.1 La contre-institution numérique</a></li>
+                    <li class="toc-h3"><a href="#intelligence-citoyenne">2.2 L'intelligence citoyenne et la pyramide DICS</a></li>
+                    <li class="toc-h3"><a href="#surveillance-sousveillance">2.3 Surveillance et sousveillance</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie2">3 Deuxième Partie : La pathologie démocratique belge</a></li>
+                    <li class="toc-h3"><a href="#particratie">3.1 La particratie : anatomie d'un système</a></li>
+                    <li class="toc-h3"><a href="#pilarisation">3.2 La pilarisation et son déclin</a></li>
+                    <li class="toc-h3"><a href="#illegalite-systemique">3.3 L'illégalité systémique de l'État</a></li>
+                    <li class="toc-h3"><a href="#derives-autoritaires">3.4 Dérives autoritaires et contre-pouvoirs</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie3">4 Troisième Partie : Les crises bruxelloises</a></li>
+                    <li class="toc-h3"><a href="#crises-systemiques">4.1 Crises systémiques documentées</a></li>
+                    <li class="toc-h3"><a href="#dette-regionale">4.2 La dette régionale</a></li>
+                    <li class="toc-h3"><a href="#crise-logement">4.3 La crise du logement</a></li>
+                    <li class="toc-h3"><a href="#violence-urbaine">4.4 Violence et narcotrafic</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie4">5 Quatrième Partie : L'écosystème technique</a></li>
+                    <li class="toc-h3"><a href="#architecture">5.1 Architecture distribuée</a></li>
+                    <li class="toc-h3"><a href="#satellites">5.2 Les plateformes satellites</a></li>
+                    <li class="toc-h3"><a href="#jamstack">5.3 La philosophie Jamstack</a></li>
+                    <li class="toc-h3"><a href="#zero-tracking">5.4 Zéro traçage : un acte politique</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie5">6 Cinquième Partie : L'intelligence citoyenne appliquée</a></li>
+                    <li class="toc-h3"><a href="#osint">6.1 OSINT et renseignement ouvert</a></li>
+                    <li class="toc-h3"><a href="#veille-citoyenne">6.2 La veille citoyenne non marchande</a></li>
+                    <li class="toc-h3"><a href="#leaddexing">6.3 Le Lead-dexing</a></li>
+                    <li class="toc-h3"><a href="#ccplc">6.4 Le CCPLC</a></li>
+                    
+                    <li class="toc-h2"><a href="#partie6">7 Sixième Partie : Vers l'éducation permanente</a></li>
+                    <li class="toc-h3"><a href="#education-permanente">7.1 Le décret de 2003</a></li>
+                    <li class="toc-h3"><a href="#adequation">7.2 Adéquation du projet</a></li>
+                    <li class="toc-h3"><a href="#perspectives">7.3 Perspectives 2026</a></li>
+                    
+                    <li class="toc-h2"><a href="#conclusion">8 Conclusion</a></li>
+                    <li class="toc-h2"><a href="#annexes">9 Annexes</a></li>
+                    <li class="toc-h2"><a href="#references">10 Notes et références</a></li>
+                    <li class="toc-h2"><a href="#bibliographie">11 Bibliographie</a></li>
+                    <li class="toc-h2"><a href="#voir-aussi">12 Voir aussi</a></li>
+                </ol>
+            </div>
+
+            <!-- SECTION 1 : INTRODUCTION -->
+            <h2 id="introduction">Introduction : Genèse d'une contre-institution</h2>
+
+            <h3 id="contexte-politique">Contexte politique et urgence systémique</h3>
+            
+            <p>La <a href="#bruxelles">Région de Bruxelles-Capitale</a> traverse, au milieu des années 2020, une période de turbulences institutionnelles et sociales sans précédent. Cette crise multidimensionnelle se caractérise par une <strong>délégitimation des structures traditionnelles de gouvernance</strong> et une accumulation de symptômes alarmants que le projet Ouaisfieu qualifie de « crises systémiques »<sup class="citation">[3]</sup>.</p>
+
+            <p>Les données collectées par l'observatoire <a href="#bxl2030">BXL2030</a> dépeignent une réalité préoccupante :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Valeur</th>
+                    <th>Évolution</th>
+                </tr>
+                <tr>
+                    <td>Dette régionale consolidée</td>
+                    <td>13 milliards €</td>
+                    <td>↑ de 3,4 Mrd € en quelques années</td>
+                </tr>
+                <tr>
+                    <td>Logements sociaux</td>
+                    <td>6,8 % du parc</td>
+                    <td>53 800 ménages en attente</td>
+                </tr>
+                <tr>
+                    <td>Violence liée au narcotrafic (2023)</td>
+                    <td>7 morts, 131 blessés</td>
+                    <td>92 fusillades</td>
+                </tr>
+                <tr>
+                    <td>Instabilité gouvernementale</td>
+                    <td>10+ mois sans exécutif régional</td>
+                    <td>Post-élections 2024</td>
+                </tr>
+            </table>
+
+            <p>Face à ce « délitement », le citoyen ordinaire se trouve démuni, coincé entre une <em>indignation passive</em> et une <em>incompréhension des mécanismes complexes</em> — particratie, pilarisation, « lasagne institutionnelle » — qui régissent son quotidien<sup class="citation">[4]</sup>. C'est dans ce terreau fertile pour le désengagement ou le populisme que s'ancre le projet Ouaisfieu.</p>
+
+            <blockquote>
+                « Il ne s'agit pas simplement de lancer un nouveau site web, mais de structurer une réponse citoyenne articulée : une contre-institution numérique. Ce concept postule que la réponse à la faillite des institutions ne réside pas dans leur rejet nihiliste, mais dans la construction d'infrastructures alternatives, résilientes et transparentes, capables d'outiller le corps social pour la reconquête de sa souveraineté politique. »
+                <br>— <em>Cahier des Charges de la Contre-Institution Numérique</em><sup class="citation">[5]</sup>
+            </blockquote>
+
+            <h3 id="epistemologie">Épistémologie de la recherche</h3>
+
+            <p>Cette thèse adopte une méthodologie hybride combinant :</p>
+
+            <ul>
+                <li><strong>Analyse documentaire exhaustive</strong> des productions de l'écosystème (plus de 50 documents, PDFs et pages web)</li>
+                <li><strong>Forensique numérique</strong> de l'infrastructure technique (dépôts GitHub, métadonnées, choix architecturaux)</li>
+                <li><strong>Sociologie des usages</strong> appliquée aux pratiques de veille citoyenne</li>
+                <li><strong>Science politique comparée</strong> pour situer la particratie belge dans le paysage européen</li>
+            </ul>
+
+            <p>Le corpus analysé comprend des cahiers des charges techniques, des dossiers de candidature institutionnels, des analyses politiques originales, des tutoriels pédagogiques et des réflexions philosophiques sur l'intelligence citoyenne. Cette diversité documentaire témoigne de la richesse et de la cohérence du projet étudié.</p>
+
+            <!-- SECTION 2 : CADRE THÉORIQUE -->
+            <h2 id="partie1">Première Partie : Le cadre théorique</h2>
+
+            <h3 id="contre-institution">La contre-institution numérique</h3>
+
+            <p>Le concept de <strong>contre-institution numérique</strong> constitue le pivot théorique de l'écosystème Ouaisfieu. Il désigne une infrastructure de production et de diffusion de connaissances qui se développe en marge — voire en opposition — aux circuits académiques, médiatiques et étatiques traditionnels, tout en utilisant paradoxalement les outils les plus avancés du capitalisme numérique pour en déconstruire les mécanismes<sup class="citation">[6]</sup>.</p>
+
+            <p>Cette notion s'inscrit dans plusieurs traditions intellectuelles :</p>
+
+            <h4>Généalogie conceptuelle</h4>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Tradition</th>
+                    <th>Auteur clé</th>
+                    <th>Concept mobilisé</th>
+                    <th>Application Ouaisfieu</th>
+                </tr>
+                <tr>
+                    <td>Sociologie critique</td>
+                    <td>Pierre Bourdieu</td>
+                    <td>Violence symbolique</td>
+                    <td>Déconstruction des mécanismes de domination (DOCTech)</td>
+                </tr>
+                <tr>
+                    <td>Théorie démocratique</td>
+                    <td>Pierre Rosanvallon</td>
+                    <td>Contre-démocratie</td>
+                    <td>Surveillance citoyenne du pouvoir</td>
+                </tr>
+                <tr>
+                    <td>Économie des communs</td>
+                    <td>Elinor Ostrom</td>
+                    <td>Communs informationnels</td>
+                    <td>Licence CC BY-NC, code open source</td>
+                </tr>
+                <tr>
+                    <td>Éducation populaire</td>
+                    <td>Paulo Freire</td>
+                    <td>Pédagogie des opprimés</td>
+                    <td>Émancipation par la connaissance (CCPLC)</td>
+                </tr>
+                <tr>
+                    <td>Études surveillance</td>
+                    <td>Steve Mann</td>
+                    <td>Sousveillance</td>
+                    <td>Renversement du panoptique (OSINT citoyen)</td>
+                </tr>
+            </table>
+
+            <p>La contre-institution se distingue du simple « site alternatif » par sa prétention à l'<strong>exhaustivité systémique</strong> : elle ne se contente pas de contester des faits ponctuels mais propose une grille de lecture complète du monde social, avec ses propres concepts (« particratie », « pyramide DICS »), ses propres méthodes (« lead-dexing ») et sa propre infrastructure technique (Jamstack, zéro tracking)<sup class="citation">[7]</sup>.</p>
+
+            <h3 id="intelligence-citoyenne">L'intelligence citoyenne et la pyramide DICS</h3>
+
+            <p>L'<strong>intelligence citoyenne</strong> (<em>Civic Intelligence</em>) constitue le cadre méthodologique central de l'écosystème. Selon Douglas Schuler, théoricien du concept depuis 2001, elle désigne « la capacité des collectivités — des petits groupes informels à l'humanité dans son ensemble — à aborder de manière équitable et efficace les problèmes importants qu'elles partagent »<sup class="citation">[8]</sup>.</p>
+
+            <p>Ouaisfieu opérationnalise ce concept à travers la <strong>pyramide DICS</strong> (Données → Information → Connaissance → Sagesse), modèle cognitif qui structure l'ensemble de l'architecture informationnelle du projet :</p>
+
+            <div class="diagram-placeholder">
+                <pre style="text-align: left; display: inline-block; font-family: monospace;">
+                        ╔═══════════════╗
+                        ║    SAGESSE    ║  → Action éclairée (CCPLC)
+                        ╠═══════════════╣
+                      ╔═══════════════════╗
+                      ║   CONNAISSANCE   ║  → Analyse critique (DOCTech)
+                      ╠═══════════════════╣
+                    ╔═══════════════════════╗
+                    ║    INFORMATION      ║  → Contextualisation (BXL2030)
+                    ╠═══════════════════════╣
+                  ╔═══════════════════════════╗
+                  ║       DONNÉES           ║  → Faits bruts (dl.ouaisfi.eu)
+                  ╚═══════════════════════════╝
+                </pre>
+                <p><em>Figure 1 : La pyramide DICS structurant l'écosystème Ouaisfieu</em></p>
+            </div>
+
+            <p>Chaque niveau de la pyramide correspond à une transformation cognitive spécifique<sup class="citation">[9]</sup> :</p>
+
+            <ul>
+                <li><strong>Données</strong> : Faits bruts, chiffres sans contexte (ex: « 13 milliards de dette »). Le dépôt <code>dl.ouaisfi.eu</code> fournit un accès direct à ces matières premières.</li>
+                <li><strong>Information</strong> : Données contextualisées (ex: « La dette a triplé en 5 ans »). BXL2030 transforme les chiffres en tendances.</li>
+                <li><strong>Connaissance</strong> : Information analysée et connectée (ex: « L'impact de la 6ème réforme de l'État »). DOCTech explique les causes systémiques.</li>
+                <li><strong>Sagesse</strong> : Capacité d'utiliser la connaissance pour agir. Le CCPLC propose des leviers d'action concrète.</li>
+            </ul>
+
+            <p>Cette progression dicte que le site ne doit jamais laisser l'utilisateur à l'étape de la simple consommation d'information : chaque page doit tendre vers l'étape suivante, guidant le visiteur de l'observation vers l'action<sup class="citation">[10]</sup>.</p>
+
+            <h4>Disciplines complémentaires</h4>
+
+            <p>L'intelligence citoyenne se déploie à travers trois disciplines qui démocratisent l'accès à l'information stratégique :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Discipline</th>
+                    <th>Définition</th>
+                    <th>Application</th>
+                </tr>
+                <tr>
+                    <td><strong>OSINT</strong><br>(Open Source Intelligence)</td>
+                    <td>Collecte et analyse d'informations issues de sources publiquement accessibles</td>
+                    <td>Formation via EARL, analyse des registres officiels, documentation des crises</td>
+                </tr>
+                <tr>
+                    <td><strong>SOCMINT</strong><br>(Social Media Intelligence)</td>
+                    <td>Analyse des médias sociaux pour identifier tendances et dynamiques d'opinion</td>
+                    <td>Méthode lead-dexing sur Bluesky, détection de désinformation</td>
+                </tr>
+                <tr>
+                    <td><strong>Intelligence civile</strong></td>
+                    <td>Adaptation des méthodes d'IE à des finalités non commerciales et d'intérêt général</td>
+                    <td>Protection des communs, veille sur acteurs économiques, gouvernance ouverte</td>
+                </tr>
+            </table>
+
+            <h3 id="surveillance-sousveillance">Surveillance et sousveillance</h3>
+
+            <p>Un apport théorique majeur du corpus Ouaisfieu réside dans l'appropriation du concept de <strong>sousveillance</strong> théorisé par Steve Mann. Là où Michel Foucault décrivait la surveillance comme un dispositif de pouvoir vertical (du haut vers le bas), la sousveillance (<em>undersight</em>) constitue la surveillance du pouvoir par ceux qui y sont soumis (du bas vers le haut)<sup class="citation">[11]</sup>.</p>
+
+            <blockquote>
+                « La sousveillance n'est pas simplement une réaction ; c'est une appropriation technologique. Elle utilise les mêmes outils que la surveillance (caméras, enregistreurs, bases de données) pour documenter les actions de la police, des fonctionnaires ou des entreprises. Cette pratique transforme le citoyen passif en un nœud actif du réseau de renseignement, capable de produire une vérité alternative à la version officielle. »
+                <br>— <em>Veille citoyenne et intelligence non marchande</em><sup class="citation">[12]</sup>
+            </blockquote>
+
+            <p>Dans cette dialectique, Ouaisfieu se positionne explicitement comme un dispositif de sousveillance citoyenne, utilisant les techniques de l'OSINT non pour espionner les individus mais pour « surveiller les surveillants » — c'est-à-dire documenter les actions des décideurs publics et des institutions<sup class="citation">[13]</sup>.</p>
+
+            <!-- SECTION 3 : PATHOLOGIE DÉMOCRATIQUE -->
+            <h2 id="partie2">Deuxième Partie : La pathologie démocratique belge</h2>
+
+            <h3 id="particratie">La particratie : anatomie d'un système</h3>
+
+            <p>La <strong>particratie</strong> (<em>partitocracy</em>) désigne un système politique où les partis politiques — et plus spécifiquement leurs dirigeants — déterminent les choix politiques davantage que les institutions formelles (Parlement, gouvernement)<sup class="citation">[14]</sup>. La Belgique constitue l'un des cas les plus documentés de ce phénomène en Europe occidentale.</p>
+
+            <h4>Mécanismes constitutifs</h4>
+
+            <p>Plusieurs mécanismes structurels expliquent la prépondérance des partis dans le système belge :</p>
+
+            <ol>
+                <li><strong>Représentation proportionnelle intégrale</strong> : Adoptée en 1899, elle garantit qu'aucun parti n'obtient seul la majorité absolue, rendant les coalitions inévitables et conférant un « rôle prépondérant aux partis » dans les négociations<sup class="citation">[15]</sup>.</li>
+                <li><strong>Discipline de vote</strong> : Les votes au Parlement sont dictés par la consigne du parti, transformant les députés en « exécutants de la ligne décidée par quelques dirigeants partisans »<sup class="citation">[16]</sup>.</li>
+                <li><strong>Centralité du président de parti</strong> : Figure politique la plus puissante du système, le président décide de la participation aux coalitions, négocie les accords de gouvernement, désigne les ministres et valide les listes électorales<sup class="citation">[17]</sup>.</li>
+                <li><strong>Système des cabinets</strong> : Les nominations aux postes clés de l'administration et des entreprises publiques passent par le « partage partisan des postes » (<em>politique des dépouilles</em>)<sup class="citation">[18]</sup>.</li>
+            </ol>
+
+            <blockquote>
+                « En Belgique, le vote d'un adhérent de parti compte plus que celui d'un électeur. Les véritables dirigeants du pays sont les présidents de partis, choisis exclusivement par leur propre parti. »
+                <br>— Analyse de la représentation démocratique<sup class="citation">[19]</sup>
+            </blockquote>
+
+            <h4>Le paradoxe constitutionnel</h4>
+
+            <p>L'analyse juridique révèle une tension fondamentale entre la lettre de la Constitution et la pratique politique<sup class="citation">[20]</sup> :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Article constitutionnel</th>
+                    <th>Principe théorique</th>
+                    <th>Pratique observée</th>
+                </tr>
+                <tr>
+                    <td>Art. 42</td>
+                    <td>« Les membres des Chambres représentent la Nation, et non uniquement ceux qui les ont élus »</td>
+                    <td>Les parlementaires votent selon les consignes partisanes</td>
+                </tr>
+                <tr>
+                    <td>Art. 33</td>
+                    <td>« Tous les pouvoirs émanent de la Nation »</td>
+                    <td>Les pouvoirs émanent des appareils partisans</td>
+                </tr>
+                <tr>
+                    <td>Principe de séparation des pouvoirs</td>
+                    <td>Indépendance du législatif et de l'exécutif</td>
+                    <td>Fusion via les présidents de parti</td>
+                </tr>
+            </table>
+
+            <p>Ce « constitutionnalisme de fait » des partis a recouvert le constitutionnalisme de droit de 1831. Toutefois, qualifier cette situation de simple dérive serait une erreur analytique : c'est une <strong>normalité fonctionnelle</strong>. Dans un pays menacé de dislocation par des forces centrifuges, la particratie a fourni la force centripète nécessaire au maintien de l'État<sup class="citation">[21]</sup>.</p>
+
+            <h3 id="pilarisation">La pilarisation et son déclin</h3>
+
+            <p>La <strong>pilarisation</strong> (<em>verzuiling</em> en néerlandais, <em>pillarization</em> en anglais) désigne l'organisation compartimentée de la société belge en « piliers » idéologiques distincts — catholique, socialiste, libéral, puis laïque — chacun disposant de son réseau d'organisations : écoles, hôpitaux, mutualités, syndicats, coopératives, mouvements de jeunesse, et souvent un parti politique affilié<sup class="citation">[22]</sup>.</p>
+
+            <h4>Fonctionnement historique</h4>
+
+            <p>Héritée du XIXe siècle, la pilarisation assurait une médiation communautaire entre l'individu et l'État. Historiquement, chaque citoyen belge évoluait « du berceau au tombeau » au sein de son pilier<sup class="citation">[23]</sup>. Cette structure a permis :</p>
+
+            <ul>
+                <li>La <strong>pacification des conflits</strong> philosophiques (école, question royale)</li>
+                <li>L'émergence d'une <strong>démocratie consociative</strong> où les élites coopéraient par compromis</li>
+                <li>La constitution de <strong>partis de masse</strong> fortement structurés</li>
+            </ul>
+
+            <h4>Dépilarisation et conséquences</h4>
+
+            <p>Depuis les années 1960, la société belge connaît une <strong>dépilarisation progressive</strong><sup class="citation">[24]</sup>. Ce déclin des piliers a plusieurs effets contradictoires :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Effet</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Volatilité électorale accrue</td>
+                    <td>Les électeurs ne votent plus « par tradition familiale »</td>
+                </tr>
+                <tr>
+                    <td>Fragmentation partisane</td>
+                    <td>Multiplication des partis (écologistes, nationalistes, PTB)</td>
+                </tr>
+                <tr>
+                    <td>Affaiblissement de la médiation</td>
+                    <td>Les citoyens perdent leurs relais vers le pouvoir</td>
+                </tr>
+                <tr>
+                    <td>Persistance résiduelle</td>
+                    <td>Structures encore visibles (enseignement libre/officiel, mutuelles)</td>
+                </tr>
+            </table>
+
+            <p>L'analyse d'Ouaisfieu suggère que cette dépilarisation, combinée au maintien de la particratie, crée un vide démocratique : les partis conservent leur emprise sur le pouvoir mais ont perdu leur ancrage social, transformant le citoyen en simple « électeur intermittent »<sup class="citation">[25]</sup>.</p>
+
+            <h3 id="illegalite-systemique">L'illégalité systémique de l'État</h3>
+
+            <p>L'un des constats les plus sévères du corpus Ouaisfieu concerne l'<strong>illégalité systémique</strong> de l'État belge, documentée par des condamnations judiciaires répétées et inexécutées<sup class="citation">[26]</sup>.</p>
+
+            <h4>La crise de l'accueil des demandeurs d'asile</h4>
+
+            <p>Depuis 2019, l'État fédéral a accumulé plus de <strong>9 000 condamnations</strong> pour non-respect de son obligation d'accueil des demandeurs d'asile<sup class="citation">[27]</sup>. Les astreintes impayées dépassent les 200 millions d'euros. Le président de la Cour de cassation a qualifié cet état de fait de « conduite d'un État voyou », tandis que le Comité européen des droits sociaux a constaté une violation de la Charte sociale européenne<sup class="citation">[28]</sup>.</p>
+
+            <h4>L'affaire Klimaatzaak</h4>
+
+            <p>En novembre 2023, la Cour d'appel de Bruxelles a confirmé la condamnation de l'État fédéral et des trois Régions pour politique climatique insuffisante. La Cour a jugé que cette politique violait les articles 2 (droit à la vie) et 8 (droit à la vie privée) de la CEDH<sup class="citation">[29]</sup>. L'affaire, portée par 58 000 citoyens co-demandeurs, illustre la « judiciarisation du politique » comme dernier recours face à l'inertie des pouvoirs publics.</p>
+
+            <h4>L'inconstitutionnalité du contrôle électoral</h4>
+
+            <p>L'arrêt <em>Mugemangango c. Belgique</em> (CEDH, 2020) a condamné la Belgique car le Parlement valide lui-même l'élection de ses membres, faisant des députés « les juges de leur propre élection » en violation de l'impartialité requise<sup class="citation">[30]</sup>. En 2026, la Constitution n'a toujours pas été révisée pour transférer cette compétence à la Cour constitutionnelle.</p>
+
+            <h3 id="derives-autoritaires">Dérives autoritaires et contre-pouvoirs</h3>
+
+            <p>Sans constituer un régime totalitaire au sens strict (Arendt, Lefort), la Belgique présente des <strong>dérives illibérales</strong> documentées par le corpus<sup class="citation">[31]</sup> :</p>
+
+            <ul>
+                <li><strong>Loi « anti-casseurs »</strong> de 2023 : criminalisation de la présence dans une manifestation dégénérant en violence</li>
+                <li><strong>Projet de loi « Quintin »</strong> : dissolution administrative des associations sans contrôle judiciaire préalable</li>
+                <li><strong>Usage de logiciels espions</strong> contre des journalistes et activistes</li>
+            </ul>
+
+            <p>Face à ces dérives, les <strong>contre-pouvoirs</strong> réagissent : la Ligue des Droits Humains a obtenu la suspension de plusieurs mesures devant le Conseil d'État, et les commissions délibératives citoyennes (modèle d'Ostbelgien, commissions mixtes bruxelloises) constituent des innovations démocratiques significatives<sup class="citation">[32]</sup>.</p>
+
+            <!-- SECTION 4 : CRISES BRUXELLOISES -->
+            <h2 id="partie3">Troisième Partie : Les crises bruxelloises</h2>
+
+            <h3 id="crises-systemiques">Crises systémiques documentées</h3>
+
+            <p>L'observatoire <a href="#bxl2030">BXL2030</a> constitue le principal dispositif de documentation des crises affectant la Région de Bruxelles-Capitale. Il qualifie la situation actuelle de « crise systémique », c'est-à-dire une accumulation de dysfonctionnements interconnectés qui dépassent la capacité de réponse des institutions traditionnelles<sup class="citation">[33]</sup>.</p>
+
+            <h3 id="dette-regionale">La dette régionale</h3>
+
+            <p>La dette de la Région bruxelloise constitue l'indicateur le plus préoccupant :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Valeur</th>
+                    <th>Contexte</th>
+                </tr>
+                <tr>
+                    <td>Dette directe</td>
+                    <td>10,4 milliards €</td>
+                    <td>Triplement en quelques années (depuis 3,4 Mrd)</td>
+                </tr>
+                <tr>
+                    <td>Dette consolidée</td>
+                    <td>13 milliards €</td>
+                    <td>Incluant les organismes parapublics</td>
+                </tr>
+                <tr>
+                    <td>Notation S&P</td>
+                    <td>De AA- à A+</td>
+                    <td>Dégradation reflétant le risque accru</td>
+                </tr>
+            </table>
+
+            <p>L'analyse Ouaisfieu souligne l'« effet boule de neige » des intérêts qui menace les services publics : une part croissante du budget est consacrée au service de la dette plutôt qu'aux politiques publiques<sup class="citation">[34]</sup>.</p>
+
+            <h3 id="crise-logement">La crise du logement</h3>
+
+            <p>Avec seulement <strong>6,8 % du parc</strong> constitué de logements sociaux et <strong>53 800 ménages en attente</strong>, Bruxelles connaît une crise du logement structurelle<sup class="citation">[35]</sup>. Cette situation est aggravée par :</p>
+
+            <ul>
+                <li>Un parc immobilier ancien (85 % des logements antérieurs à 1960)</li>
+                <li>50 % des émissions CO₂ provenant de bâtiments mal isolés</li>
+                <li>La pression démographique sur une région de 97 % d'urbanisation</li>
+            </ul>
+
+            <h3 id="violence-urbaine">Violence et narcotrafic</h3>
+
+            <p>L'année 2023 a été marquée par une recrudescence de la violence liée au trafic de stupéfiants<sup class="citation">[36]</sup> :</p>
+
+            <ul>
+                <li><strong>7 morts</strong> et <strong>131 blessés</strong> directement liés au narcotrafic</li>
+                <li><strong>92 fusillades</strong> recensées sur l'année</li>
+                <li>Extension géographique des violences au-delà des quartiers traditionnellement touchés</li>
+            </ul>
+
+            <p>Ces données, mises en avant sur le « Dashboard de crise » de la page d'accueil du hub, visent à créer un « choc de réalité » nécessaire à la prise de conscience citoyenne<sup class="citation">[37]</sup>.</p>
+
+            <!-- SECTION 5 : ÉCOSYSTÈME TECHNIQUE -->
+            <h2 id="partie4">Quatrième Partie : L'écosystème technique</h2>
+
+            <h3 id="architecture">Architecture distribuée</h3>
+
+            <p>L'écosystème Ouaisfieu se déploie selon une <strong>architecture distribuée</strong> composée d'un hub central et de plusieurs satellites thématiques. Cette fragmentation est délibérée : elle incarne la philosophie de résilience et de souveraineté numérique du projet<sup class="citation">[38]</sup>.</p>
+
+            <div class="diagram-placeholder">
+                <pre style="text-align: left; display: inline-block; font-family: monospace;">
+┌─────────────────────────────────────────────────────────────────┐
+│                      ÉCOSYSTÈME OUAISFIEU                       │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│    ┌─────────────┐                                              │
+│    │  ouaisfi.eu │ ← Hub Central (Boussole)                     │
+│    └──────┬──────┘                                              │
+│           │                                                     │
+│    ┌──────┴──────┬──────────┬──────────┬──────────┐            │
+│    ▼             ▼          ▼          ▼          ▼            │
+│ ┌──────┐   ┌─────────┐  ┌───────┐  ┌──────┐  ┌────────┐       │
+│ │DOCTech│   │ BXL2030 │  │ EARL  │  │11·60 │  │Biologia│       │
+│ │(Tête) │   │(Données)│  │(Outils│  │ bis  │  │ (Blog) │       │
+│ └──────┘   └─────────┘  │ OSINT)│  │(Hist)│  └────────┘       │
+│                         └───────┘  └──────┘                    │
+│                                                                 │
+│  Infrastructure: GitHub Pages | Jekyll/Hugo | Zéro tracking    │
+└─────────────────────────────────────────────────────────────────┘
+                </pre>
+                <p><em>Figure 2 : Architecture distribuée de l'écosystème</em></p>
+            </div>
+
+            <h3 id="satellites">Les plateformes satellites</h3>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Plateforme</th>
+                    <th>URL</th>
+                    <th>Technologie</th>
+                    <th>Fonction</th>
+                </tr>
+                <tr>
+                    <td><strong>ouaisfi.eu</strong></td>
+                    <td>ouaisfi.eu</td>
+                    <td>En migration</td>
+                    <td>Hub central, présentation grand public</td>
+                </tr>
+                <tr>
+                    <td><strong>DOCTech</strong></td>
+                    <td>ouaisfieu.github.io/tech/</td>
+                    <td>Jekyll + Just the Docs</td>
+                    <td>Fiches conceptuelles (pilarisation, particratie, soft power)</td>
+                </tr>
+                <tr>
+                    <td><strong>BXL2030</strong></td>
+                    <td>ouaisfieu.github.io/bxl2030/</td>
+                    <td>Jekyll + Minimal Mistakes</td>
+                    <td>Observatoire crises, méthode lead-dexing</td>
+                </tr>
+                <tr>
+                    <td><strong>Dossiers</strong></td>
+                    <td>ouaisfieu.github.io/dossiers/</td>
+                    <td>Jekyll + Minimal Mistakes</td>
+                    <td>Analyses critiques (économie, citoyenneté)</td>
+                </tr>
+                <tr>
+                    <td><strong>11·60 bis</strong></td>
+                    <td>dl.ouaisfi.eu/1160/</td>
+                    <td>Hugo + FixIt</td>
+                    <td>Histoire sociale, médias (code postal Auderghem)</td>
+                </tr>
+                <tr>
+                    <td><strong>EARL</strong></td>
+                    <td>dl.ouaisfi.eu/earl/</td>
+                    <td>Hugo + Relearn</td>
+                    <td>Documentation intelligence citoyenne, OSINT</td>
+                </tr>
+                <tr>
+                    <td><strong>Biologia</strong></td>
+                    <td>dl.ouaisfi.eu/biologia/</td>
+                    <td>Hugo + FixIt</td>
+                    <td>Blog personnel, tutoriels (Obsidian)</td>
+                </tr>
+            </table>
+
+            <h3 id="jamstack">La philosophie Jamstack</h3>
+
+            <p>Le choix technologique de la <strong>Jamstack</strong> (JavaScript, APIs, Markup) constitue un acte politique autant que technique<sup class="citation">[39]</sup>. Cette architecture de sites statiques présente plusieurs avantages :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Critère</th>
+                    <th>Site dynamique (CMS)</th>
+                    <th>Jamstack (Statique)</th>
+                </tr>
+                <tr>
+                    <td>Coût d'hébergement</td>
+                    <td>Payant (serveur PHP/MySQL)</td>
+                    <td>Gratuit (GitHub Pages)</td>
+                </tr>
+                <tr>
+                    <td>Sécurité</td>
+                    <td>Vulnérabilités CMS</td>
+                    <td>Quasi-invulnérable (pas de backend)</td>
+                </tr>
+                <tr>
+                    <td>Portabilité</td>
+                    <td>Dépendance au serveur</td>
+                    <td>Fichiers HTML autonomes</td>
+                </tr>
+                <tr>
+                    <td>Contribution</td>
+                    <td>Interface propriétaire</td>
+                    <td>Pull requests GitHub</td>
+                </tr>
+                <tr>
+                    <td>Censure</td>
+                    <td>Suppression possible</td>
+                    <td>Code source forkable</td>
+                </tr>
+            </table>
+
+            <p>Le projet recommande Jekyll plutôt que Hugo pour deux raisons : l'intégration native avec GitHub Pages (permettant à un contributeur non-technique de modifier un fichier Markdown directement dans l'interface web) et la continuité avec les satellites existants<sup class="citation">[40]</sup>.</p>
+
+            <h3 id="zero-tracking">Zéro traçage : un acte politique</h3>
+
+            <p>La politique de <strong>zéro traçage</strong> constitue un marqueur identitaire fort du projet<sup class="citation">[41]</sup> :</p>
+
+            <ul>
+                <li><strong>Aucun cookie</strong> tiers ou first-party</li>
+                <li><strong>Pas de Google Analytics</strong> ni d'outil de mesure d'audience</li>
+                <li>Utilisation de <strong>fichiers JSON statiques</strong> pour alimenter les recherches</li>
+                <li>Absence de <strong>publicité</strong> sous toute forme</li>
+            </ul>
+
+            <p>Cette politique traduit le refus du « capitalisme de surveillance » (Zuboff) et garantit l'indépendance éditoriale : le contenu ne peut être influencé par des impératifs de monétisation ou d'optimisation algorithmique<sup class="citation">[42]</sup>.</p>
+
+            <!-- SECTION 6 : INTELLIGENCE CITOYENNE APPLIQUÉE -->
+            <h2 id="partie5">Cinquième Partie : L'intelligence citoyenne appliquée</h2>
+
+            <h3 id="osint">OSINT et renseignement ouvert</h3>
+
+            <p>L'<strong>OSINT</strong> (Open Source Intelligence) désigne le processus d'exploitation de sources d'information ouvertes pour produire du renseignement. Selon la définition institutionnelle, l'OSINT implique de « transformer des données éparses en produits de renseignement exploitables »<sup class="citation">[43]</sup>.</p>
+
+            <h4>Brève histoire de l'OSINT</h4>
+
+            <p>Les pratiques d'OSINT ont une longue histoire avant leur démocratisation numérique<sup class="citation">[44]</sup> :</p>
+
+            <ul>
+                <li><strong>XIXe siècle</strong> : Utilisation des journaux pendant la Guerre de Sécession américaine</li>
+                <li><strong>1939</strong> : Création du BBC Monitoring pour analyser les émissions radio étrangères</li>
+                <li><strong>1941</strong> : Foreign Broadcast Monitoring Service (FBMS) américain</li>
+                <li><strong>Années 1980-90</strong> : Adoption du terme « OSINT » par les services de renseignement</li>
+                <li><strong>Années 2010</strong> : Démocratisation via Bellingcat et le journalisme d'investigation numérique</li>
+            </ul>
+
+            <h4>OSINT citoyenne</h4>
+
+            <p>Le corpus Ouaisfieu théorise une <strong>OSINT citoyenne</strong> distincte de l'OSINT étatique ou corporative<sup class="citation">[45]</sup> :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Critère</th>
+                    <th>OSINT étatique/corporate</th>
+                    <th>OSINT citoyenne</th>
+                </tr>
+                <tr>
+                    <td>Finalité</td>
+                    <td>Sécurité nationale, avantage concurrentiel</td>
+                    <td>Transparence, bien commun</td>
+                </tr>
+                <tr>
+                    <td>Diffusion</td>
+                    <td>Restreinte, confidentielle</td>
+                    <td>Ouverte, publique</td>
+                </tr>
+                <tr>
+                    <td>Cible</td>
+                    <td>Adversaires, concurrents</td>
+                    <td>Pouvoirs publics, entreprises</td>
+                </tr>
+                <tr>
+                    <td>Éthique</td>
+                    <td>Raison d'État</td>
+                    <td>Droits fondamentaux, RGPD</td>
+                </tr>
+            </table>
+
+            <h3 id="veille-citoyenne">La veille citoyenne non marchande</h3>
+
+            <p>La <strong>veille citoyenne non marchande</strong> constitue la transposition des méthodes d'intelligence économique vers des finalités d'intérêt général. Cette transformation opère un changement de paradigme fondamental<sup class="citation">[46]</sup> :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Critère</th>
+                    <th>Intelligence économique</th>
+                    <th>Intelligence citoyenne</th>
+                </tr>
+                <tr>
+                    <td>Finalité</td>
+                    <td>Avantage concurrentiel, profit</td>
+                    <td>Bien commun, justice sociale</td>
+                </tr>
+                <tr>
+                    <td>Bénéficiaires</td>
+                    <td>Entreprise, actionnaires</td>
+                    <td>Société civile, citoyens</td>
+                </tr>
+                <tr>
+                    <td>Triptyque</td>
+                    <td>Veille - Protection - Influence</td>
+                    <td>Veille - Transparence - Participation</td>
+                </tr>
+                <tr>
+                    <td>Régime de vérité</td>
+                    <td>Avantage informationnel</td>
+                    <td>Communs informationnels</td>
+                </tr>
+            </table>
+
+            <p>L'analyse du corpus mondial réalisée par Ouaisfieu identifie plus de 500 organisations actives dans ce domaine, soutenues par un financement philanthropique dépassant 100 millions de dollars annuels (Open Society Foundations, Luminate, Ford Foundation)<sup class="citation">[47]</sup>.</p>
+
+            <h3 id="leaddexing">Le Lead-dexing</h3>
+
+            <p>Le <strong>lead-dexing</strong> (de l'anglais <em>lead</em> = piste, et <em>indexing</em> = indexation) constitue la méthode originale développée par BXL2030 pour la veille citoyenne active<sup class="citation">[48]</sup>. Elle combine :</p>
+
+            <ol>
+                <li><strong>Publication de fiches</strong> synthétiques sur des personnalités publiques (élus, hauts fonctionnaires, dirigeants d'entreprises publiques)</li>
+                <li><strong>Indexation collaborative</strong> de l'information publique (budgets, mandats, déclarations)</li>
+                <li><strong>Interpellation publique</strong> via le hashtag #leaddexing sur Bluesky</li>
+                <li><strong>Appel à réaction</strong> des citoyens et des personnes concernées</li>
+            </ol>
+
+            <p>Des fiches ont été publiées sur des personnalités comme Georges-Louis Bouchez ou Florence Manente, documentant leurs positions, mandats et actions publiques. Cette méthode vise à générer des « leads » (pistes) d'investigation citoyenne à partir de l'information publique existante<sup class="citation">[49]</sup>.</p>
+
+            <h3 id="ccplc">Le CCPLC</h3>
+
+            <p>Le <strong>CCPLC</strong> (Collectif Citoyen pour la Participation Libre & Consciente) constitue la structure organisationnelle de l'écosystème<sup class="citation">[50]</sup>. Il définit six axes stratégiques pour 2025-2026 :</p>
+
+            <ol>
+                <li><strong>OBSERVER</strong> : Comprendre les règles du jeu politique</li>
+                <li><strong>DOCUMENTER</strong> : Collecter et archiver les preuves</li>
+                <li><strong>OUTILLER</strong> : Fournir les méthodes (OSINT, hygiène numérique)</li>
+                <li><strong>FORMER</strong> : Transmettre les compétences</li>
+                <li><strong>CONNECTER</strong> : Créer le réseau de veilleurs</li>
+                <li><strong>ÉVALUER</strong> : Mesurer l'impact</li>
+            </ol>
+
+            <p>Le CCPLC fonctionne selon une gouvernance horizontale, sans cotisation, avec le principe de l'« adhésion par l'action » (<em>do-ocracy</em>) : on devient membre en contribuant<sup class="citation">[51]</sup>.</p>
+
+            <!-- SECTION 7 : ÉDUCATION PERMANENTE -->
+            <h2 id="partie6">Sixième Partie : Vers l'éducation permanente</h2>
+
+            <h3 id="education-permanente">Le décret de 2003</h3>
+
+            <p>Le <strong>Décret du 17 juillet 2003</strong> relatif à l'éducation permanente en Fédération Wallonie-Bruxelles constitue le cadre juridique visé par le projet pour sa reconnaissance institutionnelle<sup class="citation">[52]</sup>. Ce décret définit l'éducation permanente comme visant à :</p>
+
+            <blockquote>
+                « Favoriser et développer, principalement chez les adultes, une prise de conscience et une connaissance critique des réalités de la société ; des capacités d'analyse, de choix, d'action et d'évaluation ; des attitudes de responsabilité et de participation active à la vie sociale, économique, culturelle et politique. »
+            </blockquote>
+
+            <h3 id="adequation">Adéquation du projet</h3>
+
+            <p>L'analyse de l'adéquation d'Ouaisfieu aux critères du décret révèle une correspondance structurelle forte<sup class="citation">[53]</sup> :</p>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Axe du décret</th>
+                    <th>Critère</th>
+                    <th>Réalisation Ouaisfieu</th>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Axe 1</strong><br>Production d'analyses critiques</td>
+                    <td>Décryptage du système politique</td>
+                    <td>Fiches DOCTech sur particratie, pilarisation</td>
+                </tr>
+                <tr>
+                    <td>Documentation des crises</td>
+                    <td>BXL2030 (dette, violence, logement)</td>
+                </tr>
+                <tr>
+                    <td>Modèle DIKW</td>
+                    <td>Dossiers sur guerre de l'information</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Axe 2</strong><br>Citoyenneté active</td>
+                    <td>Méthodes participatives</td>
+                    <td>Lead-dexing, appels à contribution</td>
+                </tr>
+                <tr>
+                    <td>Open source</td>
+                    <td>Code public, pull requests encouragées</td>
+                </tr>
+                <tr>
+                    <td>Collectif citoyen</td>
+                    <td>Structure CCPLC</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Axe 3</strong><br>Accessibilité</td>
+                    <td>Gratuité</td>
+                    <td>Hébergement zéro coût</td>
+                </tr>
+                <tr>
+                    <td>Absence de barrière technique</td>
+                    <td>HTML/PDF, pas d'inscription</td>
+                </tr>
+                <tr>
+                    <td>Éthique numérique</td>
+                    <td>Zéro tracking, choix Bluesky</td>
+                </tr>
+            </table>
+
+            <h3 id="perspectives">Perspectives 2026</h3>
+
+            <p>L'échéance du <strong>31 mars 2026</strong> constitue l'horizon stratégique du projet pour le dépôt du dossier de reconnaissance<sup class="citation">[54]</sup>. Cette candidature s'inscrit dans un contexte particulier :</p>
+
+            <ul>
+                <li><strong>Moratoire 2026-2028</strong> sur les nouvelles reconnaissances en FWB (budgets contraints)</li>
+                <li>Nécessité de démontrer une « démarche pédagogique et citoyenne » concrète</li>
+                <li>Le site lui-même comme « chef-d'œuvre » du collectif, preuve de la méthode</li>
+            </ul>
+
+            <p>Le projet prévoit des partenariats avec universités populaires et médias associatifs, ainsi que des ateliers-débat avec des ASBL d'éducation permanente déjà reconnues<sup class="citation">[55]</sup>.</p>
+
+            <!-- CONCLUSION -->
+            <h2 id="conclusion">Conclusion</h2>
+
+            <p>L'analyse exhaustive du corpus Ouaisfieu révèle un projet d'une cohérence remarquable, articulant une <strong>critique systémique de la démocratie belge</strong> à une <strong>praxis émancipatrice</strong> outillée par les technologies numériques.</p>
+
+            <h4>Synthèse des apports</h4>
+
+            <ol>
+                <li><strong>Conceptualisation de la contre-institution numérique</strong> : Le projet théorise et met en œuvre une infrastructure de savoir alternative, distincte du simple « site alternatif » par sa prétention à l'exhaustivité systémique.</li>
+                <li><strong>Documentation des pathologies démocratiques belges</strong> : Le corpus offre l'une des analyses les plus complètes de la particratie, de l'illégalité systémique de l'État et des dérives autoritaires récentes.</li>
+                <li><strong>Transposition de l'intelligence économique</strong> : La veille citoyenne non marchande constitue un apport méthodologique original, transposant les techniques du renseignement au service du bien commun.</li>
+                <li><strong>Incarnation technique des valeurs</strong> : L'architecture Jamstack, le zéro tracking et l'open source ne sont pas de simples choix techniques mais des actes politiques cohérents avec la philosophie du projet.</li>
+            </ol>
+
+            <h4>Limites et tensions</h4>
+
+            <p>Le projet n'est pas exempt de tensions internes :</p>
+
+            <ul>
+                <li><strong>Anonymat vs. légitimité institutionnelle</strong> : La candidature à l'éducation permanente exige une identification des porteurs de projet</li>
+                <li><strong>Radicalité vs. accessibilité</strong> : Le vocabulaire parfois technique peut exclure le « citoyen lambda » visé</li>
+                <li><strong>Fragmentation vs. cohérence</strong> : L'architecture distribuée, gage de résilience, complique la navigation</li>
+            </ul>
+
+            <h4>Prospective</h4>
+
+            <p>À l'horizon 2026, si le plan est exécuté avec discipline, Ouaisfieu pourrait constituer un modèle de « résilience citoyenne » reproductible<sup class="citation">[56]</sup>. Le projet de « Manifeste .md » — fichier Markdown racine expliquant « Comment forker ce projet » — vise explicitement à permettre à d'autres collectifs de dupliquer l'infrastructure (« Ouaisfieu Liège », « Ouaisfieu Charleroi »)<sup class="citation">[57]</sup>.</p>
+
+            <blockquote>
+                « La technologie, ici, n'est pas une fin, mais le levier d'une reconquête démocratique. »
+                <br>— <em>Plan Hub Central</em><sup class="citation">[58]</sup>
+            </blockquote>
+
+            <!-- ANNEXES -->
+            <h2 id="annexes">Annexes</h2>
+
+            <h3>Annexe A : Tableau synoptique des composantes</h3>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Composante</th>
+                    <th>URL / Identifiant</th>
+                    <th>Fonction</th>
+                    <th>Statut</th>
+                </tr>
+                <tr>
+                    <td>La Vitrine</td>
+                    <td>ouaisfi.eu</td>
+                    <td>Site principal, présentation grand public</td>
+                    <td>En migration</td>
+                </tr>
+                <tr>
+                    <td>L'Atelier</td>
+                    <td>ouaisfieu.github.io</td>
+                    <td>Site technique, documentation</td>
+                    <td>Actif</td>
+                </tr>
+                <tr>
+                    <td>Le Back-Office</td>
+                    <td>ouaisfieu.appsmith.com</td>
+                    <td>Gestion interne, outils</td>
+                    <td>Privé</td>
+                </tr>
+                <tr>
+                    <td>Les Archives</td>
+                    <td>dl.ouaisfi.eu</td>
+                    <td>Serveur de fichiers (PDFs, Datasets)</td>
+                    <td>Actif</td>
+                </tr>
+                <tr>
+                    <td>Le Social</td>
+                    <td>@ouaisfi.eu (Bluesky)</td>
+                    <td>Présence réseau social</td>
+                    <td>Actif</td>
+                </tr>
+            </table>
+
+            <h3>Annexe B : Glossaire</h3>
+
+            <table class="wikitable">
+                <tr>
+                    <th>Terme</th>
+                    <th>Définition</th>
+                </tr>
+                <tr>
+                    <td><strong>Particratie</strong></td>
+                    <td>Système où les partis politiques dominent les institutions formelles</td>
+                </tr>
+                <tr>
+                    <td><strong>Pilarisation</strong></td>
+                    <td>Organisation de la société en « piliers » idéologiques (catholique, socialiste, libéral)</td>
+                </tr>
+                <tr>
+                    <td><strong>DICS</strong></td>
+                    <td>Données → Information → Connaissance → Sagesse (modèle cognitif)</td>
+                </tr>
+                <tr>
+                    <td><strong>OSINT</strong></td>
+                    <td>Open Source Intelligence — renseignement en sources ouvertes</td>
+                </tr>
+                <tr>
+                    <td><strong>Jamstack</strong></td>
+                    <td>Architecture web statique (JavaScript, APIs, Markup)</td>
+                </tr>
+                <tr>
+                    <td><strong>Lead-dexing</strong></td>
+                    <td>Méthode d'indexation collaborative et d'interpellation publique</td>
+                </tr>
+                <tr>
+                    <td><strong>Sousveillance</strong></td>
+                    <td>Surveillance du pouvoir par les citoyens (inverse du panoptique)</td>
+                </tr>
+            </table>
+
+            <!-- RÉFÉRENCES -->
+            <h2 id="references">Notes et références</h2>
+
+            <ol class="references">
+                <li id="ref1">Écosystème ouaisfieu : Exploration et Expansion, p. 1 : « Nous ne sommes pas ici en présence d'un simple site web, mais face à ce que l'on pourrait qualifier de Contre-Institution Numérique. »</li>
+                <li id="ref2">Cahier des Charges de la Contre-Institution Numérique, § 1.1 : « Outiller le citoyen face à la complexité. »</li>
+                <li id="ref3">BXL2030, « Signes actuels de crises systémiques à Bruxelles (2023-2025) ».</li>
+                <li id="ref4">Plan Hub Central, § 1.1 : « Le citoyen se trouve démuni, coincé entre une indignation passive et une incompréhension des mécanismes complexes. »</li>
+                <li id="ref5">Cahier des Charges, § 1.1.</li>
+                <li id="ref6">Écosystème ouaisfieu, p. 2 : « Utilisant paradoxalement les outils les plus avancés du capitalisme numérique pour en déconstruire les mécanismes. »</li>
+                <li id="ref7">Cahier des Charges, § 1.2 : « Les Trois Piliers Narratifs. »</li>
+                <li id="ref8">Douglas Schuler, « Civic Intelligence and the Public Sphere », in <em>Liberating Voices</em>, MIT Press, 2008.</li>
+                <li id="ref9">L'Intelligence Citoyenne : Levier Stratégique, § 1 : « Fondements de l'Intelligence Citoyenne. »</li>
+                <li id="ref10">Cahier des Charges, § 2 : « L'architecture de l'information doit guider l'utilisateur à travers la pyramide DICS. »</li>
+                <li id="ref11">Steve Mann, « Sousveillance », <em>Surveillance & Society</em>, vol. 1, n° 3, 2003.</li>
+                <li id="ref12">Veille citoyenne et intelligence non marchande, § 1.3.</li>
+                <li id="ref13">L'Intelligence Citoyenne, § 1 : « Surveiller les surveillants. »</li>
+                <li id="ref14">Représentation démocratique en Belgique (ChatGPT), p. 1.</li>
+                <li id="ref15">Wilfried Dewachter, <em>De mythe van de parlementaire democratie</em>, Acco, 2001.</li>
+                <li id="ref16">Parlementaires Belges : Constitution, Partis, Réalité, § 2.</li>
+                <li id="ref17">My Spot, p. 3 : « Les présidents décident de la participation aux coalitions. »</li>
+                <li id="ref18">Particratie belge (Claude), § 1.2.</li>
+                <li id="ref19">Représentation démocratique, p. 2.</li>
+                <li id="ref20">Parlementaires Belges, Conclusion.</li>
+                <li id="ref21">Belgique : Particratie, Citoyenneté et Totalitarisme, Conclusion.</li>
+                <li id="ref22">Représentation démocratique, § « Pilarisation historique ».</li>
+                <li id="ref23"><em>Ibid.</em></li>
+                <li id="ref24">Représentation démocratique, § « Dépilarisation progressive ».</li>
+                <li id="ref25">Représentation, § « Freins et obstacles ».</li>
+                <li id="ref26">Particratie, Citoyenneté et Totalitarisme, Partie II.</li>
+                <li id="ref27"><em>Ibid.</em>, § 2.1.</li>
+                <li id="ref28">Cour de cassation, communiqué de rentrée judiciaire 2024.</li>
+                <li id="ref29">Klimaatzaak c. Belgique, Cour d'appel de Bruxelles, novembre 2023.</li>
+                <li id="ref30">CEDH, <em>Mugemangango c. Belgique</em>, 10 juillet 2020.</li>
+                <li id="ref31">Particratie et Totalitarisme, Partie III.</li>
+                <li id="ref32"><em>Ibid.</em>, § 4.3.</li>
+                <li id="ref33">BXL2030, « Crises systémiques ».</li>
+                <li id="ref34">Plan Hub Central, § 5.1.</li>
+                <li id="ref35">BXL2030, données logement.</li>
+                <li id="ref36">BXL2030, données narcotrafic 2023.</li>
+                <li id="ref37">Plan Hub Central, § 4.2.</li>
+                <li id="ref38">Écosystème ouaisfieu, § 1.1.</li>
+                <li id="ref39">Cahier des Charges, § 3.</li>
+                <li id="ref40">Plan Hub Central, § 3.2.</li>
+                <li id="ref41">Cahier des Charges, § 3 : « Strictement aucun cookie tiers. »</li>
+                <li id="ref42">Shoshana Zuboff, <em>The Age of Surveillance Capitalism</em>, PublicAffairs, 2019.</li>
+                <li id="ref43">OSINT (ChatGPT), Introduction.</li>
+                <li id="ref44"><em>Ibid.</em>, « Brève histoire ».</li>
+                <li id="ref45">Veille citoyenne, § 1.2.</li>
+                <li id="ref46"><em>Ibid.</em>, Tableau comparatif.</li>
+                <li id="ref47">Veille citoyenne, Conclusion.</li>
+                <li id="ref48">BXL2030, « Méthode Lead-dexing ».</li>
+                <li id="ref49">Ouaisfieu : Décryptage, § 3.</li>
+                <li id="ref50">CCPLC, Documentation.</li>
+                <li id="ref51">Plan Hub Central, § 4.3.2.</li>
+                <li id="ref52">Décret du 17 juillet 2003, Fédération Wallonie-Bruxelles.</li>
+                <li id="ref53">Dossier de Candidature, § 3.</li>
+                <li id="ref54">Dossier de Candidature, § 4.</li>
+                <li id="ref55">Ouaisfieu.md, « Échéance annoncée ».</li>
+                <li id="ref56">Plan Hub Central, Conclusion.</li>
+                <li id="ref57">Cahier des Charges, § 5.</li>
+                <li id="ref58">Plan Hub Central, Conclusion finale.</li>
+            </ol>
+
+            <!-- BIBLIOGRAPHIE -->
+            <h2 id="bibliographie">Bibliographie</h2>
+
+            <h4>Sources primaires (corpus Ouaisfieu)</h4>
+            <ul>
+                <li><em>Cahier des Charges de la Contre-Institution Numérique</em>, Ouaisfieu, 2025.</li>
+                <li><em>Plan Hub Central : Rapport de Recherche et Plan de Mise en Œuvre Stratégique</em>, Ouaisfieu, 2025.</li>
+                <li><em>Écosystème ouaisfieu : Exploration et Expansion</em>, Ouaisfieu, 2025.</li>
+                <li><em>Dossier de Candidature : Reconnaissance en Éducation Permanente</em>, Ouaisfieu, 2025.</li>
+                <li><em>L'Intelligence Citoyenne : Levier Stratégique pour l'Action Collective</em>, Ouaisfieu, 2025.</li>
+                <li><em>Veille citoyenne et intelligence non marchande : panorama mondial</em>, Ouaisfieu, 2025.</li>
+                <li><em>La Particratie Belge : Entre Constitutionnalisme de Façade et Dérive Illibérale</em>, Ouaisfieu, 2025.</li>
+                <li><em>Parlementaires Belges : Constitution, Partis, Réalité</em>, Ouaisfieu, 2025.</li>
+            </ul>
+
+            <h4>Sources secondaires</h4>
+            <ul>
+                <li>Dewachter, Wilfried. <em>De mythe van de parlementaire democratie</em>. Leuven: Acco, 2001.</li>
+                <li>Lijphart, Arend. <em>The Politics of Accommodation: Pluralism and Democracy in the Netherlands</em>. Berkeley: University of California Press, 1968.</li>
+                <li>Rosanvallon, Pierre. <em>La contre-démocratie : La politique à l'âge de la défiance</em>. Paris: Seuil, 2006.</li>
+                <li>Ostrom, Elinor. <em>Governing the Commons</em>. Cambridge: Cambridge University Press, 1990.</li>
+                <li>Schuler, Douglas. <em>Liberating Voices: A Pattern Language for Communication Revolution</em>. Cambridge: MIT Press, 2008.</li>
+                <li>Zuboff, Shoshana. <em>The Age of Surveillance Capitalism</em>. New York: PublicAffairs, 2019.</li>
+                <li>Mann, Steve. « Sousveillance: Inverse Surveillance in Multimedia Imaging ». <em>Proceedings of ACM Multimedia</em>, 2004.</li>
+                <li>Goëta, Samuel. <em>Les données de la démocratie</em>. Paris: C&F Éditions, 2024.</li>
+            </ul>
+
+            <!-- VOIR AUSSI -->
+            <h2 id="voir-aussi">Voir aussi</h2>
+
+            <h4>Articles connexes</h4>
+            <ul>
+                <li><a href="#particratie">Particratie</a></li>
+                <li><a href="#pilarisation">Pilarisation en Belgique</a></li>
+                <li><a class="redlink">Démocratie consociative</a></li>
+                <li><a class="redlink">Open Source Intelligence (OSINT)</a></li>
+                <li><a class="redlink">Éducation permanente en Belgique</a></li>
+                <li><a class="redlink">Communs numériques</a></li>
+                <li><a class="redlink">Civic Tech</a></li>
+            </ul>
+
+            <h4>Liens externes</h4>
+            <ul>
+                <li><a href="https://ouaisfi.eu">Site officiel ouaisfi.eu</a></li>
+                <li><a href="https://ouaisfieu.github.io/tech/">DOCTech — Fiches conceptuelles</a></li>
+                <li><a href="https://ouaisfieu.github.io/bxl2030/">BXL2030 — Observatoire des crises</a></li>
+                <li><a href="https://bsky.app/profile/ouaisfi.eu">@ouaisfi.eu sur Bluesky</a></li>
+            </ul>
+
+            <!-- NAVBOX -->
+            <table class="navbox">
+                <tr>
+                    <td class="navbox-title" colspan="2">Écosystème Ouaisfieu</td>
+                </tr>
+                <tr>
+                    <td class="navbox-group">Plateformes</td>
+                    <td class="navbox-list">ouaisfi.eu · DOCTech · BXL2030 · Dossiers · 11·60 bis · EARL · Biologia</td>
+                </tr>
+                <tr>
+                    <td class="navbox-group">Concepts</td>
+                    <td class="navbox-list">Contre-institution · Pyramide DICS · Lead-dexing · Intelligence citoyenne · Sousveillance</td>
+                </tr>
+                <tr>
+                    <td class="navbox-group">Analyses</td>
+                    <td class="navbox-list">Particratie · Pilarisation · Crises systémiques · Illégalité de l'État</td>
+                </tr>
+                <tr>
+                    <td class="navbox-group">Technique</td>
+                    <td class="navbox-list">Jamstack · Jekyll · Hugo · GitHub Pages · Zéro tracking · CC BY-NC 4.0</td>
+                </tr>
+                <tr>
+                    <td class="navbox-group">Organisation</td>
+                    <td class="navbox-list">CCPLC · Éducation permanente · Do-ocracy</td>
+                </tr>
+            </table>
+
+            <!-- CATÉGORIES -->
+            <div class="catlinks">
+                <span class="catlinks-title">Catégories :</span>
+                <a href="#">Civic Tech en Belgique</a> · 
+                <a href="#">Démocratie participative</a> · 
+                <a href="#">Intelligence économique</a> · 
+                <a href="#">Éducation permanente</a> · 
+                <a href="#">Système politique belge</a> · 
+                <a href="#">Bruxelles</a> · 
+                <a href="#">Communs numériques</a> · 
+                <a href="#">OSINT</a>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="wiki-sidebar">
+            <div class="sidebar-box">
+                <div class="sidebar-title">📚 Navigation</div>
+                <div class="sidebar-content">
+                    <ul>
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#partie1">Cadre théorique</a></li>
+                        <li><a href="#partie2">Pathologie démocratique</a></li>
+                        <li><a href="#partie3">Crises bruxelloises</a></li>
+                        <li><a href="#partie4">Écosystème technique</a></li>
+                        <li><a href="#partie5">Intelligence citoyenne</a></li>
+                        <li><a href="#partie6">Éducation permanente</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <div class="sidebar-title">🔗 Liens rapides</div>
+                <div class="sidebar-content">
+                    <ul>
+                        <li><a href="#particratie">→ Particratie</a></li>
+                        <li><a href="#intelligence-citoyenne">→ Intelligence citoyenne</a></li>
+                        <li><a href="#crises-systemiques">→ Crises systémiques</a></li>
+                        <li><a href="#ccplc">→ CCPLC</a></li>
+                        <li><a href="#leaddexing">→ Lead-dexing</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <div class="sidebar-title">📊 Statistiques du corpus</div>
+                <div class="sidebar-content">
+                    <ul>
+                        <li><strong>Documents analysés :</strong> 50+</li>
+                        <li><strong>Plateformes :</strong> 7</li>
+                        <li><strong>Dépôts GitHub :</strong> 6+</li>
+                        <li><strong>Thématiques :</strong> 5 axes</li>
+                        <li><strong>Références :</strong> 58</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <div class="sidebar-title">📅 Échéances</div>
+                <div class="sidebar-content">
+                    <ul>
+                        <li><strong>Mars 2026 :</strong> Dépôt dossier EP</li>
+                        <li><strong>2026-2028 :</strong> Moratoire FWB</li>
+                        <li><strong>Objectif :</strong> Contrat-programme 5 ans</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <div class="sidebar-title">🏷️ Mots-clés</div>
+                <div class="sidebar-content" style="font-size: 0.85rem;">
+                    <a href="#particratie">particratie</a> · 
+                    <a href="#pilarisation">pilarisation</a> · 
+                    <a href="#intelligence-citoyenne">DICS</a> · 
+                    <a href="#osint">OSINT</a> · 
+                    <a href="#jamstack">Jamstack</a> · 
+                    <a href="#zero-tracking">zéro tracking</a> · 
+                    <a href="#ccplc">CCPLC</a> · 
+                    <a href="#leaddexing">lead-dexing</a> · 
+                    Bruxelles · 
+                    éducation permanente
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="wiki-footer">
+        <p>Cette page a été générée à partir du corpus documentaire de l'écosystème Ouaisfieu.</p>
+        <p>Contenu sous licence <strong>CC BY-NC 4.0</strong> — Dernière modification : janvier 2026</p>
+        <p><em>« Ouais fieu, ceci n'est pas un jeu, c'est une trousse à outils. »</em></p>
+    </footer>
+
+    <div class="jump-top" id="jumpTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Haut</div>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress').style.width = scrolled + '%';
+            
+            // Jump to top button
+            const jumpTop = document.getElementById('jumpTop');
+            if (winScroll > 500) {
+                jumpTop.classList.add('visible');
+            } else {
+                jumpTop.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
