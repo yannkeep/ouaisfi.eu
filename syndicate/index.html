@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démogarchie — Wikipédia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Liberation Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #202122;
+            background: #f8f9fa;
+        }
+        
+        .wiki-header {
+            background: #fff;
+            border-bottom: 1px solid #a2a9b1;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .wiki-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #000 25%, #fff 25%, #fff 50%, #000 50%, #000 75%, #fff 75%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .wiki-title {
+            font-family: 'Linux Libertine', 'Georgia', serif;
+            font-size: 18px;
+        }
+        
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            border-left: 1px solid #a2a9b1;
+            border-right: 1px solid #a2a9b1;
+        }
+        
+        .content {
+            padding: 20px 30px;
+        }
+        
+        h1.page-title {
+            font-family: 'Linux Libertine', 'Georgia', serif;
+            font-size: 28px;
+            font-weight: normal;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .notice-box {
+            background: #f8eaba;
+            border: 1px solid #ac6600;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .notice-box::before {
+            content: "⚠️ ";
+        }
+        
+        .infobox {
+            float: right;
+            width: 280px;
+            margin: 0 0 15px 20px;
+            border: 1px solid #a2a9b1;
+            background: #f8f9fa;
+            font-size: 13px;
+        }
+        
+        .infobox-title {
+            background: #4a0080;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            font-weight: bold;
+        }
+        
+        .infobox-image {
+            text-align: center;
+            padding: 10px;
+            background: #fff;
+        }
+        
+        .infobox-image svg {
+            max-width: 150px;
+        }
+        
+        .infobox-caption {
+            font-size: 11px;
+            color: #54595d;
+            text-align: center;
+            padding: 5px;
+            font-style: italic;
+        }
+        
+        .infobox table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .infobox th, .infobox td {
+            padding: 5px 8px;
+            border-top: 1px solid #a2a9b1;
+            vertical-align: top;
+        }
+        
+        .infobox th {
+            text-align: left;
+            background: #eaecf0;
+            width: 40%;
+        }
+        
+        h2 {
+            font-family: 'Linux Libertine', 'Georgia', serif;
+            font-size: 22px;
+            font-weight: normal;
+            border-bottom: 1px solid #a2a9b1;
+            margin: 25px 0 10px 0;
+            padding-bottom: 3px;
+        }
+        
+        h3 {
+            font-size: 17px;
+            margin: 20px 0 8px 0;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .redlink {
+            color: #ba0000;
+        }
+        
+        sup {
+            font-size: 10px;
+        }
+        
+        sup a {
+            color: #0645ad;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 10px 15px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .toc ol {
+            margin-left: 20px;
+        }
+        
+        .toc li {
+            margin: 3px 0;
+        }
+        
+        .quote-box {
+            margin: 15px 40px;
+            padding-left: 15px;
+            border-left: 3px solid #c8ccd1;
+            font-style: italic;
+            color: #54595d;
+        }
+        
+        .elvish {
+            font-style: italic;
+            color: #5a5a5a;
+            background: #f0f8f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .ref-section {
+            font-size: 13px;
+            background: #f8f9fa;
+            padding: 15px;
+            margin-top: 30px;
+            border: 1px solid #a2a9b1;
+        }
+        
+        .categories {
+            margin-top: 30px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            font-size: 13px;
+        }
+        
+        .category-label {
+            font-weight: bold;
+        }
+        
+        .edit-link {
+            font-size: 12px;
+            color: #54595d;
+        }
+        
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .columns {
+            column-count: 2;
+            column-gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .infobox {
+                float: none;
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+            .columns {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="wiki-header">
+        <div class="wiki-logo">W</div>
+        <div class="wiki-title">Wikipédia – L'encyclopédie libre</div>
+    </header>
+    
+    <main class="main-container">
+        <div class="content clearfix">
+            <h1 class="page-title">Démogarchie</h1>
+            
+            <div class="notice-box">
+                Cet article concerne un concept politique émergent. Les sources académiques sont encore <span class="elvish">ar sindanóriello mellon caita</span> (en cours de constitution).
+            </div>
+            
+            <div class="infobox">
+                <div class="infobox-title">Démogarchie</div>
+                <div class="infobox-image">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Cercle extérieur fragmenté -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#4a0080" stroke-width="3" stroke-dasharray="20 10"/>
+                        <!-- Étoile centrale à 7 branches (impair = pas de chef) -->
+                        <polygon points="100,30 112,70 155,70 120,95 135,140 100,115 65,140 80,95 45,70 88,70" fill="#4a0080" opacity="0.8"/>
+                        <!-- Cercles interconnectés (réseaux) -->
+                        <circle cx="60" cy="60" r="12" fill="none" stroke="#d4a500" stroke-width="2"/>
+                        <circle cx="140" cy="60" r="12" fill="none" stroke="#d4a500" stroke-width="2"/>
+                        <circle cx="60" cy="150" r="12" fill="none" stroke="#d4a500" stroke-width="2"/>
+                        <circle cx="140" cy="150" r="12" fill="none" stroke="#d4a500" stroke-width="2"/>
+                        <!-- Lignes de connexion -->
+                        <line x1="72" y1="60" x2="88" y2="70" stroke="#d4a500" stroke-width="1.5"/>
+                        <line x1="128" y1="60" x2="112" y2="70" stroke="#d4a500" stroke-width="1.5"/>
+                        <line x1="72" y1="150" x2="80" y2="130" stroke="#d4a500" stroke-width="1.5"/>
+                        <line x1="128" y1="150" x2="120" y2="130" stroke="#d4a500" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <div class="infobox-caption">Symbole de la démogarchie : l'étoile à sept branches dans le cercle brisé</div>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <td>Système politique hybride</td>
+                    </tr>
+                    <tr>
+                        <th>Origine</th>
+                        <td>XXI<sup>e</sup> siècle</td>
+                    </tr>
+                    <tr>
+                        <th>Fondateurs</th>
+                        <td><span class="elvish">Tyelkormo ar Irissë</span> (attribué)</td>
+                    </tr>
+                    <tr>
+                        <th>Principes clés</th>
+                        <td>Souveraineté distribuée, subsidiarité radicale, rotation obligatoire</td>
+                    </tr>
+                    <tr>
+                        <th>Influences</th>
+                        <td><a href="#">Anarchisme</a>, <a href="#">Démocratie directe</a>, <a href="#">Municipalisme libertaire</a></td>
+                    </tr>
+                    <tr>
+                        <th>Opposé à</th>
+                        <td>Particratie, Technocratie, Oligarchie</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <p>
+                La <b>démogarchie</b> (du grec ancien <i>δῆμος</i> / <i>dêmos</i>, « peuple », et <i>ἀρχή</i> / <i>arkhế</i>, « commencement, principe ») est un système politique théorique proposé comme évolution de l'<a href="#">anarchisme</a> classique, visant à résoudre les problèmes historiques d'organisation et de passage à l'échelle qui ont conduit à l'échec des expériences anarchistes du XX<sup>e</sup> siècle<sup><a href="#ref1">[1]</a></sup>.
+            </p>
+            
+            <p>
+                Contrairement à l'anarchie qui rejette toute forme de pouvoir institutionnel, la démogarchie accepte l'existence de structures de coordination, mais les soumet à des mécanismes de <b>dissolution automatique</b>, de <b>rotation obligatoire</b> et de <b>révocabilité instantanée</b>. Le terme a été popularisé dans les cercles <span class="elvish">mellon en-gwaith</span> (forums citoyens alternatifs) à partir des années 2020<sup><a href="#ref2">[2]</a></sup>.
+            </p>
+            
+            <div class="toc">
+                <div class="toc-title">Sommaire</div>
+                <ol>
+                    <li><a href="#etymologie">Étymologie et néologisme</a></li>
+                    <li><a href="#principes">Principes fondamentaux</a>
+                        <ol>
+                            <li><a href="#subsidiarite">Subsidiarité radicale</a></li>
+                            <li><a href="#rotation">Rotation et tirage au sort</a></li>
+                            <li><a href="#revocabilite">Révocabilité instantanée</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#critique">Critique de l'anarchisme historique</a></li>
+                    <li><a href="#applications">Applications et expérimentations</a></li>
+                    <li><a href="#critiques">Critiques et limites</a></li>
+                    <li><a href="#references">Références</a></li>
+                </ol>
+            </div>
+            
+            <h2 id="etymologie">Étymologie et néologisme</h2>
+            
+            <p>
+                Le terme « démogarchie » constitue un <a href="#">mot-valise</a> combinant « démocratie » et « anarchie », mais son étymologie revendiquée par ses théoriciens insiste sur le retour au sens premier de <i>arkhế</i> : non pas « pouvoir » ou « commandement » (sens dérivé), mais « commencement », « principe », « origine »<sup><a href="#ref3">[3]</a></sup>. Ainsi, la démogarchie se présente comme le « principe du peuple » ou « l'origine populaire » de toute décision collective.
+            </p>
+            
+            <div class="quote-box">
+                « <span class="elvish">I faer nín ae an-uir, si loth e-guil nín</span> — Le pouvoir qui s'éternise se corrompt ; celui qui tourne comme les saisons reste pur. »
+                <br>— Maxime démogarchique (source contestée)
+            </div>
+            
+            <p>
+                Cette réappropriation étymologique vise à se distinguer de l'anarchisme classique, souvent perçu comme synonyme de chaos ou de désorganisation dans l'imaginaire collectif. <span class="elvish">Ar Tinúviel linnatha vi amar</span>. Les partisans de la démogarchie préfèrent parler d'« organisation sans permanence » plutôt que d'« absence d'organisation »<sup><a href="#ref4">[4]</a></sup>.
+            </p>
+            
+            <h2 id="principes">Principes fondamentaux</h2>
+            
+            <h3 id="subsidiarite">Subsidiarité radicale</h3>
+            
+            <p>
+                Le principe de <b>subsidiarité radicale</b> stipule que toute décision doit être prise au niveau le plus local possible, et que les niveaux supérieurs n'existent que pour coordonner ce que les niveaux inférieurs ne peuvent pas gérer seuls. Contrairement à la subsidiarité classique (présente dans le fédéralisme ou la doctrine sociale de l'Église), la version démogarchique interdit aux échelons supérieurs de <i>prendre</i> des décisions : ils ne peuvent que <i>faciliter</i> la prise de décision par les échelons inférieurs<sup><a href="#ref5">[5]</a></sup>.
+            </p>
+            
+            <p>
+                <span class="elvish">Elen síla lúmenn' omentielvo, ar i hini Ilúvataro tiruvar amar</span>. Cette architecture crée ce que les théoriciens appellent une « pyramide inversée » où l'autorité émane exclusivement de la base. Les instances de coordination régionales ou globales sont décrites comme des « serviteurs logistiques » sans pouvoir propre<sup><a href="#ref6">[6]</a></sup>.
+            </p>
+            
+            <h3 id="rotation">Rotation et tirage au sort</h3>
+            
+            <p>
+                La démogarchie emprunte à la <a href="#">stochocratie</a> athénienne le principe du <a href="#">tirage au sort</a>, mais y ajoute une contrainte temporelle stricte : aucun mandat ne peut excéder <b>six mois</b>, et aucune personne ne peut exercer deux mandats consécutifs dans quelque fonction que ce soit. Cette règle, appelée « principe de Périclès inversé », vise à empêcher la professionnalisation politique<sup><a href="#ref7">[7]</a></sup>.
+            </p>
+            
+            <p>
+                Le tirage au sort s'effectue parmi des <b>pools de volontaires</b> ayant suivi une formation citoyenne minimale. <span class="elvish">Nai tiruvantel ar varyuvantel i Valar tielyanna nu vilya</span>. Les critères d'éligibilité et les modalités de formation font l'objet de débats internes au mouvement démogarchique<sup><a href="#ref8">[8]</a></sup>.
+            </p>
+            
+            <h3 id="revocabilite">Révocabilité instantanée</h3>
+            
+            <p>
+                Tout mandataire peut être révoqué à tout moment par un vote de défiance réunissant 15% des personnes qu'il représente. Ce seuil volontairement bas vise à maintenir une « pression constante » sur les mandataires et à décourager toute velléité d'autonomisation. Les théoriciens parlent de « mandat impératif dynamique »<sup><a href="#ref9">[9]</a></sup>.
+            </p>
+            
+            <h2 id="critique">Critique de l'anarchisme historique</h2>
+            
+            <p>
+                La démogarchie se construit explicitement comme une réponse aux échecs historiques de l'anarchisme. Ses théoriciens identifient plusieurs causes structurelles à ces échecs :
+            </p>
+            
+            <p>
+                <b>Le problème du vide organisationnel</b> : l'anarchisme classique, en refusant toute structure permanente, créait paradoxalement les conditions d'émergence de <a href="#">tyrannies informelles</a>. <span class="elvish">Ai! Laurië lantar lassi súrinen, ar sindanóriello caita mornie</span>. Les collectifs anarchistes historiques ont souvent vu émerger des leaders charismatiques non-élus exerçant une influence disproportionnée<sup><a href="#ref10">[10]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Le problème de l'échelle</b> : les expériences anarchistes réussies (Catalogne 1936-1939, <a href="#">Commune de Paris</a>, etc.) n'ont jamais réussi à se maintenir face à des adversaires étatiques organisés. La démogarchie propose des mécanismes de coordination inter-communautaire inspirés des <a href="#">protocoles décentralisés</a> et de la <a href="#">théorie des réseaux</a><sup><a href="#ref11">[11]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Le problème de la défense</b> : comment une société sans État permanent peut-elle se défendre contre des agressions extérieures ? La démogarchie propose le concept de « milice liquide » — <span class="elvish">gwaith-en-míriel</span> — une force défensive activable uniquement par consensus et automatiquement dissoute après la fin de la menace<sup><a href="#ref12">[12]</a></sup>.
+            </p>
+            
+            <h2 id="applications">Applications et expérimentations</h2>
+            
+            <p>
+                Plusieurs collectifs à travers le monde revendiquent une organisation démogarchique, principalement dans les domaines suivants :
+            </p>
+            
+            <p>
+                <b>Coopératives de production</b> : certaines <a href="#">SCOP</a> et coopératives intégrales ont adopté des éléments démogarchiques, notamment la rotation obligatoire des postes de direction. <span class="elvish">Annon edhellen, edro hi ammen! Fennas nogothrim, lasto beth lammen</span>. Les résultats empiriques restent cependant difficiles à évaluer en raison du faible échantillon et de la jeunesse de ces expériences<sup><a href="#ref13">[13]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Gouvernance numérique</b> : plusieurs projets de <a href="#">DAO</a> (organisations autonomes décentralisées) s'inspirent explicitement de la démogarchie pour concevoir leurs mécanismes de gouvernance on-chain. Le protocole <span class="elvish">Celeborn</span> (2023) intègre notamment un mécanisme de rotation automatique des validateurs<sup><a href="#ref14">[14]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Assemblées citoyennes</b> : des expériences de <a href="#">conventions citoyennes</a> tirées au sort, comme celles menées en Irlande ou en France, sont parfois citées comme des « proto-démogarchies », bien que leurs promoteurs ne revendiquent généralement pas cette filiation<sup><a href="#ref15">[15]</a></sup>.
+            </p>
+            
+            <h2 id="critiques">Critiques et limites</h2>
+            
+            <p>
+                La démogarchie fait l'objet de nombreuses critiques, tant de la part des courants politiques traditionnels que de l'anarchisme classique.
+            </p>
+            
+            <p>
+                <b>Critique libérale</b> : les penseurs libéraux reprochent à la démogarchie d'ignorer les problèmes de compétence et d'expertise. La rotation obligatoire empêcherait l'accumulation de <a href="#">capital humain</a> nécessaire à la gestion de systèmes complexes. <span class="elvish">Cuio mae! Mára aurë, mellon nín, ar mára mesta</span><sup><a href="#ref16">[16]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Critique anarchiste</b> : certains anarchistes considèrent la démogarchie comme une « récupération édulcorée » de l'anarchisme, acceptant trop de compromis avec les formes institutionnelles. Le maintien de mandats, même courts et révocables, constituerait une trahison du principe d'auto-organisation<sup><a href="#ref17">[17]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Critique pratique</b> : les sociologues des organisations soulignent les coûts de transaction considérables qu'engendrerait un système de rotation permanente : perte de mémoire institutionnelle, temps de formation récurrent, instabilité décisionnelle. <span class="elvish">Aiya Eärendil elenion ancalima! Ar ilúvatar enyalië</span><sup><a href="#ref18">[18]</a></sup>.
+            </p>
+            
+            <p>
+                <b>Critique marxiste</b> : les penseurs <a href="#">marxistes</a> reprochent à la démogarchie d'ignorer les rapports de production et de se concentrer exclusivement sur les formes politiques. Sans transformation des rapports économiques, les mécanismes démogarchiques seraient rapidement capturés par les intérêts de classe dominants<sup><a href="#ref19">[19]</a></sup>.
+            </p>
+            
+            <div class="ref-section" id="references">
+                <h2 style="border: none; margin-top: 0;">Références</h2>
+                <ol style="margin-left: 20px; font-size: 12px;">
+                    <li id="ref1"><span class="elvish">Lúthien Tinúviel</span>, <i>L'Échec des utopies libertaires</i>, Éditions <span class="elvish">Menegroth</span>, 2021, p. 45-67.</li>
+                    <li id="ref2">Archives du forum <span class="elvish">Gwaith-i-Mírdain</span>, consultées le 15 mars 2024.</li>
+                    <li id="ref3"><span class="elvish">Eärendil Ardamírë</span>, « Retour aux sources grecques », <i>Revue de philosophie politique</i>, vol. 34, 2022.</li>
+                    <li id="ref4">Collectif <span class="elvish">Noldor</span>, <i>Manifeste pour une organisation sans permanence</i>, autopublié, 2020.</li>
+                    <li id="ref5"><span class="elvish">Galadriel Artanis</span>, « Subsidiarité radicale et fédéralisme », <i>Cahiers de l'autonomie</i>, n°12, 2023.</li>
+                    <li id="ref6"><i>Ibid.</i>, p. 89.</li>
+                    <li id="ref7"><span class="elvish">Fingolfin Nolofinwë</span>, <i>Athènes revisitée</i>, Presses du <span class="elvish">Valinor</span>, 2022.</li>
+                    <li id="ref8">Actes du colloque « <span class="elvish">Cuivië</span> 2023 », Université libre de <span class="elvish">Tirion</span>.</li>
+                    <li id="ref9"><span class="elvish">Círdan Nowë</span>, « Le mandat impératif à l'ère numérique », <i>Droit et société</i>, 2023.</li>
+                    <li id="ref10">Jo Freeman, « La tyrannie de l'absence de structure », 1972, trad. fr. 2005.</li>
+                    <li id="ref11"><span class="elvish">Elrond Peredhel</span>, <i>Réseaux et révolution</i>, Éditions <span class="elvish">Imladris</span>, 2021.</li>
+                    <li id="ref12">Collectif <span class="elvish">Sindarin</span>, « Défense sans État », <i>Stratégies alternatives</i>, n°7, 2022.</li>
+                    <li id="ref13">Rapport SCOP France, « Gouvernance alternative », 2023, <span class="elvish">ar mellyn în</span>.</li>
+                    <li id="ref14">Documentation technique du protocole <span class="elvish">Celeborn</span>, GitHub, 2023.</li>
+                    <li id="ref15"><span class="elvish">Turgon Turukáno</span>, « Conventions citoyennes : vers la démogarchie ? », <i>Le Monde diplomatique</i>, juin 2022.</li>
+                    <li id="ref16"><span class="elvish">Fëanor Curufinwë</span>, « Critique libérale de la rotation », <i>Journal of Political Economy</i>, 2023.</li>
+                    <li id="ref17"><span class="elvish">Maeglin Lómion</span>, « Contre la démogarchie », <i>Réfractions</i>, n°48, 2022.</li>
+                    <li id="ref18"><span class="elvish">Celebrimbor Telperinquar</span>, « Coûts organisationnels de la rotation », <i>Organization Studies</i>, 2023.</li>
+                    <li id="ref19"><span class="elvish">Maedhros Nelyafinwë</span>, « Critique matérialiste », <i>Actuel Marx</i>, n°72, 2022.</li>
+                </ol>
+            </div>
+            
+            <div class="categories">
+                <span class="category-label">Catégories :</span>
+                <a href="#">Théorie politique</a> · 
+                <a href="#">Anarchisme</a> · 
+                <a href="#">Démocratie</a> · 
+                <a href="#">Gouvernance</a> · 
+                <a href="#">Néologisme politique</a> · 
+                <a class="redlink" href="#">Concepts politiques du XXIe siècle</a> ·
+                <a class="redlink" href="#"><span class="elvish">Noldorin politics</span></a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
