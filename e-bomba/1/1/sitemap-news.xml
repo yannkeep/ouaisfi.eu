@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/communique-presse-petition-rtl.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-28T08:00:00+01:00</news:publication_date>
+      <news:title>Plus de 50.000 citoyens exigent que RTL requalifie « Tous Fraudeurs » en docu-fiction</news:title>
+      <news:keywords>RTL, Tous Fraudeurs, pétition, CSA, documentaire, docu-fiction</news:keywords>
+    </news:news>
+  </url>
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/rtl-docu-fiction-serie-b.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-27T10:00:00+01:00</news:publication_date>
+      <news:title>Analyse : pourquoi « Tous Fraudeurs » n'est pas un documentaire</news:title>
+      <news:keywords>RTL, analyse, documentaire, docu-fiction, déontologie</news:keywords>
+    </news:news>
+  </url>
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-plaintes-csa-deborsu.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-26T14:00:00+01:00</news:publication_date>
+      <news:title>400+ plaintes au CSA contre « Tous Fraudeurs » : un record historique</news:title>
+      <news:keywords>CSA, plaintes, RTL, record, Belgique</news:keywords>
+    </news:news>
+  </url>
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-temoignages-manipules.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-25T09:00:00+01:00</news:publication_date>
+      <news:title>Témoignages manipulés : quand le montage trahit les intervenants</news:title>
+      <news:keywords>témoignages, manipulation, montage, RTL, CPAS</news:keywords>
+    </news:news>
+  </url>
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-qui-sont-vrais-fraudeurs.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-24T11:00:00+01:00</news:publication_date>
+      <news:title>Fraude sociale vs fraude fiscale : les chiffres que les médias ne montrent pas</news:title>
+      <news:keywords>fraude sociale, fraude fiscale, données, comparaison</news:keywords>
+    </news:news>
+  </url>
+
+  <url>
+    <loc>https://yannkeep.github.io/ouaisfi.eu/e-bomba/1/1/geo-reformes-arizona-2026.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>ouaisfi.eu</news:name>
+        <news:language>fr</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-23T08:30:00+01:00</news:publication_date>
+      <news:title>Réformes Arizona 2026 : 90.000 personnes exclues du chômage</news:title>
+      <news:keywords>Arizona, réformes, chômage, exclusions, Belgique</news:keywords>
+    </news:news>
+  </url>
+
+</urlset>
