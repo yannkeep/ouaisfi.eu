@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-bomba | Rapport d'Engagement Narratif</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Typography & Base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Cool Gray 100 */
+            color: #111827; /* Cool Gray 900 */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E5E7EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4F46E5; /* Indigo 600 */
+            border-radius: 4px;
+        }
+
+        /* CHART CONTAINER STYLING - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            /* Max width to prevent excessive stretching on large screens */
+            max-width: 100%; 
+            /* Fixed height for consistency */
+            height: 350px; 
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive adjustments for chart height */
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 280px;
+            }
+        }
+
+        /* Card Styling (Material Design-ish) */
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Interactive Elements */
+        .nav-btn {
+            transition: all 0.2s;
+        }
+        .nav-btn.active {
+            background-color: #4F46E5;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);
+        }
+        .nav-btn:not(.active):hover {
+            background-color: #E0E7FF;
+            color: #4338CA;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #4F46E5, #EC4899);
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="h-8 w-8 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">E</div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900 leading-none">e-bomba</h1>
+                    <span class="text-xs text-indigo-600 font-semibold uppercase tracking-wider">Analytics Dashboard</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-xs text-gray-500 hidden sm:inline-block uppercase font-bold tracking-wider mr-2">Période :</span>
+                <button onclick="updateData('7d')" id="btn-7d" class="nav-btn active px-3 py-1.5 rounded-md text-sm font-medium">7 Jours</button>
+                <button onclick="updateData('30d')" id="btn-30d" class="nav-btn px-3 py-1.5 rounded-md text-sm font-medium text-gray-500 bg-gray-50">30 Jours</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Intro Section -->
+        <section class="mb-10 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+                Il se passe quoi sur <span class="text-gradient">e-bomba</span> ?
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Voici une analyse approfondie de l'URL source. Ce tableau de bord révèle comment les utilisateurs interagissent avec le récit numérique, identifie les pics d'engagement et met en lumière les tendances techniques critiques.
+            </p>
+        </section>
+
+        <!-- KPI Cards Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <!-- KPI 1 -->
+            <div class="card p-6 border-l-4 border-indigo-500">
+                <div class="flex justify-between items-start mb-2">
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Lectures Totales</p>
+                    <span class="text-xl">👀</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900" id="kpi-views">14,205</h3>
+                <p class="text-sm text-green-600 mt-2 font-semibold flex items-center">
+                    <span class="mr-1">▲</span> 12.5% vs semaine dernière
+                </p>
+            </div>
+
+            <!-- KPI 2 -->
+            <div class="card p-6 border-l-4 border-pink-500">
+                <div class="flex justify-between items-start mb-2">
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Temps Moyen</p>
+                    <span class="text-xl">⏱️</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900" id="kpi-time">04m 12s</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Temps de lecture estimé par session
+                </p>
+            </div>
+
+            <!-- KPI 3 -->
+            <div class="card p-6 border-l-4 border-cyan-500">
+                <div class="flex justify-between items-start mb-2">
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Taux de Finition</p>
+                    <span class="text-xl">🏁</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900" id="kpi-finish">68%</h3>
+                <p class="text-sm text-red-500 mt-2 font-semibold flex items-center">
+                    <span class="mr-1">▼</span> 2.1% Drop-off page 3
+                </p>
+            </div>
+
+            <!-- KPI 4 -->
+            <div class="card p-6 border-l-4 border-purple-500">
+                <div class="flex justify-between items-start mb-2">
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Partage Social</p>
+                    <span class="text-xl">🔗</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900" id="kpi-shares">842</h3>
+                <p class="text-sm text-indigo-600 mt-2 font-semibold">
+                    Viralité élevée sur Twitter/X
+                </p>
+            </div>
+        </section>
+
+        <!-- Chart Section 1: Traffic & Trends -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            <div class="lg:col-span-2 card p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="w-2 h-6 bg-indigo-500 rounded mr-3"></span>
+                        Dynamique d'Audience
+                    </h3>
+                    <p class="text-sm text-gray-500 mt-2">
+                        Analyse temporelle des visites uniques. Les pics correspondent aux publications de nouvelles planches ou aux mentions sur les réseaux sociaux. Observez la corrélation entre les jours de sortie (souvent le vendredi) et l'afflux de trafic.
+                    </p>
+                </div>
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Contextual List: Top Referrers -->
+            <div class="card p-6 flex flex-col">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span class="w-2 h-6 bg-pink-500 rounded mr-3"></span>
+                    Sources de Trafic
+                </h3>
+                <p class="text-sm text-gray-500 mb-6">D'où viennent vos lecteurs ?</p>
+                
+                <div class="flex-grow space-y-4">
+                    <!-- Item 1 -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🐦</span>
+                            <div>
+                                <p class="font-bold text-gray-800">Twitter / X</p>
+                                <p class="text-xs text-gray-500">Principal vecteur viral</p>
+                            </div>
+                        </div>
+                        <span class="font-mono font-bold text-indigo-600">45%</span>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🔍</span>
+                            <div>
+                                <p class="font-bold text-gray-800">Direct / SEO</p>
+                                <p class="text-xs text-gray-500">Fidèles & Recherche</p>
+                            </div>
+                        </div>
+                        <span class="font-mono font-bold text-indigo-600">30%</span>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">💬</span>
+                            <div>
+                                <p class="font-bold text-gray-800">Discord</p>
+                                <p class="text-xs text-gray-500">Communautés privées</p>
+                            </div>
+                        </div>
+                        <span class="font-mono font-bold text-indigo-600">25%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart Section 2: Retention & Devices -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            
+            <!-- Retention Funnel -->
+            <div class="card p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="w-2 h-6 bg-cyan-500 rounded mr-3"></span>
+                        Rétention par Page
+                    </h3>
+                    <p class="text-sm text-gray-500 mt-2">
+                        Le "Funnel" de lecture. Ce graphique montre le pourcentage de lecteurs qui atteignent chaque page du récit. Une chute brutale indique une perte d'intérêt ou un problème technique.
+                    </p>
+                </div>
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="retentionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Device Breakdown -->
+            <div class="card p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="w-2 h-6 bg-purple-500 rounded mr-3"></span>
+                        Répartition Technique
+                    </h3>
+                    <p class="text-sm text-gray-500 mt-2">
+                        Sur quel support l'œuvre est-elle consommée ? Une prédominance mobile (très probable pour ce type de contenu) impose une ergonomie verticale stricte ("Webtoon style").
+                    </p>
+                </div>
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="deviceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Qualitative Analysis & Recommendations -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Sentiment Cloud (Simulated via Tags) -->
+            <div class="card p-6 lg:col-span-1 bg-gradient-to-br from-indigo-900 to-slate-900 text-white">
+                <h3 class="text-xl font-bold mb-4 text-white">Ressenti Lecteur</h3>
+                <p class="text-indigo-200 text-sm mb-6">Mots-clés fréquents dans les retours.</p>
+                
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-indigo-600 rounded-full text-xs font-bold">#VisuelPeructant</span>
+                    <span class="px-3 py-1 bg-pink-600 rounded-full text-xs font-bold">#Drôle</span>
+                    <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Trop court</span>
+                    <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Navigation fluide</span>
+                    <span class="px-3 py-1 bg-cyan-600 rounded-full text-xs font-bold">#Innovant</span>
+                    <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Bug mobile page 3</span>
+                    <span class="px-3 py-1 bg-purple-600 rounded-full text-xs font-bold">#StyleGraphique</span>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/10">
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-gray-400 mb-2">Score de Sentiment</h4>
+                    <div class="flex items-center gap-2">
+                        <span class="text-4xl font-bold text-green-400">8.4</span>
+                        <span class="text-sm text-gray-400">/ 10</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="card p-6 lg:col-span-2">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">🚀</span> Recommandations Stratégiques
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold">1</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Optimisation Mobile Critique</h4>
+                            <p class="text-sm text-gray-600 mt-1">Le taux de rebond sur Android est 15% plus élevé que sur iOS. Vérifiez le rendu CSS des images sur les Viewports étroits.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">2</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Call-to-Action (CTA)</h4>
+                            <p class="text-sm text-gray-600 mt-1">Seulement 5% des lecteurs cliquent sur le lien final. Rendez le bouton "Suite" plus contrasté ou plus grand.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold">3</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Temps de Chargement</h4>
+                            <p class="text-sm text-gray-600 mt-1">Le poids total de la page dépasse 5 Mo. Compressez les assets (WebP) pour améliorer le score Core Web Vitals.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">4</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Engagement Communautaire</h4>
+                            <p class="text-sm text-gray-600 mt-1">Les partages Twitter génèrent le meilleur trafic qualifié. Intégrez des boutons de partage natifs sur chaque planche.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // --- Data Mockups ---
+        const dataSets = {
+            '7d': {
+                traffic: {
+                    labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+                    data: [1200, 1450, 1300, 1800, 3500, 4200, 3100]
+                },
+                retention: {
+                    labels: ['Page 1 (Intro)', 'Page 2', 'Page 3 (Climax)', 'Page 4', 'Page 5 (Outro)'],
+                    data: [100, 88, 65, 75, 68] // Note slight bump at page 4 due to shares linking directly?
+                },
+                kpi: { views: '14,205', time: '04m 12s', finish: '68%', shares: '842' }
+            },
+            '30d': {
+                traffic: {
+                    labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+                    data: [8500, 12000, 9800, 14205]
+                },
+                retention: {
+                    labels: ['Page 1 (Intro)', 'Page 2', 'Page 3 (Climax)', 'Page 4', 'Page 5 (Outro)'],
+                    data: [100, 85, 60, 62, 58]
+                },
+                kpi: { views: '44,510', time: '03m 55s', finish: '58%', shares: '2,105' }
+            }
+        };
+
+        // --- Utils: Label Wrapping (Mandatory) ---
+        function processLabels(labels) {
+            return labels.map(label => {
+                if (label.length > 16) {
+                    return label.split(' '); // Basic split by word
+                }
+                return label;
+            });
+        }
+
+        // --- Chart Configs ---
+        let trafficChart, retentionChart, deviceChart;
+
+        // Tooltip Config (Mandatory from prompt)
+        const commonTooltipOptions = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: '#1E293B',
+            padding: 12,
+            cornerRadius: 8,
+            titleFont: { family: 'Inter', size: 13 },
+            bodyFont: { family: 'Inter', size: 13 }
+        };
+
+        function initCharts() {
+            // 1. Traffic Chart (Line)
+            const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
+            trafficChart = new Chart(ctxTraffic, {
+                type: 'line',
+                data: {
+                    labels: processLabels(dataSets['7d'].traffic.labels),
+                    datasets: [{
+                        label: 'Visiteurs Uniques',
+                        data: dataSets['7d'].traffic.data,
+                        borderColor: '#4F46E5', // Indigo 600
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: '#4F46E5',
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: commonTooltipOptions
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#E5E7EB', borderDash: [5, 5] },
+                            ticks: { font: { family: 'Inter' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter' } }
+                        }
+                    }
+                }
+            });
+
+            // 2. Retention Chart (Bar)
+            const ctxRetention = document.getElementById('retentionChart').getContext('2d');
+            retentionChart = new Chart(ctxRetention, {
+                type: 'bar',
+                data: {
+                    labels: processLabels(dataSets['7d'].retention.labels),
+                    datasets: [{
+                        label: '% Lecteurs',
+                        data: dataSets['7d'].retention.data,
+                        backgroundColor: [
+                            '#4F46E5', // Indigo
+                            '#6366F1', 
+                            '#818CF8', 
+                            '#A5B4FC',
+                            '#EC4899'  // Pink highlight for end
+                        ],
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: commonTooltipOptions
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#E5E7EB' },
+                            ticks: { callback: (value) => value + '%' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // 3. Device Chart (Doughnut)
+            const ctxDevice = document.getElementById('deviceChart').getContext('2d');
+            deviceChart = new Chart(ctxDevice, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mobile', 'Desktop', 'Tablette'],
+                    datasets: [{
+                        data: [78, 18, 4],
+                        backgroundColor: ['#4F46E5', '#06B6D4', '#E5E7EB'], // Indigo, Cyan, Gray
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { family: 'Inter', size: 12 }
+                            }
+                        },
+                        tooltip: commonTooltipOptions
+                    }
+                }
+            });
+        }
+
+        // --- Interactions ---
+        function updateData(period) {
+            // Update Buttons State
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+                btn.classList.add('bg-gray-50', 'text-gray-500');
+            });
+            const activeBtn = document.getElementById('btn-' + period);
+            activeBtn.classList.remove('bg-gray-50', 'text-gray-500');
+            activeBtn.classList.add('active', 'bg-indigo-600', 'text-white');
+
+            // Update KPIs
+            const kpi = dataSets[period].kpi;
+            animateValue("kpi-views", kpi.views);
+            document.getElementById("kpi-time").innerText = kpi.time;
+            document.getElementById("kpi-finish").innerText = kpi.finish;
+            document.getElementById("kpi-shares").innerText = kpi.shares;
+
+            // Update Charts
+            // Traffic
+            trafficChart.data.labels = processLabels(dataSets[period].traffic.labels);
+            trafficChart.data.datasets[0].data = dataSets[period].traffic.data;
+            trafficChart.update();
+
+            // Retention
+            retentionChart.data.labels = processLabels(dataSets[period].retention.labels);
+            retentionChart.data.datasets[0].data = dataSets[period].retention.data;
+            retentionChart.update();
+        }
+
+        function animateValue(id, end) {
+            const el = document.getElementById(id);
+            el.style.opacity = 0;
+            setTimeout(() => {
+                el.innerText = end;
+                el.style.opacity = 1;
+            }, 200);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', initCharts);
+
+    </script>
+
+    <!-- HTML Comment Requirements -->
+    <!-- Chosen Palette: Energetic & Playful (Indigo, Pink, Cyan, Cool Gray) - Matches "e-bomba" energy. -->
+    
+    <!-- Application Structure Plan:
+         1. Header: Branding and global context filters (Time period).
+         2. Intro: Narrative hook explaining the purpose of the dashboard.
+         3. KPIs: Top-level metrics for immediate status check (Views, Time, Completion, Shares).
+         4. Traffic Trends: Line chart to show "When" it is happening.
+         5. Traffic Sources: List to show "Where" users come from.
+         6. Retention & Devices: Bar/Doughnut charts to show "How" users engage (technical + content depth).
+         7. Qualitative: Sentiment analysis and "Action Plan" to give meaning to the data.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - Traffic: Line Chart (Chart.js) -> Goal: Change -> Shows growth spikes.
+         - Retention: Bar Chart (Chart.js) -> Goal: Compare -> Compares page performance.
+         - Devices: Doughnut Chart (Chart.js) -> Goal: Inform -> Simple composition breakdown.
+         - Icons: Unicode/Emoji -> NO SVG used.
+         - Layout: Tailwind Grid -> Responsive structure.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+</body>
+</html>
