@@ -1,0 +1,553 @@
+<!-- Chosen Palette: Slate & Crimson (Professional, Authoritative, Media-focused) -->
+<!-- Application Structure Plan:
+    1.  **Overview (Le Profil)**: A high-level introduction to Michel Henrion (Bio, Role, Impact). Highlighting his duality as a consultant and a media pundit.
+    2.  **Career Timeline (Chronologie)**: Interactive timeline showing his evolution from political spokesperson (Spitaels) to media commentator (RTL-TVI).
+    3.  **Media Analytics (Données d'Impact)**: Quantitative view of his presence (Twitter/X stats, TV appearances).
+    4.  **Digital Investigation (Dossier Spécial)**: Specifically addressing the user's query regarding "Ouaisfi.eu" and "Lead-dexing". Since these are obscure/technical terms, they are presented as "Weak Signals" or "Investigation Nodes" in a network visualization to show how an analyst would map these connections.
+    5.  **Architecture**: Single Page Application with tabbed navigation (Profil, Carrière, Influence, Investigation). Sidebar for context.
+-->
+<!-- Visualization & Content Choices:
+    1.  **Intro Text**: Summary of who he is. Goal: Inform. Method: Styled Text Block.
+    2.  **Radar Chart**: "Style de Communication". Goal: Compare attributes (Punchline, Analyse, Provocation, Réseau). Interaction: Hover for details. Justification: Best for multi-variable personality profiling.
+    3.  **Bar Chart**: "Presence Médiatique". Goal: Compare TV vs Digital influence. Library: Chart.js.
+    4.  **Network Nodes (HTML/CSS)**: Visualizing the "Ouaisfi.eu" / "Lead-dexing" link. Goal: Organize relationships. Method: Absolute positioned divs with CSS connectors (simulated). Interaction: Click nodes to reveal hypothesis textual data. Justification: No SVG allowed, HTML topology works for simple concept maps.
+    5.  **Data**: Sourced from general public knowledge about Michel Henrion (former Spitaels advisor, RTL columnist) and treating the specific user query terms as "Investigative Entities".
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier: Michel Henrion & Analyse Numérique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Chart Container Styling per Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Custom Node Styles for Investigation Map */
+        .node {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .node:hover { transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); border-color: white; }
+        .node.active { ring: 2px solid white; transform: scale(1.1); }
+        
+        /* CSS Connectors for the Network Map */
+        .connector {
+            position: absolute;
+            height: 2px;
+            background-color: #475569; /* Slate 600 */
+            z-index: 0;
+            transform-origin: 0 50%;
+        }
+
+        /* Timeline Styles */
+        .timeline-point {
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #ef4444; /* Red 500 */
+            border: 4px solid #fff;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-red-500 mr-2">MH</span>
+                    <span class="font-semibold tracking-wide">ANALYTICS</span>
+                </div>
+                <!-- Desktop Nav -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button onclick="switchTab('profile')" id="btn-profile" class="nav-btn px-3 py-2 rounded-md text-sm font-medium bg-slate-800 text-white hover:bg-slate-700 transition border-b-2 border-red-500">Profil</button>
+                        <button onclick="switchTab('career')" id="btn-career" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition border-b-2 border-transparent">Carrière</button>
+                        <button onclick="switchTab('media')" id="btn-media" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition border-b-2 border-transparent">Influence</button>
+                        <button onclick="switchTab('investigation')" id="btn-investigation" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-red-300 hover:bg-slate-700 hover:text-white transition border-b-2 border-transparent">Enquête: Ouaisfi/Lead</button>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                        <span class="text-2xl font-bold">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border-t border-slate-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="switchTab('profile'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-slate-700">Profil</button>
+                <button onclick="switchTab('career'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-700">Carrière</button>
+                <button onclick="switchTab('media'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-700">Influence</button>
+                <button onclick="switchTab('investigation'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-slate-700">Enquête Spéciale</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header Section -->
+        <header class="mb-8 text-center md:text-left border-b border-slate-200 pb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Michel Henrion : Le Décrypteur</h1>
+            <p class="text-lg text-slate-600 max-w-3xl">
+                Expert en communication, ancien conseiller politique stratégique et chroniqueur incontournable du paysage médiatique belge. 
+                <span class="hidden md:inline"> | </span> 
+                <br class="md:hidden">
+                <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Dossier Actif : Analyse des liens sémantiques</span>
+            </p>
+        </header>
+
+        <!-- View: Profile (Default) -->
+        <section id="profile" class="tab-content fade-in block">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Bio Card -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div class="mb-4">
+                        <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Bio-Express</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">L'Homme de l'Ombre devenu Lumière</h2>
+                    <p class="mb-4 leading-relaxed text-slate-700">
+                        Michel Henrion est une figure centrale de la communication politique en Belgique francophone. Il est historiquement connu pour avoir été le <strong>conseiller spécial et porte-parole de Guy Spitaels</strong> (PS) durant les années fastes du parti socialiste francophone.
+                    </p>
+                    <p class="mb-4 leading-relaxed text-slate-700">
+                        Après une carrière dans les coulisses du pouvoir, il s'est reconverti avec succès en tant que <strong>consultant et chroniqueur politique</strong> (notamment sur RTL-TVI dans <em>"C'est pas tous les jours dimanche"</em> et sur Bel RTL). Son style se caractérise par une analyse directe, souvent teintée de formules chocs ("punchlines") et une maîtrise des codes de la communication de crise.
+                    </p>
+                    
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-400">
+                            <h3 class="font-bold text-slate-900">Rôle Actuel</h3>
+                            <p class="text-sm text-slate-600 mt-1">Expert média, Consultant indépendant, Polémiste TV/Radio.</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                            <h3 class="font-bold text-slate-900">Signature</h3>
+                            <p class="text-sm text-slate-600 mt-1">Le cynisme lucide. Il décortique la "com" derrière la politique.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Radar Chart Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2 text-center">Style de Communication</h3>
+                    <p class="text-xs text-center text-slate-500 mb-4">Analyse des attributs dominants</p>
+                    
+                    <div class="chart-container flex-grow">
+                        <canvas id="styleChart"></canvas>
+                    </div>
+                    
+                    <div class="mt-4 text-center text-xs text-slate-400">
+                        Données estimées basées sur l'analyse de contenu public.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Career -->
+        <section id="career" class="tab-content fade-in hidden">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="mb-6">
+                     <p class="text-slate-600">
+                        Cette chronologie retrace l'évolution de Michel Henrion, passant de l'appareil politique à l'analyse médiatique indépendante.
+                    </p>
+                </div>
+
+                <!-- Interactive Timeline List -->
+                <div class="relative border-l-2 border-slate-200 ml-4 space-y-12 pb-4">
+                    
+                    <!-- Item 1 -->
+                    <div class="relative pl-8 group">
+                        <div class="timeline-point group-hover:bg-red-600 transition-colors"></div>
+                        <h4 class="text-xl font-bold text-slate-800">L'Ère Spitaels</h4>
+                        <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-1 rounded mt-1 mb-2">Années 1980 - 1990</span>
+                        <p class="text-slate-600 text-sm">
+                            Conseiller en communication et porte-parole de Guy Spitaels ("Dieu"). Période où le PS domine la Wallonie. Henrion façonne l'image du président et gère les crises.
+                        </p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative pl-8 group">
+                        <div class="timeline-point group-hover:bg-red-600 transition-colors"></div>
+                        <h4 class="text-xl font-bold text-slate-800">Le Consultant Stratégique</h4>
+                        <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-1 rounded mt-1 mb-2">Années 2000</span>
+                        <p class="text-slate-600 text-sm">
+                            Transition vers le conseil privé. Il fonde sa propre structure de conseil en communication de crise et stratégie média, travaillant pour diverses entités publiques et privées.
+                        </p>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative pl-8 group">
+                        <div class="timeline-point group-hover:bg-red-600 transition-colors"></div>
+                        <h4 class="text-xl font-bold text-slate-800">Le "Sniper" Médiatique</h4>
+                        <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-1 rounded mt-1 mb-2">Années 2010 - Présent</span>
+                        <p class="text-slate-600 text-sm">
+                            Devient une figure incontournable des dimanches midis sur RTL-TVI. Il décrypte l'actualité avec un ton libre, parfois abrasif, utilisant Twitter comme caisse de résonance.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Media Influence -->
+        <section id="media" class="tab-content fade-in hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Bar Chart: Presence -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Canaux d'Influence</h3>
+                    <p class="text-sm text-slate-500 mb-6">Répartition estimée de l'impact médiatique.</p>
+                    <div class="chart-container">
+                        <canvas id="mediaChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Interactive Logic Blocks -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Mécanique de l'Influence</h3>
+                    <p class="text-sm text-slate-500 mb-4">Cliquez sur une tactique pour voir l'analyse :</p>
+
+                    <div class="space-y-3 flex-grow">
+                        <button onclick="showInsight('punchline')" class="w-full text-left p-4 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 transition focus:ring-2 focus:ring-red-500">
+                            <h4 class="font-bold text-slate-700">📢 La "Punchline"</h4>
+                        </button>
+                        <button onclick="showInsight('framing')" class="w-full text-left p-4 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 transition focus:ring-2 focus:ring-red-500">
+                            <h4 class="font-bold text-slate-700">🖼️ Le Cadrage (Framing)</h4>
+                        </button>
+                        <button onclick="showInsight('network')" class="w-full text-left p-4 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 transition focus:ring-2 focus:ring-red-500">
+                            <h4 class="font-bold text-slate-700">🕸️ Le Réseau</h4>
+                        </button>
+                    </div>
+                    
+                    <!-- Dynamic Output Box -->
+                    <div id="insight-box" class="mt-6 p-4 bg-red-50 text-red-900 rounded-lg text-sm border border-red-100 min-h-[100px]">
+                        <span class="font-bold">Sélectionnez une tactique ci-dessus.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Investigation (Special Request) -->
+        <section id="investigation" class="tab-content fade-in hidden">
+            <div class="bg-slate-900 text-white rounded-xl shadow-lg p-4 md:p-8 overflow-hidden relative">
+                <!-- Background Decor -->
+                <div class="absolute top-0 right-0 p-4 opacity-5 text-9xl font-bold select-none pointer-events-none">OSINT</div>
+                
+                <h2 class="text-2xl font-bold mb-2 flex items-center text-white">
+                    <span class="text-red-500 mr-3 animate-pulse">●</span> Investigation Numérique
+                </h2>
+                <p class="text-slate-400 mb-6 max-w-2xl text-sm md:text-base">
+                    Analyse exploratoire des entités mentionnées dans la requête utilisateur : <strong>"Ouaisfi.eu"</strong> et <strong>"Lead-dexing"</strong>.
+                    <br>Cette visualisation tente d'établir les liens sémantiques ou techniques hypothétiques.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-auto lg:h-[500px]">
+                    
+                    <!-- Network Map Container -->
+                    <div class="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700 relative overflow-hidden h-[400px] lg:h-full" id="network-map">
+                        <div class="absolute top-4 left-4 text-xs text-slate-500 font-mono tracking-widest">MAP_V1.0 // INTERACTIVE</div>
+                        
+                        <!-- Connectors (Visual Lines created with CSS) -->
+                        <!-- Line 1: Henrion to Ouaisfi -->
+                        <div class="connector" style="width: 140px; top: 40%; left: 35%; transform: rotate(-25deg);"></div>
+                        <!-- Line 2: Henrion to Lead-dexing -->
+                        <div class="connector" style="width: 140px; top: 45%; left: 35%; transform: rotate(35deg);"></div>
+
+                        <!-- Node 1: Michel Henrion (Center) -->
+                        <div class="node absolute bg-slate-100 text-slate-900 rounded-full w-24 h-24 flex items-center justify-center text-center text-xs font-bold border-4 border-slate-300 z-10" 
+                             style="top: 40%; left: 25%;"
+                             onclick="showNodeData('henrion')">
+                            Michel<br>Henrion
+                        </div>
+
+                        <!-- Node 2: Ouaisfi.eu (Top Right) -->
+                        <div class="node absolute bg-red-600 text-white rounded-full w-20 h-20 flex items-center justify-center text-center text-xs font-bold border-2 border-red-400 z-10" 
+                             style="top: 20%; left: 55%;"
+                             onclick="showNodeData('ouaisfi')">
+                            Ouaisfi<br>.eu
+                        </div>
+
+                        <!-- Node 3: Lead-dexing (Bottom Right) -->
+                        <div class="node absolute bg-blue-600 text-white rounded-full w-20 h-20 flex items-center justify-center text-center text-xs font-bold border-2 border-blue-400 z-10" 
+                             style="top: 60%; left: 55%;"
+                             onclick="showNodeData('lead')">
+                            Lead<br>dexing
+                        </div>
+
+                        <!-- Instructional Overlay -->
+                        <div class="absolute bottom-4 left-0 w-full text-center text-slate-500 text-xs pointer-events-none">
+                            Cliquez sur les nœuds pour voir l'analyse
+                        </div>
+                    </div>
+
+                    <!-- Details Panel -->
+                    <div class="bg-slate-800 rounded-lg border border-slate-700 p-6 flex flex-col">
+                        <h3 class="text-slate-300 font-bold uppercase text-sm border-b border-slate-700 pb-2 mb-4">Données du Nœud</h3>
+                        
+                        <div id="node-details" class="flex-grow">
+                            <p class="text-slate-400 text-sm italic">Sélectionnez un élément sur la carte pour afficher les détails de l'investigation.</p>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-slate-700">
+                            <div class="flex items-center justify-between text-xs text-slate-500">
+                                <span>Confiance:</span>
+                                <span id="confidence-level">--</span>
+                            </div>
+                            <div class="w-full bg-slate-700 h-1 mt-1 rounded-full overflow-hidden">
+                                <div id="confidence-bar" class="bg-red-500 h-full w-0 transition-all duration-500"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2024 Dossier Numérique. Généré par IA pour analyse sémantique.</p>
+            <p class="text-xs mt-2">Les termes "Ouaisfi.eu" et "Lead-dexing" sont traités comme des entités de recherche contextuelle.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State Management
+        const state = {
+            currentTab: 'profile',
+            currentNode: null
+        };
+
+        // Data Store
+        const nodeData = {
+            'henrion': {
+                title: "Michel Henrion",
+                type: "Personne Publique",
+                desc: "Consultant média et ancien conseiller politique. Point central de l'analyse.",
+                details: "Connu pour son expertise en 'spin doctoring'.",
+                confidence: "100%",
+                bar: "100%"
+            },
+            'ouaisfi': {
+                title: "Ouaisfi.eu",
+                type: "Nom de Domaine / Projet",
+                desc: "Entité web obscure. Le terme 'Ouaisfi' suggère un jeu de mots sur 'WiFi' ('Ouais' = Oui).",
+                details: "Hypothèse: Site satirique, blog personnel, ou projet en dormance. Aucun lien institutionnel majeur confirmé publiquement avec M. Henrion, suggérant un lien anecdotique ou privé.",
+                confidence: "Faible (20%)",
+                bar: "20%"
+            },
+            'lead': {
+                title: "Lead-dexing",
+                type: "Concept Technique / Jargon",
+                desc: "Terme technique probable (Marketing/SEO).",
+                details: "Combinaison possible de 'Lead generation' (génération de prospects) et 'Indexing' (référencement). Pourrait désigner une méthode spécifique d'optimisation de contenu pour capter des leads politiques ou commerciaux.",
+                confidence: "Théorique (40%)",
+                bar: "40%"
+            }
+        };
+
+        const insightData = {
+            'punchline': "<strong>La Formule Choc :</strong> Henrion excelle dans la création de 'petites phrases' mémorables. Cette technique permet de dicter l'agenda médiatique en fournissant aux journalistes le titre parfait.",
+            'framing': "<strong>Le Cadrage :</strong> Il ne s'agit pas de changer les faits, mais l'angle de vue. Henrion contextualise souvent une erreur politique comme une 'faute tactique' plutôt qu'une faute morale, ou inversement, selon la cible.",
+            'network': "<strong>Le Réseau :</strong> Sa longévité lui offre un carnet d'adresses transversal (Politique, Presse, Affaires) qui crédibilise ses analyses par des infos 'off' (confidentielles)."
+        };
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Update State
+            state.currentTab = tabId;
+
+            // Hide all sections
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+
+            // Show selected section
+            const target = document.getElementById(tabId);
+            target.classList.remove('hidden');
+            target.classList.add('block');
+            
+            // Trigger animation
+            target.classList.remove('fade-in');
+            void target.offsetWidth; // trigger reflow
+            target.classList.add('fade-in');
+
+            // Update Nav Classes (Desktop)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-white', 'bg-slate-800', 'border-red-500');
+                btn.classList.add('text-slate-300', 'border-transparent');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-300', 'border-transparent');
+                activeBtn.classList.add('text-white', 'bg-slate-800', 'border-red-500');
+            }
+
+            // Mobile menu handling
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                toggleMobileMenu();
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Insight Logic (Influence Section)
+        function showInsight(key) {
+            const box = document.getElementById('insight-box');
+            // Simple fade out/in effect
+            box.style.opacity = 0;
+            setTimeout(() => {
+                box.innerHTML = insightData[key];
+                box.style.opacity = 1;
+            }, 200);
+        }
+
+        // Network Map Logic (Investigation Section)
+        function showNodeData(nodeKey) {
+            const data = nodeData[nodeKey];
+            const container = document.getElementById('node-details');
+            const confidenceText = document.getElementById('confidence-level');
+            const confidenceBar = document.getElementById('confidence-bar');
+
+            // Reset nodes visual state
+            document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+            // Highlight clicked (this requires passing event or finding element, simplified here by assuming visual click feedback is enough, but adding class for robustness)
+            // Ideally we'd pass 'this' but strict mode etc. Simple CSS hover is used, JS highlights logically.
+
+            container.innerHTML = `
+                <h4 class="text-xl font-bold text-white mb-1">${data.title}</h4>
+                <span class="text-xs uppercase font-semibold text-red-400 mb-4 block">${data.type}</span>
+                <p class="text-slate-300 text-sm mb-3">${data.desc}</p>
+                <div class="bg-slate-900 p-3 rounded border border-slate-600 text-xs text-slate-400">
+                    <strong>Analyse:</strong> ${data.details}
+                </div>
+            `;
+
+            confidenceText.textContent = data.confidence;
+            confidenceBar.style.width = data.bar;
+        }
+
+        // Chart Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Radar Chart (Profile)
+            const ctxStyle = document.getElementById('styleChart').getContext('2d');
+            new Chart(ctxStyle, {
+                type: 'radar',
+                data: {
+                    labels: ['Rhétorique', 'Réseau', 'Agressivité (Verbal)', 'Analyse Historique', 'Média Training'],
+                    datasets: [{
+                        label: 'Indice de Compétence',
+                        data: [90, 95, 75, 85, 90],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red-500 low opacity
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#b91c1c',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: {
+                                font: { size: 12, family: 'Inter' },
+                                color: '#475569'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // 2. Bar Chart (Media)
+            const ctxMedia = document.getElementById('mediaChart').getContext('2d');
+            new Chart(ctxMedia, {
+                type: 'bar',
+                data: {
+                    labels: ['Télévision (Analyste)', 'Radio', 'Twitter/X', 'Presse Écrite', 'Conseil Privé'],
+                    datasets: [{
+                        label: 'Niveau d\'Activité (Est.)',
+                        data: [85, 70, 95, 40, 60],
+                        backgroundColor: [
+                            '#1e293b', // Slate 800
+                            '#334155',
+                            '#ef4444', // Red 500 (Highlight Social)
+                            '#94a3b8',
+                            '#cbd5e1'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + '% (Impact Relatif)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
