@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yann | Analyse de Profil & Portfolio Interactif</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Warm Neutrals & Deep Slate -->
+    <!-- 
+        Primary Background: #F5F5F4 (Stone 100)
+        Card Background: #FFFFFF (White)
+        Text Primary: #1C1917 (Stone 900)
+        Text Secondary: #57534E (Stone 600)
+        Accent: #EA580C (Orange 600 - Energy) & #4F46E5 (Indigo 600 - Tech)
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+            color: #1C1917; /* stone-900 */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%; /* Context handled by grid/flex parent */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .nav-item.active {
+            background-color: #E7E5E4; /* stone-200 */
+            border-right: 3px solid #EA580C; /* orange-600 */
+            font-weight: 600;
+        }
+
+        .project-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+
+    <!-- Application Structure Plan: 
+         Structure: Dashboard Layout with Sidebar Navigation.
+         Why: A dashboard is the optimal format for a developer profile as it allows for simultaneous display of quantitative metrics (charts) and qualitative content (projects/bio).
+         Flow:
+         1. Overview (Hero): Immediate context (Who is Yann?).
+         2. Analytics (Deep Dive): Interactive charts allowing recruiters/peers to analyze coding habits and impact.
+         3. Portfolio (Evidence): Filterable grid of actual work.
+         4. Timeline (Journey): Chronological context of growth.
+    -->
+    
+    <!-- Visualization & Content Choices:
+         1. Language Distribution -> Doughnut Chart -> Shows breadth of stack immediately.
+         2. Coding Rhythm -> Bar Chart -> Visualizes consistency and work style (weekend vs weekday).
+         3. Impact Analysis -> Scatter Plot (Stars vs Forks) -> Identifies projects that are "Viral" vs "Utility".
+         4. Project Gallery -> HTML Grid + JS Filter -> Allows user to isolate skills (e.g., "Show me React only").
+         CONFIRMATION: NO SVG graphics used (FontAwesome Webfonts only). NO Mermaid JS used.
+    -->
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="font-bold text-xl tracking-tight text-stone-800">Yann<span class="text-orange-600">.code</span></div>
+        <button id="mobile-menu-btn" class="text-stone-600 hover:text-orange-600 focus:outline-none">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="hidden md:flex flex-col w-64 bg-white border-r border-stone-200 h-screen sticky top-0 z-40">
+        <div class="p-6 border-b border-stone-100">
+            <h1 class="font-bold text-2xl tracking-tight text-stone-800">Yann<span class="text-orange-600">.code</span></h1>
+            <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest">Full Stack Dev</p>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <button onclick="navTo('section-overview')" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors flex items-center gap-3 active" id="nav-overview">
+                        <i class="fa-solid fa-user-astronaut w-5 text-center"></i>
+                        <span>Vue d'ensemble</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navTo('section-stats')" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors flex items-center gap-3" id="nav-stats">
+                        <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                        <span>Analytique</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navTo('section-projects')" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors flex items-center gap-3" id="nav-projects">
+                        <i class="fa-solid fa-code-branch w-5 text-center"></i>
+                        <span>Projets & Code</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navTo('section-timeline')" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors flex items-center gap-3" id="nav-timeline">
+                        <i class="fa-solid fa-timeline w-5 text-center"></i>
+                        <span>Parcours</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="p-6 border-t border-stone-100">
+            <div class="flex gap-4 justify-center">
+                <a href="#" class="text-stone-400 hover:text-stone-800 transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                <a href="#" class="text-stone-400 hover:text-blue-600 transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                <a href="#" class="text-stone-400 hover:text-sky-500 transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+            </div>
+            <p class="text-center text-xs text-stone-400 mt-4">&copy; 2024 Données Simulées</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 md:p-8 lg:p-12 max-w-7xl mx-auto w-full">
+        
+        <!-- SECTION 1: OVERVIEW -->
+        <section id="section-overview" class="mb-16 animate-section">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-stone-100 flex flex-col md:flex-row gap-8 items-center md:items-start">
+                <div class="relative">
+                    <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-stone-200 overflow-hidden border-4 border-white shadow-lg flex items-center justify-center text-4xl text-stone-400">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="absolute bottom-2 right-2 bg-green-500 w-6 h-6 rounded-full border-4 border-white" title="Disponible pour missions"></div>
+                </div>
+                
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-2">Yann <span class="text-stone-400 font-light">@yannkeep</span></h2>
+                    <p class="text-lg text-stone-600 mb-4 leading-relaxed">
+                        Développeur passionné par l'intersection entre <strong class="text-orange-600">Design UI</strong> et <strong class="text-indigo-600">Architecture Logicielle</strong>. 
+                        Je transforme des concepts complexes en interfaces fluides et performantes. Contributeur Open Source et explorateur de nouvelles stacks.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3 justify-center md:justify-start mb-6">
+                        <span class="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-sm font-medium border border-orange-100"><i class="fa-brands fa-js mr-1"></i> JavaScript</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100"><i class="fa-brands fa-react mr-1"></i> React</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-sm font-medium border border-teal-100"><i class="fa-brands fa-node mr-1"></i> Node.js</span>
+                        <span class="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium border border-purple-100"><i class="fa-solid fa-database mr-1"></i> SQL</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 border-t border-stone-100 pt-6">
+                        <div class="text-center md:text-left">
+                            <div class="text-2xl font-bold text-stone-800">42</div>
+                            <div class="text-xs text-stone-500 uppercase tracking-wide">Dépôts Publics</div>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <div class="text-2xl font-bold text-stone-800">1.2k</div>
+                            <div class="text-xs text-stone-500 uppercase tracking-wide">Contributions (Année)</div>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <div class="text-2xl font-bold text-stone-800">350+</div>
+                            <div class="text-xs text-stone-500 uppercase tracking-wide">Étoiles GitHub</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ANALYTICS -->
+        <section id="section-stats" class="mb-16 animate-section hidden">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-stone-800">Analyse de l'Activité</h3>
+                <p class="text-stone-600 max-w-3xl">
+                    Cette section décompose mes données GitHub pour révéler mes habitudes de travail, mes langages de prédilection et l'impact de mes contributions open source. Explorez les graphiques pour voir la dynamique de mes projets.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Chart 1: Language Distribution -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-bold text-lg text-stone-700">Répartition Technologique</h4>
+                        <i class="fa-solid fa-code text-stone-300"></i>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">Basé sur le volume de code (octets) dans mes dépôts publics.</p>
+                    <div class="chart-container">
+                        <canvas id="langChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Coding Rhythm -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-bold text-lg text-stone-700">Rythme de Productivité</h4>
+                        <i class="fa-regular fa-clock text-stone-300"></i>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">Moyenne des commits par jour de la semaine. Révèle l'équilibre Pro/Perso.</p>
+                    <div class="chart-container">
+                        <canvas id="rhythmChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Impact Matrix (Full Width) -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 lg:col-span-2">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-bold text-lg text-stone-700">Matrice d'Impact: Popularité vs Utilité</h4>
+                        <i class="fa-solid fa-bullseye text-stone-300"></i>
+                    </div>
+                    <p class="text-sm text-stone-500 mb-4">
+                        Chaque point est un dépôt. L'axe X représente les Forks (réutilisation), l'axe Y les Étoiles (appréciation).
+                        <span class="inline-block w-3 h-3 rounded-full bg-indigo-500 ml-2"></span> Projets Utilitaires
+                        <span class="inline-block w-3 h-3 rounded-full bg-orange-500 ml-2"></span> Projets Viraux
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="impactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PROJECTS -->
+        <section id="section-projects" class="mb-16 animate-section hidden">
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-stone-800">Projets & Réalisations</h3>
+                    <p class="text-stone-600 mt-1">Une sélection de mes travaux les plus significatifs.</p>
+                </div>
+                
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap gap-2 bg-white p-1 rounded-lg border border-stone-200 shadow-sm">
+                    <button onclick="filterProjects('all')" class="filter-btn px-4 py-2 rounded-md text-sm font-medium bg-stone-800 text-white transition-all" data-filter="all">Tous</button>
+                    <button onclick="filterProjects('frontend')" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-all" data-filter="frontend">Frontend</button>
+                    <button onclick="filterProjects('backend')" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-all" data-filter="backend">Backend</button>
+                    <button onclick="filterProjects('tools')" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-all" data-filter="tools">Outils</button>
+                </div>
+            </div>
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Projects will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: TIMELINE -->
+        <section id="section-timeline" class="mb-16 animate-section hidden">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-stone-800">Parcours Professionnel</h3>
+                <p class="text-stone-600">L'évolution de mes compétences et expériences clés au fil du temps.</p>
+            </div>
+
+            <div class="relative border-l-2 border-stone-200 ml-3 md:ml-6 space-y-12">
+                <!-- Timeline Items -->
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-orange-500 border-4 border-white shadow-sm group-hover:scale-125 transition-transform"></div>
+                    <div class="text-sm font-bold text-orange-600 mb-1">2023 - Présent</div>
+                    <h4 class="text-xl font-bold text-stone-800">Senior Frontend Engineer</h4>
+                    <p class="text-stone-500 font-medium mb-2">TechFlow Solutions</p>
+                    <p class="text-stone-600 leading-relaxed max-w-2xl bg-white p-4 rounded-lg shadow-sm border border-stone-100">
+                        Direction technique de la refonte de l'architecture frontend. Migration vers Next.js et implémentation d'un Design System complet utilisé par 4 équipes produits.
+                    </p>
+                </div>
+
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-stone-300 border-4 border-white shadow-sm group-hover:bg-indigo-500 group-hover:scale-125 transition-all"></div>
+                    <div class="text-sm font-bold text-stone-500 mb-1">2021 - 2023</div>
+                    <h4 class="text-xl font-bold text-stone-800">Full Stack Developer</h4>
+                    <p class="text-stone-500 font-medium mb-2">Creative Agency X</p>
+                    <p class="text-stone-600 leading-relaxed max-w-2xl bg-white p-4 rounded-lg shadow-sm border border-stone-100">
+                        Développement de sites expérientiels (WebGL) et d'applications e-commerce headless. Optimisation des performances Core Web Vitals pour des clients grands comptes.
+                    </p>
+                </div>
+
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-stone-300 border-4 border-white shadow-sm group-hover:bg-indigo-500 group-hover:scale-125 transition-all"></div>
+                    <div class="text-sm font-bold text-stone-500 mb-1">2019 - 2021</div>
+                    <h4 class="text-xl font-bold text-stone-800">Junior Web Developer</h4>
+                    <p class="text-stone-500 font-medium mb-2">Freelance & Open Source</p>
+                    <p class="text-stone-600 leading-relaxed max-w-2xl bg-white p-4 rounded-lg shadow-sm border border-stone-100">
+                        Création de plugins WordPress et de thèmes Shopify. Premières contributions majeures à des librairies UI open source.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- DATA STORE (Simulated for Yann) ---
+        const profileData = {
+            languages: {
+                labels: ['TypeScript', 'JavaScript', 'CSS/SCSS', 'Python', 'HTML', 'Autres'],
+                data: [45, 30, 15, 5, 3, 2],
+                colors: ['#3178C6', '#F7DF1E', '#563D7C', '#3776AB', '#E34F26', '#9CA3AF']
+            },
+            commitsByDay: {
+                labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                data: [120, 145, 160, 130, 110, 45, 20], // Heavy weekday, light weekend
+            },
+            repos: [
+                { name: 'ui-kit-core', stars: 145, forks: 42, size: 20, category: 'frontend', desc: 'Composants React légers et accessibles.' },
+                { name: 'api-gateway-v2', stars: 89, forks: 12, size: 45, category: 'backend', desc: 'Gateway NodeJS optimisée pour microservices.' },
+                { name: 'dotfiles', stars: 230, forks: 85, size: 5, category: 'tools', desc: 'Configuration ZSH et Vim pour productivité max.' },
+                { name: 'landing-page-generator', stars: 67, forks: 8, size: 15, category: 'frontend', desc: 'CLI pour générer des landing pages Next.js.' },
+                { name: 'data-viz-experiments', stars: 34, forks: 5, size: 30, category: 'frontend', desc: 'Expérimentations D3.js et Canvas.' },
+                { name: 'legacy-migrator', stars: 12, forks: 2, size: 10, category: 'tools', desc: 'Script Python pour migration de DB.' },
+            ]
+        };
+
+        // --- STATE MANAGEMENT ---
+        const state = {
+            currentFilter: 'all',
+            chartsInitialized: false
+        };
+
+        // --- NAVIGATION LOGIC ---
+        function navTo(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('animate-fade-in');
+            });
+
+            // Show target section
+            const target = document.getElementById(sectionId);
+            target.classList.remove('hidden');
+            
+            // Trigger chart render if visiting analytics for first time
+            if (sectionId === 'section-stats' && !state.chartsInitialized) {
+                initCharts();
+                state.chartsInitialized = true;
+            }
+
+            // Update Nav UI
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'bg-stone-50', 'font-semibold', 'border-r-2', 'border-orange-600');
+            });
+            
+            // Find the button that called this (rough mapping)
+            const activeBtnId = 'nav-' + sectionId.replace('section-', '');
+            const activeBtn = document.getElementById(activeBtnId);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- CHART INITIALIZATION ---
+        function initCharts() {
+            // Common Options
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: 'Inter' } } }
+                }
+            };
+
+            // 1. Language Doughnut
+            new Chart(document.getElementById('langChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: profileData.languages.labels,
+                    datasets: [{
+                        data: profileData.languages.data,
+                        backgroundColor: profileData.languages.colors,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    cutout: '70%',
+                }
+            });
+
+            // 2. Rhythm Bar Chart
+            new Chart(document.getElementById('rhythmChart'), {
+                type: 'bar',
+                data: {
+                    labels: profileData.commitsByDay.labels,
+                    datasets: [{
+                        label: 'Commits Moyens',
+                        data: profileData.commitsByDay.data,
+                        backgroundColor: '#EA580C',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // 3. Impact Scatter Plot
+            new Chart(document.getElementById('impactChart'), {
+                type: 'bubble', // Using bubble for varied point size
+                data: {
+                    datasets: [{
+                        label: 'Mes Dépôts',
+                        data: profileData.repos.map(r => ({
+                            x: r.forks,
+                            y: r.stars,
+                            r: Math.min(Math.max(r.size / 2, 5), 20), // Scale radius
+                            repoName: r.name // Custom prop for tooltip
+                        })),
+                        backgroundColor: function(context) {
+                            const val = context.raw;
+                            // Color logic: High forks = Utility (Indigo), High stars/Low forks = Viral (Orange)
+                            if (val && val.x > 20) return 'rgba(79, 70, 229, 0.7)'; // Indigo
+                            return 'rgba(234, 88, 12, 0.7)'; // Orange
+                        },
+                        borderColor: 'transparent'
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        x: { title: { display: true, text: 'Forks (Réutilisation)' }, grid: { color: '#f3f4f6' } },
+                        y: { title: { display: true, text: 'Étoiles (Popularité)' }, grid: { color: '#f3f4f6' } }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.raw.repoName}: ${context.raw.y} Étoiles, ${context.raw.x} Forks`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- PROJECT GRID & FILTERING ---
+        const projectsContainer = document.getElementById('projects-grid');
+
+        function renderProjects(filter) {
+            projectsContainer.innerHTML = ''; // Clear
+
+            const filtered = filter === 'all' 
+                ? profileData.repos 
+                : profileData.repos.filter(r => r.category === filter);
+
+            if (filtered.length === 0) {
+                projectsContainer.innerHTML = `<div class="col-span-full text-center text-stone-400 py-10">Aucun projet dans cette catégorie.</div>`;
+                return;
+            }
+
+            filtered.forEach(repo => {
+                const card = document.createElement('div');
+                card.className = 'project-card bg-white p-6 rounded-xl border border-stone-200 flex flex-col h-full';
+                
+                // Icon based on category
+                let icon = 'fa-code';
+                if(repo.category === 'frontend') icon = 'fa-desktop';
+                if(repo.category === 'backend') icon = 'fa-server';
+                if(repo.category === 'tools') icon = 'fa-wrench';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-stone-50 rounded-lg text-stone-600">
+                            <i class="fa-solid ${icon} text-xl"></i>
+                        </div>
+                        <div class="flex gap-3 text-sm text-stone-500 font-medium">
+                            <span class="flex items-center"><i class="fa-regular fa-star mr-1 text-orange-400"></i> ${repo.stars}</span>
+                            <span class="flex items-center"><i class="fa-solid fa-code-branch mr-1 text-stone-400"></i> ${repo.forks}</span>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold text-stone-800 mb-2">${repo.name}</h4>
+                    <p class="text-stone-600 text-sm mb-4 flex-grow">${repo.desc}</p>
+                    <div class="mt-auto flex justify-between items-center border-t border-stone-100 pt-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-stone-400 bg-stone-100 px-2 py-1 rounded">${repo.category}</span>
+                        <a href="#" class="text-orange-600 hover:text-orange-700 text-sm font-bold flex items-center">
+                            Voir Code <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+                `;
+                projectsContainer.appendChild(card);
+            });
+        }
+
+        function filterProjects(category) {
+            state.currentFilter = category;
+            
+            // Update Buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.remove('text-stone-600', 'bg-transparent', 'hover:bg-stone-100');
+                    btn.classList.add('bg-stone-800', 'text-white');
+                } else {
+                    btn.classList.add('text-stone-600', 'bg-transparent', 'hover:bg-stone-100');
+                    btn.classList.remove('bg-stone-800', 'text-white');
+                }
+            });
+
+            renderProjects(category);
+        }
+
+        // --- MOBILE MENU ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('absolute'); // Overlay on mobile
+            sidebar.classList.toggle('z-50');
+            sidebar.classList.toggle('h-full');
+            sidebar.classList.toggle('w-full');
+        });
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProjects('all');
+            
+            // Simulating a fade-in effect
+            setTimeout(() => {
+                document.getElementById('section-overview').classList.add('opacity-100');
+            }, 100);
+        });
+
+    </script>
+</body>
+</html>
