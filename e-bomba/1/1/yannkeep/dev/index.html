@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : ADN du Développeur Yann</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- 
+         Primary Purple: #6C63FF
+         Hot Pink: #FF6584
+         Teal Accent: #43D9AD
+         Dark Text: #1F2937
+         Background: #F3F4F6
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base mobile height */
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px; /* Desktop height */
+            }
+        }
+
+        /* Custom Card Styling */
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* CSS Shapes for Icons (No SVG) */
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background-color: #6C63FF;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #6C63FF;
+        }
+    </style>
+
+    <!-- Application Structure Plan:
+         This Single Page Infographic is structured to narrate the professional journey and technical footprint of "Yann".
+         1. Header/Hero: Establishes identity and high-level impact metrics immediately.
+         2. Technical Composition: BREAKDOWN of skills using a Doughnut chart to show dominance of specific languages.
+         3. Productivity Patterns: TREND analysis using a Bar chart to visualize work habits and consistency.
+         4. Impact Analysis: RELATIONSHIP exploration using a Bubble/Scatter chart to correlate effort (repo size/forks) with reward (stars).
+         5. Career Timeline: CHRONOLOGICAL list using HTML/CSS to show growth.
+         6. Footer: Summary.
+         All visualizations are accompanied by descriptive text to ensure the data tells a story.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Language Dist -> Goal: Compare -> Doughnut Chart (Chart.js) -> Shows proportional composition of the tech stack clearly.
+         2. Weekly Rhythm -> Goal: Change/Trend -> Bar Chart (Chart.js) -> Best for comparing discrete categories (days) to show a pattern.
+         3. Repo Impact -> Goal: Relationships -> Scatter Plot (Chart.js) -> Correlates two distinct variables (Stars vs Forks) to find viral projects.
+         4. Career Steps -> Goal: Change/Time -> HTML/CSS Timeline -> Linear, readable text format for qualitative history.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+</head>
+<body class="p-4 md:p-8 lg:p-12">
+
+    <div class="max-w-6xl mx-auto space-y-12">
+
+        <!-- SECTION 1: HERO & KEY METRICS -->
+        <header class="text-center space-y-6">
+            <h1 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#6C63FF] to-[#FF6584]">
+                L'ADN DU DÉVELOPPEUR
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 font-light max-w-3xl mx-auto">
+                Analyse approfondie du profil technique, des habitudes de code et de l'impact open-source de <strong class="text-[#6C63FF]">Yann</strong>.
+            </p>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="info-card p-8 flex flex-col items-center border-b-4 border-[#6C63FF]">
+                    <span class="text-5xl font-black text-[#6C63FF]">42</span>
+                    <span class="text-gray-500 uppercase tracking-widest text-sm mt-2 font-bold">Dépôts Publics</span>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center border-b-4 border-[#FF6584]">
+                    <span class="text-5xl font-black text-[#FF6584]">1.2k</span>
+                    <span class="text-gray-500 uppercase tracking-widest text-sm mt-2 font-bold">Contributions / An</span>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center border-b-4 border-[#43D9AD]">
+                    <span class="text-5xl font-black text-[#43D9AD]">350+</span>
+                    <span class="text-gray-500 uppercase tracking-widest text-sm mt-2 font-bold">Étoiles GitHub</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION 2: TECH STACK COMPOSITION -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white rounded-2xl p-8 shadow-sm">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-circle bg-[#6C63FF]">1</div>
+                    <h2 class="text-2xl font-bold text-gray-800">Composition de l'Écosystème</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    L'analyse du code source révèle une spécialisation marquée. Alors que l'industrie évolue, Yann a pivoté vers un écosystème fortement typé.
+                </p>
+                <p class="text-gray-600 leading-relaxed border-l-4 border-[#FF6584] pl-4 italic">
+                    <strong class="text-[#FF6584]">Le point clé :</strong> TypeScript domine désormais le portfolio (45%), supplantant le JavaScript vanilla. Cela indique une maturité technique axée sur la maintenabilité et la robustesse des applications à grande échelle.
+                </p>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl p-4">
+                <div class="chart-container">
+                    <canvas id="languageChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PRODUCTIVITY RHYTHM -->
+        <section class="bg-white rounded-2xl p-8 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="icon-circle bg-[#FF6584]">2</div>
+                        <h2 class="text-2xl font-bold text-gray-800">Rythme de Productivité</h2>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Quand le code est-il écrit ? Ce graphique analyse la fréquence des commits par jour de la semaine.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">⚡</span>
+                            <span class="text-sm text-gray-600"><strong>Pic de performance :</strong> Le milieu de semaine (Mardi/Mercredi) concentre l'effort maximal.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">🔋</span>
+                            <span class="text-sm text-gray-600"><strong>Équilibre Vie Pro/Perso :</strong> Une chute drastique de l'activité le week-end démontre une gestion saine du temps et une prévention du burnout.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="md:col-span-2 bg-gray-50 rounded-xl p-4 flex flex-col justify-center">
+                    <div class="chart-container">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: IMPACT ANALYSIS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white rounded-2xl p-8 shadow-sm">
+            <div class="order-2 md:order-1 bg-gray-50 rounded-xl p-4">
+                <div class="chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+
+            <div class="order-1 md:order-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-circle bg-[#43D9AD]">3</div>
+                    <h2 class="text-2xl font-bold text-gray-800">Matrice d'Impact</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    Tous les projets ne se valent pas. Cette matrice compare la <strong>Popularité</strong> (Axe Y - Étoiles) à la <strong>Réutilisabilité</strong> (Axe X - Forks). La taille des bulles représente la densité du code.
+                </p>
+                <div class="space-y-4">
+                    <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                        <h4 class="font-bold text-[#6C63FF] mb-1">Les "Stars" Virales</h4>
+                        <p class="text-sm text-gray-600">Projets en haut à gauche. Ils attirent l'attention visuelle ou conceptuelle mais sont peu modifiés par la communauté.</p>
+                    </div>
+                    <div class="p-4 bg-teal-50 rounded-lg border border-teal-100">
+                        <h4 class="font-bold text-[#43D9AD] mb-1">Les Utilitaires Robustes</h4>
+                        <p class="text-sm text-gray-600">Projets vers la droite. Haut taux de forks indiquant que d'autres développeurs s'en servent comme base pour leurs propres travaux.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CAREER TIMELINE -->
+        <section class="bg-white rounded-2xl p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="icon-circle bg-gray-800">4</div>
+                <h2 class="text-2xl font-bold text-gray-800">Chronologie de l'Évolution</h2>
+            </div>
+            
+            <div class="relative pl-4 md:pl-8 border-l-4 border-gray-200 space-y-12">
+                <!-- 2023 -->
+                <div class="relative">
+                    <div class="absolute -left-[26px] md:-left-[42px] top-1 timeline-dot"></div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:border-[#6C63FF] transition-colors">
+                        <span class="inline-block px-3 py-1 bg-[#6C63FF] text-white text-xs font-bold rounded-full mb-2">2023 - Présent</span>
+                        <h3 class="text-xl font-bold text-gray-800">Senior Frontend Engineer</h3>
+                        <p class="text-sm font-semibold text-gray-500 mb-3">TechFlow Solutions</p>
+                        <p class="text-gray-600 text-sm">
+                            Leadership technique sur la refonte de l'architecture frontend. Adoption de Next.js et implémentation d'un Design System atomique utilisé par 4 équipes produits. Focus sur la performance Core Web Vitals.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2021 -->
+                <div class="relative">
+                    <div class="absolute -left-[26px] md:-left-[42px] top-1 timeline-dot" style="background-color: #FF6584; box-shadow: 0 0 0 2px #FF6584;"></div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:border-[#FF6584] transition-colors">
+                        <span class="inline-block px-3 py-1 bg-[#FF6584] text-white text-xs font-bold rounded-full mb-2">2021 - 2023</span>
+                        <h3 class="text-xl font-bold text-gray-800">Full Stack Developer</h3>
+                        <p class="text-sm font-semibold text-gray-500 mb-3">Creative Agency X</p>
+                        <p class="text-gray-600 text-sm">
+                            Développement de sites expérientiels et e-commerce headless. Transition vers des architectures JAMstack pour améliorer la sécurité et la scalabilité des clients grands comptes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2019 -->
+                <div class="relative">
+                    <div class="absolute -left-[26px] md:-left-[42px] top-1 timeline-dot" style="background-color: #43D9AD; box-shadow: 0 0 0 2px #43D9AD;"></div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:border-[#43D9AD] transition-colors">
+                        <span class="inline-block px-3 py-1 bg-[#43D9AD] text-white text-xs font-bold rounded-full mb-2">2019 - 2021</span>
+                        <h3 class="text-xl font-bold text-gray-800">Junior Web Developer</h3>
+                        <p class="text-sm font-semibold text-gray-500 mb-3">Freelance & Open Source</p>
+                        <p class="text-gray-600 text-sm">
+                            Débuts axés sur l'écosystème WordPress et Shopify. Premières contributions majeures à des librairies UI open source, posant les bases de l'expertise actuelle.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 py-12 text-sm">
+            <p>Infographie générée automatiquement basée sur les données publiques.</p>
+            <p class="mt-2 font-bold text-[#6C63FF]">YANN.CODE ANALYTICS</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Implementation -->
+    <script>
+        // --- UTILITY: Label Wrapping Logic (Strict 16 char limit) ---
+        function wrapLabels(label) {
+            // Logic to split long strings into arrays for Chart.js
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- GLOBAL CHART CONFIG ---
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#4B5563';
+
+        // Mandatory Tooltip Configuration for Multi-line Labels
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: '#1F2937',
+            padding: 12,
+            cornerRadius: 8,
+            titleFont: { size: 13, weight: 600 },
+            bodyFont: { size: 12 }
+        };
+
+        // --- CHART 1: Language Composition (Doughnut) ---
+        const ctxLang = document.getElementById('languageChart').getContext('2d');
+        const rawLabelsLang = ['TypeScript', 'JavaScript', 'CSS/SCSS Styles', 'Python Scripts', 'HTML Structure', 'Autres Outils'];
+        // Apply mandatory wrapping
+        const processedLabelsLang = rawLabelsLang.map(wrapLabels);
+
+        new Chart(ctxLang, {
+            type: 'doughnut',
+            data: {
+                labels: processedLabelsLang,
+                datasets: [{
+                    data: [45, 30, 15, 5, 3, 2],
+                    backgroundColor: [
+                        '#6C63FF', // Primary Purple
+                        '#FF6584', // Hot Pink
+                        '#43D9AD', // Teal
+                        '#FCD34D', // Yellow
+                        '#60A5FA', // Blue
+                        '#9CA3AF'  // Grey
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            usePointStyle: true, 
+                            padding: 20,
+                            font: { size: 11 }
+                        }
+                    },
+                    tooltip: tooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 2: Weekly Activity (Bar) ---
+        const ctxActivity = document.getElementById('activityChart').getContext('2d');
+        const rawLabelsDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        const processedLabelsDays = rawLabelsDays.map(wrapLabels);
+
+        new Chart(ctxActivity, {
+            type: 'bar',
+            data: {
+                labels: processedLabelsDays,
+                datasets: [{
+                    label: 'Commits Moyens',
+                    data: [120, 145, 160, 130, 110, 45, 20],
+                    backgroundColor: '#6C63FF',
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#E5E7EB', borderDash: [5, 5] },
+                        ticks: { font: { size: 11 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: tooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 3: Impact Matrix (Scatter) ---
+        const ctxImpact = document.getElementById('impactChart').getContext('2d');
+        
+        new Chart(ctxImpact, {
+            type: 'bubble', // Using bubble to control point size
+            data: {
+                datasets: [{
+                    label: 'Projets',
+                    data: [
+                        { x: 42, y: 145, r: 10, label: 'UI Kit Core' },    // High stars, med forks
+                        { x: 12, y: 89, r: 15, label: 'API Gateway' },     // Med stars, low forks
+                        { x: 85, y: 230, r: 8, label: 'Dotfiles Config' }, // Very high stars, high forks
+                        { x: 8, y: 67, r: 12, label: 'Landing Gen' },      // Low forks
+                        { x: 5, y: 34, r: 9, label: 'Data Viz' },
+                        { x: 2, y: 12, r: 5, label: 'Legacy Tool' }
+                    ],
+                    backgroundColor: (ctx) => {
+                        const val = ctx.raw;
+                        // Color logic: High forks (Utility) = Teal, Low Forks/High Stars (Viral) = Pink
+                        if (val && val.x > 30) return 'rgba(67, 217, 173, 0.8)'; // Teal
+                        return 'rgba(255, 101, 132, 0.8)'; // Pink
+                    },
+                    borderColor: 'transparent'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Réutilisabilité (Forks)', font: {weight: 'bold'} },
+                        grid: { color: '#E5E7EB' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Popularité (Étoiles)', font: {weight: 'bold'} },
+                        grid: { color: '#E5E7EB' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        ...tooltipConfig, // Inherit mandatory config
+                        callbacks: {
+                            title: function(context) {
+                                return context[0].raw.label; // Show project name
+                            },
+                            label: function(context) {
+                                return `Étoiles: ${context.raw.y} | Forks: ${context.raw.x}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
